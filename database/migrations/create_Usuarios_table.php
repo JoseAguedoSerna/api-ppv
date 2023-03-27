@@ -17,6 +17,7 @@ return new class extends Migration
             $table->uuid('uuid')->primary();
             $table->uuid('uuidTiCentral');
 
+            $table->uuid('uuidDependencia');
             $table->foreign('uuidDependencia')->references('uuid')->on('Dependencias')->onDelete('cascade');
             $table->string('NombreCorto',10);
             $table->char('Puesto', 36)->nullable();
