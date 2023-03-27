@@ -19,7 +19,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // TODOS los catalogos
 Route::prefix('catalogos')->group(function (){
-
     Route::get('obtienemenus',[MenusController::class,'index']);
     Route::post('guardamenus',[MenusController::class,'store']);
     Route::post('actualizamenus',[MenusController::class,'update']);

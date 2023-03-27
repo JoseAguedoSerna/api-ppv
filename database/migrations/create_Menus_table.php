@@ -23,12 +23,10 @@ return new class extends Migration
             $table->string('Ordenamiento')->default(0);
 
             $table->char('CreadoPor', 36)->nullable();
-            $table->timestamps('FechaCreacion')->useCurrent();
             $table->char('ModificacoPor', 36)->nullable();
-            $table->timestamp('FechaModificacion')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->char('EliminadoPor', 36)->nullable();
-            $table->timestamps('FechaEliminacion')->nullable();
-            $table->tinyInteger('Deleted')->default(0);
+            $table->timestamps();
+            $table->softDeletes();            
         });
     }
     /**

@@ -21,12 +21,10 @@ return new class extends Migration
             $table->string('Descripcion',256);
 
             $table->char('CreadoPor', 36)->nullable();
-            $table->timestamps('FechaCreacion')->nullable();
             $table->char('ModificacoPor', 36)->nullable();
-            $table->timestamps('FechaModificacion')->nullable();
             $table->char('EliminadoPor', 36)->nullable();
-            $table->timestamps('FechaEliminacion')->nullable();
-            $table->tinyInteger('Deleted')->default(0);
+            $table->timestamps();
+            $table->softDeletes();     
         });
     }
     /**
