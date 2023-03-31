@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('Empleados', function (Blueprint $table) {
             $table->uuid('uuid')->primary();
 
-            $table->char('Cve',6)->nullable();
+            $table->char('Cve',10)->unique();
             $table->string('Nombre',256);
             $table->string('ApellidoPaterno',256);
             $table->string('ApellidoMaterno',256);

@@ -14,13 +14,15 @@ return new class extends Migration
     public function up()
     {
         Schema::create('Menus', function (Blueprint $table) {
-            $table->uuid('uuid')->primary();                        
+            $table->uuid('uuid')->primary(); 
+
+            $table->char('Cve',10)->unique();                    
             $table->string('Nombre',256);
             $table->string('Descripcion',256);
             $table->string('Icono',50);
             $table->string('Path',256);
             $table->tinyInteger('Nivel')->default(0);
-            $table->string('Ordenamiento')->default(0);
+            $table->tinyInteger('Ordenamiento')->default(0);
 
             $table->char('CreadoPor', 36)->nullable();
             $table->char('ModificacoPor', 36)->nullable();

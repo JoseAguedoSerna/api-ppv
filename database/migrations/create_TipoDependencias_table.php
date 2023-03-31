@@ -13,14 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('MenuPermiso', function (Blueprint $table) {
+        Schema::create('TipoDependencias', function (Blueprint $table) {
             $table->uuid('uuid')->primary();
 
-            $table->uuid('uuidMenu');
-            $table->foreign('uuidMenu')->references('uuid')->on('Menus')->onDelete('cascade');
+            $table->char('Cve',10)->unique();
+            $table->string('Nombre',256);
             
-            $table->uuid('uuidPermiso');
-            $table->foreign('uuidPermiso')->references('uuid')->on('Permisos')->onDelete('cascade');
+            $table->char('CreadoPor', 36)->nullable();
+            $table->char('ModificacoPor', 36)->nullable();
+            $table->char('EliminadoPor', 36)->nullable();
+            $table->timestamps();
+            $table->softDeletes();     
         });
     }
     /**
@@ -30,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('MenuPermiso');
+        Schema::dropIfExists('TipoDependencias');
     }
 };

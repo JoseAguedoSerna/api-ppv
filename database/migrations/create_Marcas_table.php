@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('Marcas', function (Blueprint $table) {
             $table->uuid('uuid')->primary();
             
-            $table->char('Cve',6)->nullable();
+            $table->char('Cve',10)->unique();
             $table->string('Nombre',256);
             $table->string('Descripcion',256);
 

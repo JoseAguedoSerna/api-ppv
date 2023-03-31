@@ -16,6 +16,14 @@ class MenusController extends Controller
         $menus = Menus::getAll();
         return $menus;
     }
+
+    /**
+    * Show the form for creating a new resource.    
+    */
+    public function create()
+    {
+        return view('menus.create');
+    }
     // insert
     public function store(Request $request)
     {
@@ -27,12 +35,26 @@ class MenusController extends Controller
             abort(404, $e->getMessage());
         }
     }
-    public function show(string $id)
+    public function show(string $uuid)
     {
-        //
+        return view('menus.show',compact('uuid'));
     }
+    
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Menus  $menus
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Menus $menus)
+    {
+        return view('menus.edit',compact('menus'));
+    }
+
+
     // update registro
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $uuid)
     {
         $menus = Menus::getByUuid($uuid);
         if ($menus) {
@@ -48,7 +70,7 @@ class MenusController extends Controller
         }        
     }
     // update deleted, eliminado logico
-    public function destroy(string $id)
+    public function destroy(string $uuid)
     {
         $menus = Menus::getByUuid($uuid);
         if ($menus) {

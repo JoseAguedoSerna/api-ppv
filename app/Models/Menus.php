@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 
-class MenusModel extends Model
+class Menus extends Model
 {
     use HasFactory;
 

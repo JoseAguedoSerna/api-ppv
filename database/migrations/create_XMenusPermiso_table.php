@@ -13,12 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('PerfilRol', function (Blueprint $table) {
+        Schema::create('MenusPermiso', function (Blueprint $table) {
             $table->uuid('uuid')->primary();
-            $table->uuid('uuidPerfil');
-            $table->foreign('uuidPerfil')->references('uuid')->on('Perfiles')->onDelete('cascade');
-            $table->uuid('uuidRol');
-            $table->foreign('uuidRol')->references('uuid')->on('Roles')->onDelete('cascade');
+
+            $table->uuid('uuidMenu');
+            $table->foreign('uuidMenu')->references('uuid')->on('Menus')->onDelete('cascade');
+            
+            $table->uuid('uuidPermiso');
+            $table->foreign('uuidPermiso')->references('uuid')->on('Permisos')->onDelete('cascade');
         });
     }
     /**
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('PerfilRol');
+        Schema::dropIfExists('MenusPermiso');
     }
 };

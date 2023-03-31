@@ -16,9 +16,8 @@ return new class extends Migration
         Schema::create('Dependencias', function (Blueprint $table) {
             $table->uuid('uuid')->primary();
 
-            $table->char('Cve',6)->nullable();
+            $table->char('Cve',10)->unique();
             $table->string('Nombre',256);
-            $table->string('NombreCorto',10);
             
             $table->char('CreadoPor', 36)->nullable();
             $table->char('ModificacoPor', 36)->nullable();
