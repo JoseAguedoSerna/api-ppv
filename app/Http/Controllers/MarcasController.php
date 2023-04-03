@@ -2,47 +2,67 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Models\Marcas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+use Throwable;
 
 class MarcasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // obtiene todos los Marcas
     public function index()
     {
-        //
+        $marca = Marcas::all();
+        return $marca;
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    // insert
     public function store(Request $request)
     {
-        //
+        // Creamos un objeto de tipo Marcas
+        $nuevo_marca = new Marcas();
+        try {
+            $nuevo_marca::create([
+                'Cve' => $request->cve,
+                'Nombre' => $request->nombre,
+                'Descripcion' => $request->descripcion,
+                'CreadoPor' => $request->creadopor,
+                'ModificadoPor' => $request->modificadopor,
+                'EliminadoPor' => $request->eliminadopor                
+                ]);
+        } catch (Throwable $e) {
+            abort(404, $e->getMessage());
+        }
+        $firstMarca = Marcas::latest('uuid', 'asc')->first();
+        $data = json_encode($firstMarca);
+        return $data;
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    // update registro
+    public function update(Request $request)
     {
-        //
+        $marca = Marcas::find($request->uuid);
+        try {
+            $marca->update([
+                'Cve' => $request->cve,
+                'Nombre' => $request->nombre,
+                'Descripcion' => $request->descripcion,
+                'CreadoPor' => $request->creadopor,
+                'ModificadoPor' => $request->modificadopor,
+                'EliminadoPor' => $request->eliminadopor
+                ]);        
+                $marca->uuid;                   
+        } catch (Throwable $e) {
+            abort(404, $e->getMessage());
+        }
+        $data = json_encode($marca);
+        return $data;
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(Request $request)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        // Buscamos el empleado a eliminar 
+        $marca = Marcas::find($request->uuid); 
+        $marca->Delete();
+        return $marca;
     }
 }

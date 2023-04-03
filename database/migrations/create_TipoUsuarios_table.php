@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('Descripcion',256);
             
             $table->char('CreadoPor', 36)->nullable();
-            $table->char('ModificacoPor', 36)->nullable();
+            $table->char('ModificadoPor', 36)->nullable();
             $table->char('EliminadoPor', 36)->nullable();
             $table->timestamps();
             $table->softDeletes();     

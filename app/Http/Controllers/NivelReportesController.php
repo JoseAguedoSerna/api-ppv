@@ -2,47 +2,67 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Models\NivelReportes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+use Throwable;
 
 class NivelReportesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // obtiene todos los NivelReportes
     public function index()
     {
-        //
+        $nivelreporte = NivelReportes::all();
+        return $nivelreporte;
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    // insert
     public function store(Request $request)
     {
-        //
+        // Creamos un objeto de tipo NivelReportes
+        $nuevo_nivelreporte = new NivelReportes();
+        try {
+            $nuevo_nivelreporte::create([
+                'Cve' => $request->cve,
+                'Nombre' => $request->nombre,
+                'Descripcion' => $request->descripcion,
+                'CreadoPor' => $request->creadopor,
+                'ModificadoPor' => $request->modificadopor,
+                'EliminadoPor' => $request->eliminadopor                
+                ]);
+        } catch (Throwable $e) {
+            abort(404, $e->getMessage());
+        }
+        $firstNivelReporte = NivelReportes::latest('uuid', 'asc')->first();
+        $data = json_encode($firstNivelReporte);
+        return $data;
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    // update registro
+    public function update(Request $request)
     {
-        //
+        $nivelreporte = NivelReportes::find($request->uuid);
+        try {
+            $nivelreporte->update([
+                'Cve' => $request->cve,
+                'Nombre' => $request->nombre,
+                'Descripcion' => $request->descripcion,
+                'CreadoPor' => $request->creadopor,
+                'ModificadoPor' => $request->modificadopor,
+                'EliminadoPor' => $request->eliminadopor
+                ]);        
+                $nivelreporte->uuid;                   
+        } catch (Throwable $e) {
+            abort(404, $e->getMessage());
+        }
+        $data = json_encode($nivelreporte);
+        return $data;
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(Request $request)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        // Buscamos el empleado a eliminar 
+        $nivelreporte = NivelReportes::find($request->uuid); 
+        $nivelreporte->Delete();
+        return $nivelreporte;
     }
 }
