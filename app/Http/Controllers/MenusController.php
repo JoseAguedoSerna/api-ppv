@@ -11,77 +11,69 @@ use Throwable;
 
 class MenusController extends Controller
 {
+    // obtiene todos los menus
     public function index()
     {
-        $menus = Menus::getAll();
+        $menus = Menus::all();
+        //  $menus = Menus::get()->toArray(); en arreglo
         return $menus;
     }
 
-    /**
-    * Show the form for creating a new resource.    
-    */
-    public function create()
-    {
-        return view('menus.create');
-    }
     // insert
     public function store(Request $request)
     {
+
+        // Creamos un objeto de tipo Producto
+        $nuevo_menu = new Menus();
+        // Añadimos los parámetros recibidos por el formulario
+        $nuevo_menu->uuid = $request->uuid;
+        $nuevo_menu->cve = $request->cve;
+        $nuevo_menu->nombre = $request->nombre;
+        $nuevo_menu->descripcion = $request->descripcion;
+        $nuevo_menu->icono = $request->icono;
+        $nuevo_menu->path = $request->path;
+        $nuevo_menu->nivel = $request->nivel;
+        $nuevo_menu->ordenamiento = $request->ordenamiento;
+
+        // Guardamos el producto
+        $nuevo_menu->save();
+        $data = json_encode($nuevo_menu);
+        return $data;
+    }
+
+    // update registro
+    public function update(Request $request)
+    {
+        $menus = Menus::find($request->uuid);
+
         try {
-            $result = Menus::post($uuid, $request->nombre, $request->descripcion, $request->icono, $request->path, $request->nivel, $request->ordenamiento, 
-            $request->creadopor, $request->fechacreacion, $request->modificacopor, $request->fechamodificacion, $request->eliminadopor, $request->fechaeliminacino, $request->deleted);
-            return response($result);
+            $menus->update([
+                'cve' => $request->cve,
+                'nombre' => $request->nombre,
+                'descripcion' => $request->descripcion,
+                'icono' => $request->icono,
+                'path' => $request->path,
+                'nivel' => $request->nivel,
+                'ordenamiento' => $request->ordenamiento
+                ]);
+        
+                $menus->uuid;
+                   
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-    }
-    public function show(string $uuid)
-    {
-        return view('menus.show',compact('uuid'));
-    }
-    
+        return $menus;
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Menus  $menus
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Menus $menus)
-    {
-        return view('menus.edit',compact('menus'));
     }
-
-
-    // update registro
-    public function update(Request $request, string $uuid)
-    {
-        $menus = Menus::getByUuid($uuid);
-        if ($menus) {
-            try {
-                $result = Menus::putByUuid($uuid, $request->nombre, $request->descripcion, $request->icono, $request->path, $request->nivel, $request->ordenamiento, 
-                $request->creadopor, $request->fechacreacion, $request->modificacopor, $request->fechamodificacion, $request->eliminadopor, $request->fechaeliminacino, $request->deleted);
-                return response($result);
-            } catch (Throwable $e) {
-                abort(404, $e->getMessage());
-            }
-        } else {
-            abort(404, 'Menu no encontrada');
-        }        
-    }
-    // update deleted, eliminado logico
     public function destroy(string $uuid)
     {
-        $menus = Menus::getByUuid($uuid);
-        if ($menus) {
-            try {
-                $result = Menus::deleteDestroy($uuid);
-                return response($result);
-            } catch (Throwable $e) {
-                abort(404, $e->getMessage());
-            }
-        } else {
-            abort(404, 'Menu no encontrada');
-        }
+        // Buscamos el menu a eliminar 
+        // Find busca el id que le pasamos es decir si $producto = 1, buscará id = 1
+        $menu = Menus::find($uuid); 
+
+        // eliminamos el menu
+        $menu->delete();
+
+        return $menu;
     }
 }
