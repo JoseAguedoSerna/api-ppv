@@ -3,27 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\TipoBien;
+use App\Models\TiposReportes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Throwable;
 
-class TipoBienController extends Controller
+class TiposReportesController extends Controller
 {
-    // obtiene todos los TipoBien
+    // obtiene todos los TiposReportes
     public function index()
     {
-        $tbien = TipoBien::all();
-        return $tbien;
+        $treporte = TiposReportes::all();
+        return $treporte;
     }
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo TipoBien
-        $nuevo_tbien = new TipoBien();
+        // Creamos un objeto de tipo TiposReportes
+        $nuevo_treporte = new TiposReportes();
         try {
-            $nuevo_tbien::create([
+            $nuevo_treporte::create([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
@@ -34,16 +34,16 @@ class TipoBienController extends Controller
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $firstTBien = TipoBien::latest('uuid', 'asc')->first();
-        $data = json_encode($firstTBien);
+        $firstTReporte = TiposReportes::latest('uuid', 'asc')->first();
+        $data = json_encode($firstTReporte);
         return $data;
     }
     // update registro
     public function update(Request $request)
     {
-        $tbien = TipoBien::find($request->uuid);
+        $treporte = TiposReportes::find($request->uuid);
         try {
-            $tbien->update([
+            $treporte->update([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
@@ -51,18 +51,18 @@ class TipoBienController extends Controller
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
                 ]);        
-                $tbien->uuid;                   
+                $treporte->uuid;                   
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $data = json_encode($tbien);
+        $data = json_encode($treporte);
         return $data;
     }
     public function destroy(Request $request)
     {
         // Buscamos el empleado a eliminar 
-        $tbien = TipoBien::find($request->uuid); 
-        $tbien->Delete();
-        return $tbien;
+        $treporte = TiposReportes::find($request->uuid); 
+        $treporte->Delete();
+        return $treporte;
     }
 }
