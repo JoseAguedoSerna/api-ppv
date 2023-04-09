@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use Firebase\JWT\ExpiredException;
+use Firebase\JWT\BeforeValidException;
+use Firebase\JWT\SignatureInvalidException;
+use Firebase\JWT\JWT as FirebaseJWT;
 
 use Throwable;
 
@@ -41,16 +45,25 @@ class MenusController extends Controller
 
     public function validarToken($token)
     {
-        $clave_secreta = '2A95F5CCD11DE255FEE9451BDE568'; // Reemplaza con tu clave secreta
+        $clave_secreta = '2A95F5CCD11DE255FEE9451BDE568';
 
         try {
-            $decoded = JWT::decode($token, new Key($clave_secreta, 'HS256'));
+            $decoded = JWT::decode($token, new Key($clave_secreta, 'HS256'), array('HS256'));
+        } catch (ExpiredException $e) {
+            // Token has expired
+            return response()->json(['mensaje' => 'Token expirado'], 401);
+        } catch (BeforeValidException $e) {
+            // Token is not yet valid
+            return response()->json(['mensaje' => 'Token no válido aún'], 401);
+        } catch (SignatureInvalidException $e) {
+            // Token signature is invalid
+            return response()->json(['mensaje' => 'Firma del token inválida'], 401);
         } catch (Exception $e) {
-            // Error al decodificar el token
-            return false;
+            // Error decoding the token
+            return response()->json(['mensaje' => 'Token inválido'], 401);
         }
 
-        // Token válido
+        // Token is valid
         return $decoded;
     }
     // insert
