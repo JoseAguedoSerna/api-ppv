@@ -42,6 +42,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // TODOS los catalogos
 Route::prefix('catalogos')->group(function (){
     #Menus
+    Route::get('/example', function () {
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+        header('Access-Control-Allow-Headers: Origin, Content-Type, Accept, Authorization, X-Requested-With');
+        return 'This route allows CORS requests.';
+    });
+    
     Route::get('obtienemenus',[MenusController::class,'index']);
     Route::post('guardamenus',[MenusController::class,'store']);
     Route::post('actualizamenus',[MenusController::class,'update']);

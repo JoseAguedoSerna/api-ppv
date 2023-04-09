@@ -6,16 +6,52 @@ use App\Http\Controllers\Controller;
 use App\Models\Menus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 use Throwable;
 
 class MenusController extends Controller
 {
     // obtiene todos los menus
-    public function index()
+    public function index(Request $request)
     {
-        $menus = Menus::all();
-        return $menus;
+        $token = $request->header('Authorization');
+
+       
+
+        if (!$token) {
+            // Token no enviado en los headers
+            return response()->json(['mensaje' => 'No se envió el token'], 401);
+        }
+
+
+        if (!$this->validarToken($token)) {
+            // Token inválido
+            return response()->json(['mensaje' => 'Token inválido'], 401);
+        }
+
+        // Token válido, continuar con el código del endpoint
+        //return response()->json(['mensaje' => 'Token válido'], 200);
+        return $this->validarToken($token);
+    
+        //$menus = Menus::all();
+        //return $menus;
+    }
+
+    public function validarToken($token)
+    {
+        $clave_secreta = '2A95F5CCD11DE255FEE9451BDE568'; // Reemplaza con tu clave secreta
+
+        try {
+            $decoded = JWT::decode($token, new Key($clave_secreta, 'HS256'));
+        } catch (Exception $e) {
+            // Error al decodificar el token
+            return false;
+        }
+
+        // Token válido
+        return $decoded;
     }
     // insert
     public function store(Request $request)
