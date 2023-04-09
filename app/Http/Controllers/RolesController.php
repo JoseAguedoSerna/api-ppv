@@ -2,47 +2,67 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Models\Roles;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+use Throwable;
 
 class RolesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // obtiene todos los Roles
     public function index()
     {
-        //
+        $rol = Roles::all();
+        return $rol;
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    // insert
     public function store(Request $request)
     {
-        //
+        // Creamos un objeto de tipo Roles
+        $nuevo_rol = new Roles();
+        try {
+            $nuevo_rol::create([
+                'Cve' => $request->cve,
+                'Nombre' => $request->nombre,
+                'Descripcion' => $request->descripcion,
+                'CreadoPor' => $request->creadopor,
+                'ModificadoPor' => $request->modificadopor,
+                'EliminadoPor' => $request->eliminadopor                
+                ]);
+        } catch (Throwable $e) {
+            abort(404, $e->getMessage());
+        }
+        $firstRol = Roles::latest('uuid', 'asc')->first();
+        $data = json_encode($firstRol);
+        return $data;
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    // update registro
+    public function update(Request $request)
     {
-        //
+        $rol = Roles::find($request->uuid);
+        try {
+            $rol->update([
+                'Cve' => $request->cve,
+                'Nombre' => $request->nombre,
+                'Descripcion' => $request->descripcion,
+                'CreadoPor' => $request->creadopor,
+                'ModificadoPor' => $request->modificadopor,
+                'EliminadoPor' => $request->eliminadopor
+                ]);        
+                $rol->uuid;                   
+        } catch (Throwable $e) {
+            abort(404, $e->getMessage());
+        }
+        $data = json_encode($rol);
+        return $data;
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(Request $request)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        // Buscamos el empleado a eliminar 
+        $rol = Roles::find($request->uuid); 
+        $rol->Delete();
+        return $rol;
     }
 }

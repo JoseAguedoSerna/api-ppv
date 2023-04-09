@@ -4,32 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
-
-class MenusModel extends Model
+class Menus extends Model
 {
-    use HasFactory;
-
-    // select all
-    public static function getAll(){
-        return DB::select("CALL sp_GetMenus");
-    }
-    // select con uuid
-    public static function getByUuid(string $uuid){
-        return DB::select('CALL sp_GetMenusByUuid(?)', [$uuid]);
-    }
-    // update registro
-    public static function putByUuid(string $uuid, string $descripcion, int $estatus){
-        return DB::statement('CALL sp_PutMenus(?, ?, ?)', [$uuid, $descripcion, $estatus]);
-    }
-    // insertar registro
-    public static function post(string $descripcion){
-        return DB::statement('CALL sp_PostMenus(?)', [$descripcion]);
-    }
-    // update deleted - eliminado logico
-    public static function deleteDestroy(string $uuid){
-        return DB::statement('CALL sp_DeleteMenus(?)', [$uuid]);
-    }    
+    use HasFactory, HasUuids, SoftDeletes;
+    protected $table = "Menus"; #Se indica el nombre de la tabla    
+    protected $primaryKey = "uuid"; #Definimos campo uuis como primary key"    
+    public $incrementing = false;  #Quitamos que sea autoincremental
+    protected $fillable = ['Cve','Nombre','Descripcion','Icono','Path','Nivel','Ordenamiento',
+                            'CreadoPor','ModificadoPor','EliminadoPor',
+                            'created_at','updated_at','deleted_at']; #Se agregan los campos de la tabla que serán visibles en las consultas
+   
 }

@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('Perfiles', function (Blueprint $table) {
             $table->uuid('uuid')->primary();
             
-            $table->char('Cve',6)->nullable();
+            $table->char('Cve',10)->unique();
             $table->string('Nombre',256);
             $table->string('Descripcion',256);
 
             $table->char('CreadoPor', 36)->nullable();
-            $table->char('ModificacoPor', 36)->nullable();
+            $table->char('ModificadoPor', 36)->nullable();
             $table->char('EliminadoPor', 36)->nullable();
             $table->timestamps();
             $table->softDeletes();     

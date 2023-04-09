@@ -2,47 +2,65 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Models\Municipios;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+use Throwable;
 
 class MunicipiosController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // obtiene todos los Municipios
     public function index()
     {
-        //
+        $municipio = Municipios::all();
+        return $municipio;
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    // insert
     public function store(Request $request)
     {
-        //
+        // Creamos un objeto de tipo Municipios
+        $nuevo_municipio = new Municipios();
+        try {
+            $nuevo_municipio::create([
+                'Cve' => $request->cve,
+                'Nombre' => $request->nombre,
+                'CreadoPor' => $request->creadopor,
+                'ModificadoPor' => $request->modificadopor,
+                'EliminadoPor' => $request->eliminadopor                
+                ]);
+        } catch (Throwable $e) {
+            abort(404, $e->getMessage());
+        }
+        $firstMunicipio = Municipios::latest('uuid', 'asc')->first();
+        $data = json_encode($firstMunicipio);
+        return $data;
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    // update registro
+    public function update(Request $request)
     {
-        //
+        $municipio = Municipios::find($request->uuid);
+        try {
+            $municipio->update([
+                'Cve' => $request->cve,
+                'Nombre' => $request->nombre,
+                'CreadoPor' => $request->creadopor,
+                'ModificadoPor' => $request->modificadopor,
+                'EliminadoPor' => $request->eliminadopor
+                ]);        
+                $municipio->uuid;                   
+        } catch (Throwable $e) {
+            abort(404, $e->getMessage());
+        }
+        $data = json_encode($municipio);
+        return $data;
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(Request $request)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        // Buscamos el empleado a eliminar 
+        $municipio = Municipios::find($request->uuid); 
+        $municipio->Delete();
+        return $municipio;
     }
 }
