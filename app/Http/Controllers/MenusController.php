@@ -6,12 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Menus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
-use Firebase\JWT\ExpiredException;
-use Firebase\JWT\BeforeValidException;
-use Firebase\JWT\SignatureInvalidException;
-use Firebase\JWT\JWT as FirebaseJWT;
 
 use Throwable;
 
@@ -20,52 +14,13 @@ class MenusController extends Controller
     // obtiene todos los menus
     public function index(Request $request)
     {
-        $token = $request->header('Authorization');
+        $menus = Menus::all();
+        return $menus;
 
-       
+        //return $request;
+    }
 
-        if (!$token) {
-            // Token no enviado en los headers
-            return response()->json(['mensaje' => 'No se envió el token'], 401);
-        }
-
-
-        if (!$this->validarToken($token)) {
-            // Token inválido
-            return response()->json(['mensaje' => 'Token inválido'], 401);
-        }
-
-        // Token válido, continuar con el código del endpoint
-        //return response()->json(['mensaje' => 'Token válido'], 200);
-        return $this->validarToken($token);
     
-        //$menus = Menus::all();
-        //return $menus;
-    }
-
-    public function validarToken($token)
-    {
-        $clave_secreta = '2A95F5CCD11DE255FEE9451BDE568';
-
-        try {
-            $decoded = JWT::decode($token, new Key($clave_secreta, 'HS256'), array('HS256'));
-        } catch (ExpiredException $e) {
-            // Token has expired
-            return response()->json(['mensaje' => 'Token expirado'], 401);
-        } catch (BeforeValidException $e) {
-            // Token is not yet valid
-            return response()->json(['mensaje' => 'Token no válido aún'], 401);
-        } catch (SignatureInvalidException $e) {
-            // Token signature is invalid
-            return response()->json(['mensaje' => 'Firma del token inválida'], 401);
-        } catch (Exception $e) {
-            // Error decoding the token
-            return response()->json(['mensaje' => 'Token inválido'], 401);
-        }
-
-        // Token is valid
-        return $decoded;
-    }
     // insert
     public function store(Request $request)
     {
