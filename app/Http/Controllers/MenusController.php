@@ -17,7 +17,6 @@ class MenusController extends Controller
         $menus = Menus::all();
         return $menus;
 
-        //return $request;
     }
 
     

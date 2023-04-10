@@ -21,8 +21,9 @@ class JwtSeguridad
      */
     public function handle(Request $request, Closure $next): Response
     {
+        //return $request->auth->IdUsuario; // esta seria la manera de obtener el IdUsaurio según sea necesario en algun controller
         $token = $request->header('Authorization');
-        $clave_secreta = '2A95F5CCD11DE255FEE9451BDE568';
+        $clave_secreta = env('JWT_SECRET');
 
 
        if (!$token) {
