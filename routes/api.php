@@ -1,39 +1,53 @@
 <?php
 
+namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\MenusController;
-use App\Http\Controllers\DependenciasController;
-use App\Http\Controllers\EmpleadosController;
-use App\Http\Controllers\EntidadesFederativasController;
-use App\Http\Controllers\MarcasController;
-use App\Http\Controllers\MunicipiosController;
-use App\Http\Controllers\NivelReportesController;
-use App\Http\Controllers\NotificacionesController;
-use App\Http\Controllers\PerfilesController;
-use App\Http\Controllers\PermisosController;
-use App\Http\Controllers\PresentacionMueblesController;
-use App\Http\Controllers\ProcesosController;
-use App\Http\Controllers\ProveedoresController;
-use App\Http\Controllers\PuestosController;
-use App\Http\Controllers\ReportesController;
-use App\Http\Controllers\RolesController;
-use App\Http\Controllers\TipoBienController;
-use App\Http\Controllers\TipoClasificacionController;
-use App\Http\Controllers\TipoDependenciasController;
-use App\Http\Controllers\TipoProveedoresController;
-use App\Http\Controllers\TipoProcesosController;
-use App\Http\Controllers\TiposReportesController;
-
-use App\Http\Controllers\TiposUsuariosController;
-use App\Http\Controllers\TipoTransaccionesController;
-use App\Http\Controllers\TransaccionesController;
-use App\Http\Controllers\UsuariosController;
-
 use App\Http\Middleware\JwtSeguridad;
 
-
+use App\Http\Controllers\{
+    #menus
+    MenusController,
+    DependenciasController,
+    EmpleadosController,
+    EntidadesFederativasController,
+    MarcasController,
+    MunicipiosController,
+    NivelReportesController,
+    NotificacionesController,
+    PerfilesController,
+    PermisosController,
+    PresentacionMueblesController,
+    ProcesosController,
+    ProveedoresController,
+    PuestosController,
+    ReportesController,
+    RolesController,
+    TipoBienController,
+    TipoClasificacionController,
+    TipoDependenciasController,
+    TipoProveedoresController,
+    TipoProcesosController,
+    TiposReportesController,
+    TiposUsuariosController,
+    TipoTransaccionesController,
+    TransaccionesController,
+    UsuariosController,
+    #Muebles
+    ActivosController,
+    ArticulosController,
+    MarcasMueblesController,
+    ModelosController,
+    MotivosBajaController,
+    PresentacionesMueblesController,
+    ResguardosController,
+    ResguardoDetController,
+    TiposAdquisicionController,
+    TiposBienController,
+    TiposClasificacionController,
+    TiposComprobanteController
+};
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -45,11 +59,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // TODOS los catalogos
 
 Route::middleware(JwtSeguridad::class)->group(function () {
-
-
     Route::prefix('catalogos')->group(function (){
-        #Menus
-        
+        #Menus        
         Route::get('obtienemenus',[MenusController::class,'index']);
         Route::post('guardamenus',[MenusController::class,'store']);
         Route::post('actualizamenus',[MenusController::class,'update']);
@@ -180,4 +191,70 @@ Route::middleware(JwtSeguridad::class)->group(function () {
         Route::post('actualizausr',[UsuariosController::class,'update']);
         Route::post('eliminausr',[UsuariosController::class,'destroy']);
     });
+
+    Route::prefix('muebles')->group(function (){
+        #Activos
+        Route::get('obtieneactivos',[ActivosController::class,'index']);
+        Route::post('guardaactivos',[ActivosController::class,'store']);
+        Route::post('actualizaactivos',[ActivosController::class,'update']);
+        Route::post('eliminaactivos',[ActivosController::class,'destroy']);
+        #Articulos
+        Route::get('obtienearticulos',[ArticulosController::class,'index']);
+        Route::post('guardaarticulos',[ArticulosController::class,'store']);
+        Route::post('actualizaarticulos',[ArticulosController::class,'update']);
+        Route::post('eliminaarticulos',[ArticulosController::class,'destroy']);
+        #MarcasMuebles
+        Route::get('obtienemarcasmuebles',[MarcasMueblesController::class,'index']);
+        Route::post('guardamarcasmuebles',[MarcasMueblesController::class,'store']);
+        Route::post('actualizamarcasmuebles',[MarcasMueblesController::class,'update']);
+        Route::post('eliminamarcasmuebles',[MarcasMueblesController::class,'destroy']);
+        #Modelos
+        Route::get('obtienemodelos',[ModelosController::class,'index']);
+        Route::post('guardamodelos',[ModelosController::class,'store']);
+        Route::post('actualizamodelos',[ModelosController::class,'update']);
+        Route::post('eliminamodelos',[ModelosController::class,'destroy']);
+        #MotivosBaja
+        Route::get('obtienemotivosbaja',[MotivosBajaController::class,'index']);
+        Route::post('guardamotivosbaja',[MotivosBajaController::class,'store']);
+        Route::post('actualizamotivosbaja',[MotivosBajaController::class,'update']);
+        Route::post('eliminamotivosbaja',[MotivosBajaController::class,'destroy']);
+        #PresentacionesMuebles
+        Route::get('obtienepresentacionesmuebles',[PresentacionesMueblesController::class,'index']);
+        Route::post('guardapresentacionesmuebles',[PresentacionesMueblesController::class,'store']);
+        Route::post('actualizapresentacionesmuebles',[PresentacionesMueblesController::class,'update']);
+        Route::post('eliminapresentacionesmuebles',[PresentacionesMueblesController::class,'destroy']);        
+        #Resguardos
+        Route::get('obtieneresguardos',[ResguardosController::class,'index']);
+        Route::post('guardaresguardos',[ResguardosController::class,'store']);
+        Route::post('actualizaresguardos',[ResguardosController::class,'update']);
+        Route::post('eliminaresguardos',[ResguardosController::class,'destroy']);
+        #ResguardoDet
+        Route::get('obtieneresguardodet',[ResguardoDetController::class,'index']);
+        Route::post('guardaresguardodet',[ResguardoDetController::class,'store']);
+        Route::post('actualizaresguardodet',[ResguardoDetController::class,'update']);
+        Route::post('eliminaresguardodet',[ResguardoDetController::class,'destroy']);
+        #TiposAdquisicion
+        Route::get('obtienetiposadquisicion',[TiposAdquisicionController::class,'index']);
+        Route::post('guardatiposadquisicion',[TiposAdquisicionController::class,'store']);
+        Route::post('actualizatiposadquisicion',[TiposAdquisicionController::class,'update']);
+        Route::post('eliminatiposadquisicion',[TiposAdquisicionController::class,'destroy']);
+        #TiposBien
+        Route::get('obtienetiposbien',[TiposBienController::class,'index']);
+        Route::post('guardatiposbien',[TiposBienController::class,'store']);
+        Route::post('actualizatiposbien',[TiposBienController::class,'update']);
+        Route::post('eliminatiposbien',[TiposBienController::class,'destroy']);
+        #TiposClasificacion
+        Route::get('obtienetiposclasificacion',[TiposClasificacionController::class,'index']);
+        Route::post('guardatiposclasificacion',[TiposClasificacionController::class,'store']);
+        Route::post('actualizatiposclasificacion',[TiposClasificacionController::class,'update']);
+        Route::post('eliminatiposclasificacion',[TiposClasificacionController::class,'destroy']);
+        #TiposComprobante
+        Route::get('obtienetiposcomprobante',[TiposComprobanteController::class,'index']);
+        Route::post('guardatiposcomprobante',[TiposComprobanteController::class,'store']);
+        Route::post('actualizatiposcomprobante',[TiposComprobanteController::class,'update']);
+        Route::post('eliminatiposcomprobante',[TiposComprobanteController::class,'destroy']);
+    });
+
+
+
 });
