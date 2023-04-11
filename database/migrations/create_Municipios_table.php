@@ -13,18 +13,20 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('Municipios', function (Blueprint $table) {
-            $table->uuid('uuid')->primary();
+        if (!Schema::hasTable('Municipios')) {
+            Schema::create('Municipios', function (Blueprint $table) {
+                $table->uuid('uuid')->primary();
 
-            $table->char('Cve',10)->unique();
-            $table->string('Nombre',256);
-            
-            $table->char('CreadoPor', 36)->nullable();
-            $table->char('ModificadoPor', 36)->nullable();
-            $table->char('EliminadoPor', 36)->nullable();
-            $table->timestamps();
-            $table->softDeletes();     
-        });
+                $table->char('Cve',10)->unique();
+                $table->string('Nombre',256);
+                
+                $table->char('CreadoPor', 36)->nullable();
+                $table->char('ModificadoPor', 36)->nullable();
+                $table->char('EliminadoPor', 36)->nullable();
+                $table->timestamps();
+                $table->softDeletes();     
+            });
+        }
     }
 
     /**

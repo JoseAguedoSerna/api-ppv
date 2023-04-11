@@ -3,27 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\TipoProveedores;
+use App\Models\TiposTransacciones;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Throwable;
 
-class TipoProveedoresController extends Controller
+class TiposTransaccionesController extends Controller
 {
-    // obtiene todos los TipoProveedores
+    // obtiene todos los TiposTransacciones
     public function index()
     {
-        $tproveedor = TipoProveedores::all();
-        return $tproveedor;
+        $ttransaccion = TiposTransacciones::all();
+        return $ttransaccion;
     }
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo TipoProveedores
-        $nuevo_tproveedor = new TipoProveedores();
+        // Creamos un objeto de tipo TiposTransacciones
+        $nuevo_ttransaccion = new TiposTransacciones();
         try {
-            $nuevo_tproveedor::create([
+            $nuevo_ttransaccion::create([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
@@ -34,16 +34,16 @@ class TipoProveedoresController extends Controller
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $firstTProveedor = TipoProveedores::latest('uuid', 'asc')->first();
-        $data = json_encode($firstTProveedor);
+        $firstTTransaccion = TiposTransacciones::latest('uuid', 'asc')->first();
+        $data = json_encode($firstTTransaccion);
         return $data;
     }
     // update registro
     public function update(Request $request)
     {
-        $tproveedor = TipoProveedores::find($request->uuid);
+        $ttransaccion = TiposTransacciones::find($request->uuid);
         try {
-            $tproveedor->update([
+            $ttransaccion->update([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
@@ -51,18 +51,18 @@ class TipoProveedoresController extends Controller
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
                 ]);        
-                $tproveedor->uuid;                   
+                $ttransaccion->uuid;                   
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $data = json_encode($tproveedor);
+        $data = json_encode($ttransaccion);
         return $data;
     }
     public function destroy(Request $request)
     {
         // Buscamos el empleado a eliminar 
-        $tproveedor = TipoProveedores::find($request->uuid); 
-        $tproveedor->Delete();
-        return $tproveedor;
+        $ttransaccion = TiposTransacciones::find($request->uuid); 
+        $ttransaccion->Delete();
+        return $ttransaccion;
     }
 }

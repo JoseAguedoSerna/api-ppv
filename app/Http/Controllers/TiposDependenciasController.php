@@ -3,27 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\TipoBien;
+use App\Models\TiposDependencias;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Throwable;
 
-class TipoBienController extends Controller
+class TiposDependenciasController extends Controller
 {
-    // obtiene todos los TipoBien
+    // obtiene todos los TiposDependencias
     public function index()
     {
-        $tbien = TipoBien::all();
-        return $tbien;
+        $tdependencias = TiposDependencias::all();
+        return $tdependencias;
     }
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo TipoBien
-        $nuevo_tbien = new TipoBien();
+        // Creamos un objeto de tipo TiposDependencias
+        $nuevo_tdependencias = new TiposDependencias();
         try {
-            $nuevo_tbien::create([
+            $nuevo_tdependencias::create([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
@@ -34,16 +34,16 @@ class TipoBienController extends Controller
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $firstTBien = TipoBien::latest('uuid', 'asc')->first();
-        $data = json_encode($firstTBien);
+        $firstTDependencias = TiposDependencias::latest('uuid', 'asc')->first();
+        $data = json_encode($firstTDependencias);
         return $data;
     }
     // update registro
     public function update(Request $request)
     {
-        $tbien = TipoBien::find($request->uuid);
+        $tdependencias = TiposDependencias::find($request->uuid);
         try {
-            $tbien->update([
+            $tdependencias->update([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
@@ -51,18 +51,18 @@ class TipoBienController extends Controller
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
                 ]);        
-                $tbien->uuid;                   
+                $tdependencias->uuid;                   
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $data = json_encode($tbien);
+        $data = json_encode($tdependencias);
         return $data;
     }
     public function destroy(Request $request)
     {
         // Buscamos el empleado a eliminar 
-        $tbien = TipoBien::find($request->uuid); 
-        $tbien->Delete();
-        return $tbien;
+        $tdependencias = TiposDependencias::find($request->uuid); 
+        $tdependencias->Delete();
+        return $tdependencias;
     }
 }

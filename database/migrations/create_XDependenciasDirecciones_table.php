@@ -13,15 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('DependenciasDirecciones', function (Blueprint $table) {
-            $table->uuid('uuid')->primary();
+        if (!Schema::hasTable('DependenciasDirecciones')) {
+            Schema::create('DependenciasDirecciones', function (Blueprint $table) {
+                $table->uuid('uuid')->primary();
 
-            $table->uuid('uuidDependencias');
-            $table->foreign('uuidDependencias')->references('uuid')->on('Dependencias')->onDelete('cascade');
-            
-            $table->uuid('uuidDireccionesDependencias');
-            $table->foreign('uuidDireccionesDependencias')->references('uuid')->on('DireccionesDependencias')->onDelete('cascade');
-        });
+                $table->uuid('uuidDependencias');
+                $table->foreign('uuidDependencias')->references('uuid')->on('Dependencias')->onDelete('cascade');
+                
+                $table->uuid('uuidDireccionesDependencias');
+                $table->foreign('uuidDireccionesDependencias')->references('uuid')->on('DireccionesDependencias')->onDelete('cascade');
+            });
+        }
     }
     /**
      * Reverse the migrations.

@@ -3,27 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\TipoClasificacion;
+use App\Models\TiposProveedores;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Throwable;
 
-class TipoClasificacionController extends Controller
+class TiposProveedoresController extends Controller
 {
-    // obtiene todos los TipoClasificacion
+    // obtiene todos los TiposProveedores
     public function index()
     {
-        $tclasificacion = TipoClasificacion::all();
-        return $tclasificacion;
+        $tproveedor = TiposProveedores::all();
+        return $tproveedor;
     }
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo TipoClasificacion
-        $nuevo_tclasificacion = new TipoClasificacion();
+        // Creamos un objeto de tipo TiposProveedores
+        $nuevo_tproveedor = new TiposProveedores();
         try {
-            $nuevo_tclasificacion::create([
+            $nuevo_tproveedor::create([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
@@ -34,16 +34,16 @@ class TipoClasificacionController extends Controller
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $firstTClasificacion = TipoClasificacion::latest('uuid', 'asc')->first();
-        $data = json_encode($firstTClasificacion);
+        $firstTProveedor = TiposProveedores::latest('uuid', 'asc')->first();
+        $data = json_encode($firstTProveedor);
         return $data;
     }
     // update registro
     public function update(Request $request)
     {
-        $tclasificacion = TipoClasificacion::find($request->uuid);
+        $tproveedor = TiposProveedores::find($request->uuid);
         try {
-            $tclasificacion->update([
+            $tproveedor->update([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
@@ -51,18 +51,18 @@ class TipoClasificacionController extends Controller
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
                 ]);        
-                $tclasificacion->uuid;                   
+                $tproveedor->uuid;                   
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $data = json_encode($tclasificacion);
+        $data = json_encode($tproveedor);
         return $data;
     }
     public function destroy(Request $request)
     {
         // Buscamos el empleado a eliminar 
-        $tclasificacion = TipoClasificacion::find($request->uuid); 
-        $tclasificacion->Delete();
-        return $tclasificacion;
+        $tproveedor = TiposProveedores::find($request->uuid); 
+        $tproveedor->Delete();
+        return $tproveedor;
     }
 }

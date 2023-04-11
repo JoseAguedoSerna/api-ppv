@@ -3,27 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\TipoDependencias;
+use App\Models\TiposProcesos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Throwable;
 
-class TipoDependenciasController extends Controller
+class TiposProcesosController extends Controller
 {
-    // obtiene todos los TipoDependencias
+    // obtiene todos los TiposProcesos
     public function index()
     {
-        $tdependencias = TipoDependencias::all();
-        return $tdependencias;
+        $tproceso = TiposProcesos::all();
+        return $tproceso;
     }
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo TipoDependencias
-        $nuevo_tdependencias = new TipoDependencias();
+        // Creamos un objeto de tipo TiposProcesos
+        $nuevo_tproceso = new TiposProcesos();
         try {
-            $nuevo_tdependencias::create([
+            $nuevo_tproceso::create([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
@@ -34,16 +34,16 @@ class TipoDependenciasController extends Controller
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $firstTDependencias = TipoDependencias::latest('uuid', 'asc')->first();
-        $data = json_encode($firstTDependencias);
+        $firstTProceso = TiposProcesos::latest('uuid', 'asc')->first();
+        $data = json_encode($firstTProceso);
         return $data;
     }
     // update registro
     public function update(Request $request)
     {
-        $tdependencias = TipoDependencias::find($request->uuid);
+        $tproceso = TiposProcesos::find($request->uuid);
         try {
-            $tdependencias->update([
+            $tproceso->update([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
@@ -51,18 +51,18 @@ class TipoDependenciasController extends Controller
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
                 ]);        
-                $tdependencias->uuid;                   
+                $tproceso->uuid;                   
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $data = json_encode($tdependencias);
+        $data = json_encode($tproceso);
         return $data;
     }
     public function destroy(Request $request)
     {
         // Buscamos el empleado a eliminar 
-        $tdependencias = TipoDependencias::find($request->uuid); 
-        $tdependencias->Delete();
-        return $tdependencias;
+        $tproceso = TiposProcesos::find($request->uuid); 
+        $tproceso->Delete();
+        return $tproceso;
     }
 }

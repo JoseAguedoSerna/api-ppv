@@ -26,6 +26,7 @@ class ActivosController extends Controller
             $nuevo_activo::create([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
+                'Descripcion' => $request->descripcion,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor                
@@ -44,7 +45,8 @@ class ActivosController extends Controller
         try {
             $activo->update([
                 'Cve' => $request->cve,
-                'Nombre' => $request->nombre,               
+                'Nombre' => $request->nombre,
+                'Descripcion' => $request->descripcion,               
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
