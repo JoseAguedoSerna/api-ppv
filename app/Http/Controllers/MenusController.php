@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Menus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Usuarios;
 
 use Throwable;
 
@@ -19,7 +20,7 @@ class MenusController extends Controller
 
     }
 
-    
+
     // insert
     public function store(Request $request)
     {
@@ -36,7 +37,7 @@ class MenusController extends Controller
                 'Ordenamiento' => $request->ordenamiento,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
-                'EliminadoPor' => $request->eliminadopor                
+                'EliminadoPor' => $request->eliminadopor
                 ]);
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
@@ -57,12 +58,12 @@ class MenusController extends Controller
                 'Icono' => $request->icono,
                 'Path' => $request->path,
                 'Nivel' => $request->nivel,
-                'Ordenamiento' => $request->ordenamiento,                
+                'Ordenamiento' => $request->ordenamiento,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
-                ]);        
-                $menu->uuid;                   
+                ]);
+                $menu->uuid;
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
@@ -71,9 +72,24 @@ class MenusController extends Controller
     }
     public function destroy(Request $request)
     {
-        // Buscamos el menu a eliminar 
-        $menu = Menus::find($request->uuid); 
+        // Buscamos el menu a eliminar
+        $menu = Menus::find($request->uuid);
         $menu->Delete();
         return $menu;
+    }
+
+    public function generaMenusUsuario(Request $request)
+    {
+
+        $usuario = Usuarios::find($request->IdUsuario);
+        $perfiles = $usuario->perfiles;
+
+        $menus = $usuario->perfiles->flatMap(function($perfil) {
+            return $perfil->roles->flatMap(function($rol) {
+                return $rol->menus;
+            });
+        });
+
+        return $menus;
     }
 }

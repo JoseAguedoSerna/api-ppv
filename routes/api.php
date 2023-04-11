@@ -49,7 +49,7 @@ Route::middleware(JwtSeguridad::class)->group(function () {
 
     Route::prefix('catalogos')->group(function (){
         #Menus
-        
+
         Route::get('obtienemenus',[MenusController::class,'index']);
         Route::post('guardamenus',[MenusController::class,'store']);
         Route::post('actualizamenus',[MenusController::class,'update']);
@@ -179,5 +179,9 @@ Route::middleware(JwtSeguridad::class)->group(function () {
         Route::post('guardausr',[UsuariosController::class,'store']);
         Route::post('actualizausr',[UsuariosController::class,'update']);
         Route::post('eliminausr',[UsuariosController::class,'destroy']);
+    });
+
+    Route::prefix('iniciosesion')->group(function(){
+        Route::post('menususuario',[MenusController::class,'generaMenusUsuario']);
     });
 });
