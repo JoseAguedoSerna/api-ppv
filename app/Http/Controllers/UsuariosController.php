@@ -11,7 +11,6 @@ use Throwable;
 
 class UsuariosController extends Controller
 {
-    // obtiene todos los Usuarios
     public function index()
     {
         $usuario = Usuarios::all();
@@ -20,7 +19,6 @@ class UsuariosController extends Controller
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo Usuarios
         $nuevo_usuario = new Usuarios();
         try {
             $nuevo_usuario::create([
@@ -62,7 +60,6 @@ class UsuariosController extends Controller
     }
     public function destroy(Request $request)
     {
-        // Buscamos el empleado a eliminar 
         $usuario = Usuarios::find($request->uuid); 
         $usuario->Delete();
         return $usuario;

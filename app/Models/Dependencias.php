@@ -14,7 +14,8 @@ class Dependencias extends Model
     protected $table = "Dependencias"; #Se indica el nombre de la tabla    
     protected $primaryKey = "uuid"; #Definimos campo uuis como primary key"    
     public $incrementing = false;  #Quitamos que sea autoincremental
-    protected $fillable = ['Cve','Nombre','CreadoPor','ModificadoPor','EliminadoPor',
+    protected $fillable = ['Cve','Nombre','Direccion','Telefono',
+                            'CreadoPor','ModificadoPor','EliminadoPor',
                             'created_at','updated_at','deleted_at']; #Se agregan los campos de la tabla que serán visibles en las consultas
    
 }

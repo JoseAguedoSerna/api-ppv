@@ -11,7 +11,6 @@ use Throwable;
 
 class TiposClasificacionController extends Controller
 {
-    // obtiene todos los TiposClasificacion
     public function index()
     {
         $tclasificacion = TiposClasificacion::all();
@@ -20,7 +19,6 @@ class TiposClasificacionController extends Controller
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo TiposClasificacion
         $nuevo_tclasificacion = new TiposClasificacion();
         try {
             $nuevo_tclasificacion::create([
@@ -60,7 +58,6 @@ class TiposClasificacionController extends Controller
     }
     public function destroy(Request $request)
     {
-        // Buscamos el empleado a eliminar 
         $tclasificacion = TiposClasificacion::find($request->uuid); 
         $tclasificacion->Delete();
         return $tclasificacion;

@@ -11,19 +11,15 @@ use Throwable;
 
 class MenusController extends Controller
 {
-    // obtiene todos los menus
+    // obtiene todos los registros
     public function index(Request $request)
     {
-        $menus = Menus::all();
-        return $menus;
-
-    }
-
-    
+        $menu = Menus::all();
+        return $menu;
+    }   
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo Menus
         $nuevo_menu = new Menus();
         try {
             $nuevo_menu::create([
@@ -69,9 +65,9 @@ class MenusController extends Controller
         $data = json_encode($menu);
         return $data;
     }
+    // Delete
     public function destroy(Request $request)
     {
-        // Buscamos el menu a eliminar 
         $menu = Menus::find($request->uuid); 
         $menu->Delete();
         return $menu;

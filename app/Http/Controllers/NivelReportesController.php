@@ -11,7 +11,6 @@ use Throwable;
 
 class NivelReportesController extends Controller
 {
-    // obtiene todos los NivelReportes
     public function index()
     {
         $nivelreporte = NivelReportes::all();
@@ -20,7 +19,6 @@ class NivelReportesController extends Controller
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo NivelReportes
         $nuevo_nivelreporte = new NivelReportes();
         try {
             $nuevo_nivelreporte::create([
@@ -60,7 +58,6 @@ class NivelReportesController extends Controller
     }
     public function destroy(Request $request)
     {
-        // Buscamos el empleado a eliminar 
         $nivelreporte = NivelReportes::find($request->uuid); 
         $nivelreporte->Delete();
         return $nivelreporte;

@@ -11,7 +11,6 @@ use Throwable;
 
 class TiposProveedoresController extends Controller
 {
-    // obtiene todos los TiposProveedores
     public function index()
     {
         $tproveedor = TiposProveedores::all();
@@ -20,7 +19,6 @@ class TiposProveedoresController extends Controller
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo TiposProveedores
         $nuevo_tproveedor = new TiposProveedores();
         try {
             $nuevo_tproveedor::create([
@@ -59,8 +57,7 @@ class TiposProveedoresController extends Controller
         return $data;
     }
     public function destroy(Request $request)
-    {
-        // Buscamos el empleado a eliminar 
+    { 
         $tproveedor = TiposProveedores::find($request->uuid); 
         $tproveedor->Delete();
         return $tproveedor;

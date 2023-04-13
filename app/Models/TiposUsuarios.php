@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class TiposUsuarios extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
-    protected $table = "TiposUsuario"; #Se indica el nombre de la tabla    
+    protected $table = "TiposUsuarios"; #Se indica el nombre de la tabla    
     protected $primaryKey = "uuid"; #Definimos campo uuis como primary key"    
     public $incrementing = false;  #Quitamos que sea autoincremental
     protected $fillable = ['Cve','Nombre','Descripcion',

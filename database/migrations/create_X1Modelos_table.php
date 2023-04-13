@@ -17,8 +17,8 @@ return new class extends Migration
             Schema::create('Modelos', function (Blueprint $table) {
                 $table->uuid('uuid')->primary(); 
 
-                $table->uuid('uuidMarcaMuebles');
-                $table->foreign('uuidMarcaMuebles')->references('uuid')->on('MarcasMuebles')->onDelete('cascade');
+                $table->uuid('uuidMarca');
+                $table->foreign('uuidMarca')->references('uuid')->on('Marcas')->onDelete('cascade');
 
                 $table->char('Cve',10)->unique();                    
                 $table->string('Nombre',256);

@@ -11,7 +11,6 @@ use Throwable;
 
 class PuestosController extends Controller
 {
-    // obtiene todos los Puestos
     public function index()
     {
         $puesto = Puestos::all();
@@ -20,7 +19,6 @@ class PuestosController extends Controller
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo Puestos
         $nuevo_puesto = new Puestos();
         try {
             $nuevo_puesto::create([
@@ -60,7 +58,6 @@ class PuestosController extends Controller
     }
     public function destroy(Request $request)
     {
-        // Buscamos el empleado a eliminar 
         $puesto = Puestos::find($request->uuid); 
         $puesto->Delete();
         return $puesto;

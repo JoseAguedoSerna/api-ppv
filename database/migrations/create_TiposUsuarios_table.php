@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('Tiposusuarios')) {
+        if (!Schema::hasTable('TiposUsuarios')) {
             Schema::create('TiposUsuarios', function (Blueprint $table) {
                 $table->uuid('uuid')->primary();
 

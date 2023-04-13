@@ -11,7 +11,6 @@ use Throwable;
 
 class TiposReportesController extends Controller
 {
-    // obtiene todos los TiposReportes
     public function index()
     {
         $treporte = TiposReportes::all();
@@ -20,7 +19,6 @@ class TiposReportesController extends Controller
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo TiposReportes
         $nuevo_treporte = new TiposReportes();
         try {
             $nuevo_treporte::create([
@@ -59,8 +57,7 @@ class TiposReportesController extends Controller
         return $data;
     }
     public function destroy(Request $request)
-    {
-        // Buscamos el empleado a eliminar 
+    { 
         $treporte = TiposReportes::find($request->uuid); 
         $treporte->Delete();
         return $treporte;

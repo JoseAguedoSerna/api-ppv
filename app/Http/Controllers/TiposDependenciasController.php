@@ -11,7 +11,6 @@ use Throwable;
 
 class TiposDependenciasController extends Controller
 {
-    // obtiene todos los TiposDependencias
     public function index()
     {
         $tdependencias = TiposDependencias::all();
@@ -20,7 +19,6 @@ class TiposDependenciasController extends Controller
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo TiposDependencias
         $nuevo_tdependencias = new TiposDependencias();
         try {
             $nuevo_tdependencias::create([
@@ -32,7 +30,7 @@ class TiposDependenciasController extends Controller
                 'EliminadoPor' => $request->eliminadopor                
                 ]);
         } catch (Throwable $e) {
-            abort(404, $e->getMessage());
+            abort(403, $e->getMessage());
         }
         $firstTDependencias = TiposDependencias::latest('uuid', 'asc')->first();
         $data = json_encode($firstTDependencias);
@@ -60,7 +58,6 @@ class TiposDependenciasController extends Controller
     }
     public function destroy(Request $request)
     {
-        // Buscamos el empleado a eliminar 
         $tdependencias = TiposDependencias::find($request->uuid); 
         $tdependencias->Delete();
         return $tdependencias;

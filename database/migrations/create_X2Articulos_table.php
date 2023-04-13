@@ -22,10 +22,12 @@ return new class extends Migration
                 $table->string('Descripcion',256);
                 $table->string('NoSerie',45);
 
-                $table->uuid('uuidMarcaMueble');
-                $table->foreign('uuidMarcaMueble')->references('uuid')->on('MarcasMuebles')->onDelete('cascade');
+                $table->uuid('uuidMarca');
+                $table->foreign('uuidMarca')->references('uuid')->on('Marcas')->onDelete('cascade');
+
                 $table->uuid('uuidModelos');
                 $table->foreign('uuidModelos')->references('uuid')->on('Modelos')->onDelete('cascade');
+                
                 $table->uuid('uuidClasificacion');
                 $table->foreign('uuidClasificacion')->references('uuid')->on('TiposClasificacion')->onDelete('cascade');
                 

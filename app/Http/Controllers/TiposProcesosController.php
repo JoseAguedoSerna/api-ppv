@@ -11,7 +11,6 @@ use Throwable;
 
 class TiposProcesosController extends Controller
 {
-    // obtiene todos los TiposProcesos
     public function index()
     {
         $tproceso = TiposProcesos::all();
@@ -20,7 +19,6 @@ class TiposProcesosController extends Controller
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo TiposProcesos
         $nuevo_tproceso = new TiposProcesos();
         try {
             $nuevo_tproceso::create([
@@ -60,7 +58,6 @@ class TiposProcesosController extends Controller
     }
     public function destroy(Request $request)
     {
-        // Buscamos el empleado a eliminar 
         $tproceso = TiposProcesos::find($request->uuid); 
         $tproceso->Delete();
         return $tproceso;

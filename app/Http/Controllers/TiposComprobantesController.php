@@ -3,25 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\PresentacionesMuebles;
+use App\Models\TiposComprobantes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Throwable;
 
-class PresentacionesMueblesController extends Controller
+class TiposComprobanteController extends Controller
 {
     public function index()
     {
-        $pmuebles = PresentacionesMuebles::all();
-        return $pmuebles;
+        $tcomprobante = TiposComprobantes::all();
+        return $tcomprobante;
     }
     // insert
     public function store(Request $request)
     {
-        $nuevo_pmuebles = new PresentacionesMuebles();
+        $nuevo_tcomprobante = new TiposComprobantes();
         try {
-            $nuevo_pmuebles::create([
+            $nuevo_tcomprobante::create([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
@@ -32,16 +32,16 @@ class PresentacionesMueblesController extends Controller
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $firstPMuebles = PresentacionesMuebles::latest('uuid', 'asc')->first();
-        $data = json_encode($firstPMuebles);
+        $firstTComprobante = TiposComprobantes::latest('uuid', 'asc')->first();
+        $data = json_encode($firstTComprobante);
         return $data;
     }
     // update registro
     public function update(Request $request)
     {
-        $pmuebles = PresentacionesMuebles::find($request->uuid);
+        $tcomprobante = TiposComprobantes::find($request->uuid);
         try {
-            $pmuebles->update([
+            $tcomprobante->update([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
@@ -49,17 +49,17 @@ class PresentacionesMueblesController extends Controller
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
                 ]);        
-                $pmuebles->uuid;                   
+                $tcomprobante->uuid;                   
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $data = json_encode($pmuebles);
+        $data = json_encode($tcomprobante);
         return $data;
     }
     public function destroy(Request $request)
     {
-        $pmuebles = PresentacionesMuebles::find($request->uuid); 
-        $pmuebles->Delete();
-        return $pmuebles;
+        $tcomprobante = TiposComprobantes::find($request->uuid); 
+        $tcomprobante->Delete();
+        return $tcomprobante;
     }
 }

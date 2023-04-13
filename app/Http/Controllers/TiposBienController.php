@@ -11,16 +11,14 @@ use Throwable;
 
 class TiposBienController extends Controller
 {
-    // obtiene todos los TipoBien
     public function index()
     {
-        $tbien = TipoBien::all();
+        $tbien = TiposBien::all();
         return $tbien;
     }
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo TipoBien
         $nuevo_tbien = new TiposBien();
         try {
             $nuevo_tbien::create([
@@ -60,7 +58,6 @@ class TiposBienController extends Controller
     }
     public function destroy(Request $request)
     {
-        // Buscamos el empleado a eliminar 
         $tbien = TiposBien::find($request->uuid); 
         $tbien->Delete();
         return $tbien;

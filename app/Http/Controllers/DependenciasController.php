@@ -20,17 +20,14 @@ class DependenciasController extends Controller
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo Dependencias
         $nuevo_dependencia = new Dependencias();
         try {
             $nuevo_dependencia::create([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
-                'Descripcion' => $request->descripcion,
-                'Icono' => $request->icono,
-                'Path' => $request->path,
-                'Nivel' => $request->nivel,
-                'Ordenamiento' => $request->ordenamiento,
+                'Direccion' => $request->direccion,
+                'Telefono' => $request->telefono,
+
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor                
@@ -49,12 +46,7 @@ class DependenciasController extends Controller
         try {
             $dependencia->update([
                 'Cve' => $request->cve,
-                'Nombre' => $request->nombre,
-                'Descripcion' => $request->descripcion,
-                'Icono' => $request->icono,
-                'Path' => $request->path,
-                'Nivel' => $request->nivel,
-                'Ordenamiento' => $request->ordenamiento,                
+                'Nombre' => $request->nombre,             
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
@@ -68,7 +60,6 @@ class DependenciasController extends Controller
     }
     public function destroy(Request $request)
     {
-        // Buscamos el menu a eliminar 
         $dependencia = Dependencias::find($request->uuid); 
         $dependencia->Delete();
         return $dependencia;

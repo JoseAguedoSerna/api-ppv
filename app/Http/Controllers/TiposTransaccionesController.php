@@ -11,7 +11,6 @@ use Throwable;
 
 class TiposTransaccionesController extends Controller
 {
-    // obtiene todos los TiposTransacciones
     public function index()
     {
         $ttransaccion = TiposTransacciones::all();
@@ -20,7 +19,6 @@ class TiposTransaccionesController extends Controller
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo TiposTransacciones
         $nuevo_ttransaccion = new TiposTransacciones();
         try {
             $nuevo_ttransaccion::create([
@@ -59,8 +57,7 @@ class TiposTransaccionesController extends Controller
         return $data;
     }
     public function destroy(Request $request)
-    {
-        // Buscamos el empleado a eliminar 
+    { 
         $ttransaccion = TiposTransacciones::find($request->uuid); 
         $ttransaccion->Delete();
         return $ttransaccion;
