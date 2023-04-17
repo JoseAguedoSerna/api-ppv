@@ -23,14 +23,9 @@ class ResguardosController extends Controller
         $nuevo_resguardo = new Resguardos();
         try {
             $nuevo_resguardo::create([
-                'uuidTipoComprobante' => $request->uuidtipocomprobante,
-                'NoComprobante' => $request->nocomprobante,
-                'uuidProveedor' => $request->uuidproveedor,
-                'FechaFactura' => $request->fechafactura,
-                'FechaRecepcion' => $request->fecharecepcion,
-                'Descripcion' => $request->descripcion,
-                'uuidTipoAdquisicion' => $request->uuidtipoadquisicion,
-                'AñoCompra' => $request->añocompra,
+                'IdResguardo' => $request->idresguardo,
+                'uuidEmpleado' => $request->uuidempleado,
+                'uuidEstatusResguardo' => $request->uuidestatusresguardo,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor                
@@ -48,14 +43,9 @@ class ResguardosController extends Controller
         $resguardo = Resguardos::find($request->uuid);
         try {
             $resguardo->update([
-                'uuidTipoComprobante' => $request->uuidtipocomprobante,
-                'NoComprobante' => $request->nocomprobante,
-                'uuidProveedor' => $request->uuidproveedor,
-                'FechaFactura' => $request->fechafactura,
-                'FechaRecepcion' => $request->fecharecepcion,
-                'Descripcion' => $request->descripcion,
-                'uuidTipoAdquisicion' => $request->uuidtipoadquisicion,
-                'AñoCompra' => $request->añocompra,              
+                'IdResguardo' => $request->idresguardo,
+                'uuidEmpleado' => $request->uuidempleado,
+                'uuidEstatusResguardo' => $request->uuidestatusresguardo,             
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor

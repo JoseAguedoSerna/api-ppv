@@ -3,25 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\TiposComprobantes;
+use App\Models\EstatusResguardo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Throwable;
 
-class TiposComprobantesController extends Controller
+class EstatusResguardoController extends Controller
 {
     public function index()
     {
-        $tcomprobante = TiposComprobantes::all();
-        return $tcomprobante;
+        $estatusresguardo = EstatusResguardo::all();
+        return $estatusresguardo;
     }
     // insert
     public function store(Request $request)
     {
-        $nuevo_tcomprobante = new TiposComprobantes();
+        $nuevo_estatusresguardo = new EstatusResguardo();
         try {
-            $nuevo_tcomprobante::create([
+            $nuevo_estatusresguardo::create([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
@@ -32,16 +32,16 @@ class TiposComprobantesController extends Controller
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $firstTComprobante = TiposComprobantes::latest('uuid', 'asc')->first();
-        $data = json_encode($firstTComprobante);
+        $firstEstatusResguardo = EstatusResguardo::latest('uuid', 'asc')->first();
+        $data = json_encode($firstEstatusResguardo);
         return $data;
     }
     // update registro
     public function update(Request $request)
     {
-        $tcomprobante = TiposComprobantes::find($request->uuid);
+        $estatusresguardo = EstatusResguardo::find($request->uuid);
         try {
-            $tcomprobante->update([
+            $estatusresguardo->update([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
@@ -49,17 +49,17 @@ class TiposComprobantesController extends Controller
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
                 ]);        
-                $tcomprobante->uuid;                   
+                $estatusresguardo->uuid;                   
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $data = json_encode($tcomprobante);
+        $data = json_encode($estatusresguardo);
         return $data;
     }
     public function destroy(Request $request)
     {
-        $tcomprobante = TiposComprobantes::find($request->uuid); 
-        $tcomprobante->Delete();
-        return $tcomprobante;
+        $estatusresguardo = EstatusResguardo::find($request->uuid); 
+        $estatusresguardo->Delete();
+        return $estatusresguardo;
     }
 }
