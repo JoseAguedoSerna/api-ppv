@@ -3,27 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\TipoProcesos;
+use App\Models\TiposComprobantes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Throwable;
 
-class TipoProcesosController extends Controller
+class TiposComprobantesController extends Controller
 {
-    // obtiene todos los TipoProcesos
     public function index()
     {
-        $tproceso = TipoProcesos::all();
-        return $tproceso;
+        $tcomprobante = TiposComprobantes::all();
+        return $tcomprobante;
     }
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo TipoProcesos
-        $nuevo_tproceso = new TipoProcesos();
+        $nuevo_tcomprobante = new TiposComprobantes();
         try {
-            $nuevo_tproceso::create([
+            $nuevo_tcomprobante::create([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
@@ -34,16 +32,16 @@ class TipoProcesosController extends Controller
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $firstTProceso = TipoProcesos::latest('uuid', 'asc')->first();
-        $data = json_encode($firstTProceso);
+        $firstTComprobante = TiposComprobantes::latest('uuid', 'asc')->first();
+        $data = json_encode($firstTComprobante);
         return $data;
     }
     // update registro
     public function update(Request $request)
     {
-        $tproceso = TipoProcesos::find($request->uuid);
+        $tcomprobante = TiposComprobantes::find($request->uuid);
         try {
-            $tproceso->update([
+            $tcomprobante->update([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
@@ -51,18 +49,17 @@ class TipoProcesosController extends Controller
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
                 ]);        
-                $tproceso->uuid;                   
+                $tcomprobante->uuid;                   
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $data = json_encode($tproceso);
+        $data = json_encode($tcomprobante);
         return $data;
     }
     public function destroy(Request $request)
     {
-        // Buscamos el empleado a eliminar 
-        $tproceso = TipoProcesos::find($request->uuid); 
-        $tproceso->Delete();
-        return $tproceso;
+        $tcomprobante = TiposComprobantes::find($request->uuid); 
+        $tcomprobante->Delete();
+        return $tcomprobante;
     }
 }

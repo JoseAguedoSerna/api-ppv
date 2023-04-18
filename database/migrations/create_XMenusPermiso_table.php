@@ -13,15 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('MenusPermiso', function (Blueprint $table) {
-            $table->uuid('uuid')->primary();
+        if (!Schema::hasTable('MenusPermiso')) {
+            Schema::create('MenusPermiso', function (Blueprint $table) {
+                $table->uuid('uuid')->primary();
 
-            $table->uuid('uuidMenu');
-            $table->foreign('uuidMenu')->references('uuid')->on('Menus')->onDelete('cascade');
-            
-            $table->uuid('uuidPermiso');
-            $table->foreign('uuidPermiso')->references('uuid')->on('Permisos')->onDelete('cascade');
-        });
+                $table->uuid('uuidMenu');
+                $table->foreign('uuidMenu')->references('uuid')->on('Menus')->onDelete('cascade');
+                
+                $table->uuid('uuidPermiso');
+                $table->foreign('uuidPermiso')->references('uuid')->on('Permisos')->onDelete('cascade');
+            });
+        }
     }
     /**
      * Reverse the migrations.

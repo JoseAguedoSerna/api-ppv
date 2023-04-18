@@ -3,29 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\TiposAdquisicion;
+use App\Models\ResguardosDet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Throwable;
 
-class TiposAdquisicionController extends Controller
+class ResguardosDetController extends Controller
 {
     // obtiene todos los registros
     public function index(Request $request)
     {
-        $tadquisicion = TiposAdquisicion::all();
-        return $tadquisicion;
+        $resguardodet = ResguardosDet::all();
+        return $resguardodet;
     }   
     // insert
     public function store(Request $request)
     {
-        $nuevo_tadquisicion = new TiposAdquisicion();
+        $nuevo_resguardodet = new ResguardosDet();
         try {
-            $nuevo_tadquisicion::create([
-                'Cve' => $request->cve,
-                'Nombre' => $request->nombre,
-                'Descripcion' => $request->descripcion,
+            $nuevo_resguardodet::create([
+                'uuidResguardo' => $request->uuidresguardo,
+                'uuidArticulo' => $request->uuidarticulo,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor                
@@ -33,35 +32,34 @@ class TiposAdquisicionController extends Controller
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $firstTAdquisicion = TiposAdquisicion::latest('uuid', 'asc')->first();
-        $data = json_encode($firstTAdquisicion);
+        $firstResguardoDet = ResguardosDet::latest('uuid', 'asc')->first();
+        $data = json_encode($firstResguardoDet);
         return $data;
     }
     // update registro
     public function update(Request $request)
     {
-        $tadquisicion = TiposAdquisicion::find($request->uuid);
+        $resguardodet = ResguardosDet::find($request->uuid);
         try {
-            $tadquisicion->update([
-                'Cve' => $request->cve,
-                'Nombre' => $request->nombre,
-                'Descripcion' => $request->descripcion,               
+            $resguardodet->update([
+                'uuidResguardo' => $request->uuidresguardo,
+                'uuidArticulo' => $request->uuidarticulo,             
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
                 ]);        
-                $tadquisicion->uuid;                   
+                $resguardodet->uuid;                   
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $data = json_encode($tadquisicion);
+        $data = json_encode($resguardodet);
         return $data;
     }
     // Delete
     public function destroy(Request $request)
     {
-        $tadquisicion = TiposAdquisicion::find($request->uuid); 
-        $tadquisicion->Delete();
-        return $tadquisicion;
+        $resguardodet = ResguardosDet::find($request->uuid); 
+        $resguardodet->Delete();
+        return $resguardodet;
     }
 }

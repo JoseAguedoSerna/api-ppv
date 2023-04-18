@@ -7,46 +7,44 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\JwtSeguridad;
 
 use App\Http\Controllers\{
-    #menus
-    MenusController,
+    #catalogos
     DependenciasController,
     EmpleadosController,
     EntidadesFederativasController,
     MarcasController,
+    MenusController,
     MunicipiosController,
     NivelReportesController,
     NotificacionesController,
     PerfilesController,
     PermisosController,
-    PresentacionMueblesController,
+    PresentacionesMueblesController,
     ProcesosController,
     ProveedoresController,
     PuestosController,
     ReportesController,
     RolesController,
-    TipoBienController,
-    TipoClasificacionController,
-    TipoDependenciasController,
-    TipoProveedoresController,
-    TipoProcesosController,
-    TiposReportesController,
-    TiposUsuariosController,
-    TipoTransaccionesController,
-    TransaccionesController,
-    UsuariosController,
-    #Muebles
-    ActivosController,
-    ArticulosController,
-    MarcasMueblesController,
-    ModelosController,
-    MotivosBajaController,
-    PresentacionesMueblesController,
-    ResguardosController,
-    ResguardoDetController,
-    TiposAdquisicionController,
     TiposBienController,
     TiposClasificacionController,
-    TiposComprobanteController
+    TiposDependenciasController,
+    TiposProveedoresController,
+    TiposReportesController,
+    TiposProcesosController,
+    TiposUsuariosController,
+    TiposTransaccionesController,
+    TransaccionesController,
+    UsuariosController,
+    ModelosController,
+    MotivosBajaController,
+    TiposAdquisicionController,
+    TiposComprobantesController,
+    ActivosController,
+    EstatusResguardoController,
+    #Muebles
+    ArticulosController,
+    ResguardosDetController,
+    ResguardosController,
+
 };
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -114,11 +112,11 @@ Route::middleware(JwtSeguridad::class)->group(function () {
         Route::post('guardapermisos',[PermisosController::class,'store']);
         Route::post('actualizapermisos',[PermisosController::class,'update']);
         Route::post('eliminapermisos',[PermisosController::class,'destroy']);
-        #PresMuebles
-        Route::get('obtienepresmuebles',[PresentacionMueblesController::class,'index']);
-        Route::post('guardapresmuebles',[PresentacionMueblesController::class,'store']);
-        Route::post('actualizapresmuebles',[PresentacionMueblesController::class,'update']);
-        Route::post('eliminapresmuebles',[PresentacionMueblesController::class,'destroy']);
+        #PresentacionesMuebles
+        Route::get('obtienepresentacionesmuebles',[PresentacionesMueblesController::class,'index']);
+        Route::post('guardapresentacionesmuebles',[PresentacionesMueblesController::class,'store']);
+        Route::post('actualizapresentacionesmuebles',[PresentacionesMueblesController::class,'update']);
+        Route::post('eliminapresentacionesmuebles',[PresentacionesMueblesController::class,'destroy']);
         #Procesos
         Route::get('obtieneprocesos',[ProcesosController::class,'index']);
         Route::post('guardaprocesos',[ProcesosController::class,'store']);
@@ -144,104 +142,6 @@ Route::middleware(JwtSeguridad::class)->group(function () {
         Route::post('guardaroles',[RolesController::class,'store']);
         Route::post('actualizaroles',[RolesController::class,'update']);
         Route::post('eliminaroles',[RolesController::class,'destroy']);
-        #TipoBien
-        Route::get('obtienetipobien',[TipoBienController::class,'index']);
-        Route::post('guardatipobien',[TipoBienController::class,'store']);
-        Route::post('actualizatipobien',[TipoBienController::class,'update']);
-        Route::post('eliminatipobien',[TipoBienController::class,'destroy']);
-        #TipoClasificacion
-        Route::get('obtienetipoclas',[TipoClasificacionController::class,'index']);
-        Route::post('guardatipoclas',[TipoClasificacionController::class,'store']);
-        Route::post('actualizatipoclas',[TipoClasificacionController::class,'update']);
-        Route::post('eliminatipoclas',[TipoClasificacionController::class,'destroy']);
-        #TipoDependencias
-        Route::get('obtienetipodep',[TipoDependenciasController::class,'index']);
-        Route::post('guardatipodep',[TipoDependenciasController::class,'store']);
-        Route::post('actualizatipodep',[TipoDependenciasController::class,'update']);
-        Route::post('eliminatipodep',[TipoDependenciasController::class,'destroy']);
-        #TipoProveedores
-        Route::get('obtienetipoprov',[TipoProveedoresController::class,'index']);
-        Route::post('guardatipoprov',[TipoProveedoresController::class,'store']);
-        Route::post('actualizatipoprov',[TipoProveedoresController::class,'update']);
-        Route::post('eliminatipoprov',[TipoProveedoresController::class,'destroy']);
-        #TiposProcesos
-        Route::get('obtienetipoproc',[TipoProcesosController::class,'index']);
-        Route::post('guardatipoproc',[TipoProcesosController::class,'store']);
-        Route::post('actualizatipoproc',[TipoProcesosController::class,'update']);
-        Route::post('eliminatipoproc',[TipoProcesosController::class,'destroy']);
-        #TiposReportes
-        Route::get('obtienetiporep',[TiposReportesController::class,'index']);
-        Route::post('guardatiporep',[TiposReportesController::class,'store']);
-        Route::post('actualizatiporep',[TiposReportesController::class,'update']);
-        Route::post('eliminatiporep',[TiposReportesController::class,'destroy']);
-        #TiposUsuarios
-        Route::get('obtienetiposusr',[TiposUsuariosController::class,'index']);
-        Route::post('guardatiposusr',[TiposUsuariosController::class,'store']);
-        Route::post('actualizatiposusr',[TiposUsuariosController::class,'update']);
-        Route::post('eliminatiposusr',[TiposUsuariosController::class,'destroy']);
-        #TipoTransacciones
-        Route::get('obtienetipotran',[TipoTransaccionesController::class,'index']);
-        Route::post('guardatipotran',[TipoTransaccionesController::class,'store']);
-        Route::post('actualizatipotran',[TipoTransaccionesController::class,'update']);
-        Route::post('eliminatipotran',[TipoTransaccionesController::class,'destroy']);
-        #Transacciones
-        Route::get('obtienetran',[TransaccionesController::class,'index']);
-        Route::post('guardatran',[TransaccionesController::class,'store']);
-        Route::post('actualizatran',[TransaccionesController::class,'update']);
-        Route::post('eliminatran',[TransaccionesController::class,'destroy']);
-        #Usuarios
-        Route::get('obtieneusr',[UsuariosController::class,'index']);
-        Route::post('guardausr',[UsuariosController::class,'store']);
-        Route::post('actualizausr',[UsuariosController::class,'update']);
-        Route::post('eliminausr',[UsuariosController::class,'destroy']);
-    });
-
-    Route::prefix('muebles')->group(function (){
-        #Activos
-        Route::get('obtieneactivos',[ActivosController::class,'index']);
-        Route::post('guardaactivos',[ActivosController::class,'store']);
-        Route::post('actualizaactivos',[ActivosController::class,'update']);
-        Route::post('eliminaactivos',[ActivosController::class,'destroy']);
-        #Articulos
-        Route::get('obtienearticulos',[ArticulosController::class,'index']);
-        Route::post('guardaarticulos',[ArticulosController::class,'store']);
-        Route::post('actualizaarticulos',[ArticulosController::class,'update']);
-        Route::post('eliminaarticulos',[ArticulosController::class,'destroy']);
-        #MarcasMuebles
-        Route::get('obtienemarcasmuebles',[MarcasMueblesController::class,'index']);
-        Route::post('guardamarcasmuebles',[MarcasMueblesController::class,'store']);
-        Route::post('actualizamarcasmuebles',[MarcasMueblesController::class,'update']);
-        Route::post('eliminamarcasmuebles',[MarcasMueblesController::class,'destroy']);
-        #Modelos
-        Route::get('obtienemodelos',[ModelosController::class,'index']);
-        Route::post('guardamodelos',[ModelosController::class,'store']);
-        Route::post('actualizamodelos',[ModelosController::class,'update']);
-        Route::post('eliminamodelos',[ModelosController::class,'destroy']);
-        #MotivosBaja
-        Route::get('obtienemotivosbaja',[MotivosBajaController::class,'index']);
-        Route::post('guardamotivosbaja',[MotivosBajaController::class,'store']);
-        Route::post('actualizamotivosbaja',[MotivosBajaController::class,'update']);
-        Route::post('eliminamotivosbaja',[MotivosBajaController::class,'destroy']);
-        #PresentacionesMuebles
-        Route::get('obtienepresentacionesmuebles',[PresentacionesMueblesController::class,'index']);
-        Route::post('guardapresentacionesmuebles',[PresentacionesMueblesController::class,'store']);
-        Route::post('actualizapresentacionesmuebles',[PresentacionesMueblesController::class,'update']);
-        Route::post('eliminapresentacionesmuebles',[PresentacionesMueblesController::class,'destroy']);
-        #Resguardos
-        Route::get('obtieneresguardos',[ResguardosController::class,'index']);
-        Route::post('guardaresguardos',[ResguardosController::class,'store']);
-        Route::post('actualizaresguardos',[ResguardosController::class,'update']);
-        Route::post('eliminaresguardos',[ResguardosController::class,'destroy']);
-        #ResguardoDet
-        Route::get('obtieneresguardodet',[ResguardoDetController::class,'index']);
-        Route::post('guardaresguardodet',[ResguardoDetController::class,'store']);
-        Route::post('actualizaresguardodet',[ResguardoDetController::class,'update']);
-        Route::post('eliminaresguardodet',[ResguardoDetController::class,'destroy']);
-        #TiposAdquisicion
-        Route::get('obtienetiposadquisicion',[TiposAdquisicionController::class,'index']);
-        Route::post('guardatiposadquisicion',[TiposAdquisicionController::class,'store']);
-        Route::post('actualizatiposadquisicion',[TiposAdquisicionController::class,'update']);
-        Route::post('eliminatiposadquisicion',[TiposAdquisicionController::class,'destroy']);
         #TiposBien
         Route::get('obtienetiposbien',[TiposBienController::class,'index']);
         Route::post('guardatiposbien',[TiposBienController::class,'store']);
@@ -252,13 +152,93 @@ Route::middleware(JwtSeguridad::class)->group(function () {
         Route::post('guardatiposclasificacion',[TiposClasificacionController::class,'store']);
         Route::post('actualizatiposclasificacion',[TiposClasificacionController::class,'update']);
         Route::post('eliminatiposclasificacion',[TiposClasificacionController::class,'destroy']);
-        #TiposComprobante
-        Route::get('obtienetiposcomprobante',[TiposComprobanteController::class,'index']);
-        Route::post('guardatiposcomprobante',[TiposComprobanteController::class,'store']);
-        Route::post('actualizatiposcomprobante',[TiposComprobanteController::class,'update']);
-        Route::post('eliminatiposcomprobante',[TiposComprobanteController::class,'destroy']);
+        #TiposDependencias
+        Route::get('obtienetiposdependencias',[TiposDependenciasController::class,'index']);
+        Route::post('guardatiposdependencias',[TiposDependenciasController::class,'store']);
+        Route::post('actualizatiposdependencias',[TiposDependenciasController::class,'update']);
+        Route::post('eliminatiposdependencias',[TiposDependenciasController::class,'destroy']);
+        #TiposProveedores
+        Route::get('obtienetiposproveedores',[TiposProveedoresController::class,'index']);
+        Route::post('guardatiposproveedores',[TiposProveedoresController::class,'store']);
+        Route::post('actualizatiposproveedores',[TiposProveedoresController::class,'update']);
+        Route::post('eliminatiposproveedores',[TiposProveedoresController::class,'destroy']);
+        #TiposProcesos
+        Route::get('obtienetiposprocesos',[TiposProcesosController::class,'index']);
+        Route::post('guardatiposprocesos',[TiposProcesosController::class,'store']);
+        Route::post('actualizatiposprocesos',[TiposProcesosController::class,'update']);
+        Route::post('eliminatiposprocesos',[TiposProcesosController::class,'destroy']);
+        #TiposReportes
+        Route::get('obtienetiposreportes',[TiposReportesController::class,'index']);
+        Route::post('guardatiposreportes',[TiposReportesController::class,'store']);
+        Route::post('actualizatiposreportes',[TiposReportesController::class,'update']);
+        Route::post('eliminatiposreportes',[TiposReportesController::class,'destroy']);
+        #TiposUsuarios
+        Route::get('obtienetiposusuarios',[TiposUsuariosController::class,'index']);
+        Route::post('guardatiposusuarios',[TiposUsuariosController::class,'store']);
+        Route::post('actualizatiposusuarios',[TiposUsuariosController::class,'update']);
+        Route::post('eliminatiposusuarios',[TiposUsuariosController::class,'destroy']);
+        #TiposTransacciones
+        Route::get('obtienetipostransacciones',[TiposTransaccionesController::class,'index']);
+        Route::post('guardatipostransacciones',[TiposTransaccionesController::class,'store']);
+        Route::post('actualizatipostransacciones',[TiposTransaccionesController::class,'update']);
+        Route::post('eliminatipostransacciones',[TiposTransaccionesController::class,'destroy']);
+        #Transacciones
+        Route::get('obtienetransacciones',[TransaccionesController::class,'index']);
+        Route::post('guardatransacciones',[TransaccionesController::class,'store']);
+        Route::post('actualizatransacciones',[TransaccionesController::class,'update']);
+        Route::post('eliminatransacciones',[TransaccionesController::class,'destroy']);
+        #Usuarios
+        Route::get('obtieneusuarios',[UsuariosController::class,'index']);
+        Route::post('guardausuarios',[UsuariosController::class,'store']);
+        Route::post('actualizausuarios',[UsuariosController::class,'update']);
+        Route::post('eliminausuarios',[UsuariosController::class,'destroy']);
+        #Modelos
+        Route::get('obtienemodelos',[ModelosController::class,'index']);
+        Route::post('guardamodelos',[ModelosController::class,'store']);
+        Route::post('actualizamodelos',[ModelosController::class,'update']);
+        Route::post('eliminamodelos',[ModelosController::class,'destroy']);
+        #MotivosBaja
+        Route::get('obtienemotivosbaja',[MotivosBajaController::class,'index']);
+        Route::post('guardamotivosbaja',[MotivosBajaController::class,'store']);
+        Route::post('actualizamotivosbaja',[MotivosBajaController::class,'update']);
+        Route::post('eliminamotivosbaja',[MotivosBajaController::class,'destroy']);
+        #TiposAdquisicion
+        Route::get('obtienetiposadquisicion',[TiposAdquisicionController::class,'index']);
+        Route::post('guardatiposadquisicion',[TiposAdquisicionController::class,'store']);
+        Route::post('actualizatiposadquisicion',[TiposAdquisicionController::class,'update']);
+        Route::post('eliminatiposadquisicion',[TiposAdquisicionController::class,'destroy']);
+        #TiposComprobantes
+        Route::get('obtienetiposcomprobantes',[TiposComprobantesController::class,'index']);
+        Route::post('guardatiposcomprobantes',[TiposComprobantesController::class,'store']);
+        Route::post('actualizatiposcomprobantes',[TiposComprobantesController::class,'update']);
+        Route::post('eliminatiposcomprobantes',[TiposComprobantesController::class,'destroy']);
+        #Activos
+        Route::get('obtieneactivos',[ActivosController::class,'index']);
+        Route::post('guardaactivos',[ActivosController::class,'store']);
+        Route::post('actualizaactivos',[ActivosController::class,'update']);
+        Route::post('eliminaactivos',[ActivosController::class,'destroy']);
+        #EstatusResguardo
+        Route::get('obtieneestatusresguardo',[EstatusResguardoController::class,'index']);
+        Route::post('guardaestatusresguardo',[EstatusResguardoController::class,'store']);
+        Route::post('actualizaestatusresguardo',[EstatusResguardoController::class,'update']);
+        Route::post('eliminaestatusresguardo',[EstatusResguardoController::class,'destroy']);        
     });
 
-
-
+    Route::prefix('muebles')->group(function (){
+        #Articulos
+        Route::get('obtienearticulos',[ArticulosController::class,'index']);
+        Route::post('guardaarticulos',[ArticulosController::class,'store']);
+        Route::post('actualizaarticulos',[ArticulosController::class,'update']);
+        Route::post('eliminaarticulos',[ArticulosController::class,'destroy']);
+        #Resguardos
+        Route::get('obtieneresguardos',[ResguardosController::class,'index']);
+        Route::post('guardaresguardos',[ResguardosController::class,'store']);
+        Route::post('actualizaresguardos',[ResguardosController::class,'update']);
+        Route::post('eliminaresguardos',[ResguardosController::class,'destroy']);
+        #ResguardoDet
+        Route::get('obtieneresguardosdet',[ResguardosDetController::class,'index']);
+        Route::post('guardaresguardosdet',[ResguardosDetController::class,'store']);
+        Route::post('actualizaresguardosdet',[ResguardosDetController::class,'update']);
+        Route::post('eliminaresguardosdet',[ResguardosDetController::class,'destroy']);
+    });
 });

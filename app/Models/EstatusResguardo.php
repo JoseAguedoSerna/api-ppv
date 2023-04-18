@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
-class TipoProveedores extends Model
+class EstatusResguardo extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
-    protected $table = "TipoProveedores"; #Se indica el nombre de la tabla    
+    protected $table = "EstatusResguardo"; #Se indica el nombre de la tabla    
     protected $primaryKey = "uuid"; #Definimos campo uuis como primary key"    
     public $incrementing = false;  #Quitamos que sea autoincremental
     protected $fillable = ['Cve','Nombre','Descripcion',

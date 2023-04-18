@@ -13,13 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('RolesMenus', function (Blueprint $table) {
-            $table->uuid('uuid')->primary();
-            $table->uuid('uuidRol');
-            $table->foreign('uuidRol')->references('uuid')->on('Roles')->onDelete('cascade');
-            $table->uuid('uuidMenu');
-            $table->foreign('uuidMenu')->references('uuid')->on('Menus')->onDelete('cascade');            
-        });
+        if (!Schema::hasTable('RolesMenus')) {
+            Schema::create('RolesMenus', function (Blueprint $table) {
+                $table->uuid('uuid')->primary();
+                $table->uuid('uuidRol');
+                $table->foreign('uuidRol')->references('uuid')->on('Roles')->onDelete('cascade');
+                $table->uuid('uuidMenu');
+                $table->foreign('uuidMenu')->references('uuid')->on('Menus')->onDelete('cascade');            
+            });
+        }
     }
     /**
      * Reverse the migrations.

@@ -11,7 +11,6 @@ use Throwable;
 
 class PermisosController extends Controller
 {
-    // obtiene todos los Permisos
     public function index()
     {
         $permiso = Permisos::all();
@@ -20,7 +19,6 @@ class PermisosController extends Controller
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo Permisos
         $nuevo_permiso = new Permisos();
         try {
             $nuevo_permiso::create([
@@ -60,7 +58,6 @@ class PermisosController extends Controller
     }
     public function destroy(Request $request)
     {
-        // Buscamos el empleado a eliminar 
         $permiso = Permisos::find($request->uuid); 
         $permiso->Delete();
         return $permiso;

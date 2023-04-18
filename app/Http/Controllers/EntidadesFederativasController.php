@@ -11,7 +11,6 @@ use Throwable;
 
 class EntidadesFederativasController extends Controller
 {
-    // obtiene todos los EntFederativas
     public function index()
     {
         $entfederativas = EntidadesFederativas::all();
@@ -20,7 +19,6 @@ class EntidadesFederativasController extends Controller
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo EntFederativas
         $nuevo_entfederativas = new EntidadesFederativas();
         try {
             $nuevo_entfederativas::create([
@@ -58,7 +56,6 @@ class EntidadesFederativasController extends Controller
     }
     public function destroy(Request $request)
     {
-        // Buscamos el emplearegistrodo a eliminar 
         $entfederativas = EntidadesFederativas::find($request->uuid); 
         $entfederativas->Delete();
         return $entfederativas;

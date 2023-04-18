@@ -11,7 +11,6 @@ use Throwable;
 
 class RolesController extends Controller
 {
-    // obtiene todos los Roles
     public function index()
     {
         $rol = Roles::all();
@@ -20,7 +19,6 @@ class RolesController extends Controller
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo Roles
         $nuevo_rol = new Roles();
         try {
             $nuevo_rol::create([
@@ -60,7 +58,6 @@ class RolesController extends Controller
     }
     public function destroy(Request $request)
     {
-        // Buscamos el empleado a eliminar 
         $rol = Roles::find($request->uuid); 
         $rol->Delete();
         return $rol;

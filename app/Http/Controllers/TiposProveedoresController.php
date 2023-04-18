@@ -3,25 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\TipoProveedores;
+use App\Models\TiposProveedores;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Throwable;
 
-class TipoProveedoresController extends Controller
+class TiposProveedoresController extends Controller
 {
-    // obtiene todos los TipoProveedores
     public function index()
     {
-        $tproveedor = TipoProveedores::all();
+        $tproveedor = TiposProveedores::all();
         return $tproveedor;
     }
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo TipoProveedores
-        $nuevo_tproveedor = new TipoProveedores();
+        $nuevo_tproveedor = new TiposProveedores();
         try {
             $nuevo_tproveedor::create([
                 'Cve' => $request->cve,
@@ -34,14 +32,14 @@ class TipoProveedoresController extends Controller
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $firstTProveedor = TipoProveedores::latest('uuid', 'asc')->first();
+        $firstTProveedor = TiposProveedores::latest('uuid', 'asc')->first();
         $data = json_encode($firstTProveedor);
         return $data;
     }
     // update registro
     public function update(Request $request)
     {
-        $tproveedor = TipoProveedores::find($request->uuid);
+        $tproveedor = TiposProveedores::find($request->uuid);
         try {
             $tproveedor->update([
                 'Cve' => $request->cve,
@@ -59,9 +57,8 @@ class TipoProveedoresController extends Controller
         return $data;
     }
     public function destroy(Request $request)
-    {
-        // Buscamos el empleado a eliminar 
-        $tproveedor = TipoProveedores::find($request->uuid); 
+    { 
+        $tproveedor = TiposProveedores::find($request->uuid); 
         $tproveedor->Delete();
         return $tproveedor;
     }

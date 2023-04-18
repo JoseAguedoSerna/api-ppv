@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('TiposComprobantes')) {
-            Schema::create('TiposComprobantes', function (Blueprint $table) {
-                $table->uuid('uuid')->primary(); 
-
-                $table->char('Cve',10)->unique();                    
+        if (!Schema::hasTable('TiposTransacciones')) {
+            Schema::create('TiposTransacciones', function (Blueprint $table) {
+                $table->uuid('uuid')->primary();
+                
+                $table->char('Cve',10)->unique();
                 $table->string('Nombre',256);
                 $table->string('Descripcion',256);
 
@@ -25,7 +25,7 @@ return new class extends Migration
                 $table->char('ModificadoPor', 36)->nullable();
                 $table->char('EliminadoPor', 36)->nullable();
                 $table->timestamps();
-                $table->softDeletes();            
+                $table->softDeletes();     
             });
         }
     }
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('TiposComprobantes');
+        Schema::dropIfExists('TiposTransacciones');
     }
 };

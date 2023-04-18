@@ -3,27 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\TipoTransacciones;
+use App\Models\TiposDependencias;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Throwable;
 
-class TipoTransaccionesController extends Controller
+class TiposDependenciasController extends Controller
 {
-    // obtiene todos los TipoTransacciones
     public function index()
     {
-        $ttransaccion = TipoTransacciones::all();
-        return $ttransaccion;
+        $tdependencias = TiposDependencias::all();
+        return $tdependencias;
     }
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo TipoTransacciones
-        $nuevo_ttransaccion = new TipoTransacciones();
+        $nuevo_tdependencias = new TiposDependencias();
         try {
-            $nuevo_ttransaccion::create([
+            $nuevo_tdependencias::create([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
@@ -32,18 +30,18 @@ class TipoTransaccionesController extends Controller
                 'EliminadoPor' => $request->eliminadopor                
                 ]);
         } catch (Throwable $e) {
-            abort(404, $e->getMessage());
+            abort(403, $e->getMessage());
         }
-        $firstTTransaccion = TipoTransacciones::latest('uuid', 'asc')->first();
-        $data = json_encode($firstTTransaccion);
+        $firstTDependencias = TiposDependencias::latest('uuid', 'asc')->first();
+        $data = json_encode($firstTDependencias);
         return $data;
     }
     // update registro
     public function update(Request $request)
     {
-        $ttransaccion = TipoTransacciones::find($request->uuid);
+        $tdependencias = TiposDependencias::find($request->uuid);
         try {
-            $ttransaccion->update([
+            $tdependencias->update([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
@@ -51,18 +49,17 @@ class TipoTransaccionesController extends Controller
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
                 ]);        
-                $ttransaccion->uuid;                   
+                $tdependencias->uuid;                   
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $data = json_encode($ttransaccion);
+        $data = json_encode($tdependencias);
         return $data;
     }
     public function destroy(Request $request)
     {
-        // Buscamos el empleado a eliminar 
-        $ttransaccion = TipoTransacciones::find($request->uuid); 
-        $ttransaccion->Delete();
-        return $ttransaccion;
+        $tdependencias = TiposDependencias::find($request->uuid); 
+        $tdependencias->Delete();
+        return $tdependencias;
     }
 }

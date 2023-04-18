@@ -13,13 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('PerfieslRoles', function (Blueprint $table) {
-            $table->uuid('uuid')->primary();
-            $table->uuid('uuidPerfil');
-            $table->foreign('uuidPerfil')->references('uuid')->on('Perfiles')->onDelete('cascade');
-            $table->uuid('uuidRol');
-            $table->foreign('uuidRol')->references('uuid')->on('Roles')->onDelete('cascade');
-        });
+        if (!Schema::hasTable('PerfilesRoles')) {
+            Schema::create('PerfilesRoles', function (Blueprint $table) {
+                $table->uuid('uuid')->primary();
+                $table->uuid('uuidPerfil');
+                $table->foreign('uuidPerfil')->references('uuid')->on('Perfiles')->onDelete('cascade');
+                $table->uuid('uuidRol');
+                $table->foreign('uuidRol')->references('uuid')->on('Roles')->onDelete('cascade');
+            });
+        }
     }
     /**
      * Reverse the migrations.
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('PerfieslRoles');
+        Schema::dropIfExists('PerfilesRoles');
     }
 };

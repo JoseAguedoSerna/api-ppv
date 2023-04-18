@@ -11,7 +11,6 @@ use Throwable;
 
 class MunicipiosController extends Controller
 {
-    // obtiene todos los Municipios
     public function index()
     {
         $municipio = Municipios::all();
@@ -20,7 +19,6 @@ class MunicipiosController extends Controller
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo Municipios
         $nuevo_municipio = new Municipios();
         try {
             $nuevo_municipio::create([
@@ -58,7 +56,6 @@ class MunicipiosController extends Controller
     }
     public function destroy(Request $request)
     {
-        // Buscamos el empleado a eliminar 
         $municipio = Municipios::find($request->uuid); 
         $municipio->Delete();
         return $municipio;

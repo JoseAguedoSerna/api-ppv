@@ -13,19 +13,21 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('Proveedores', function (Blueprint $table) {
-            $table->uuid('uuid')->primary();
-            
-            $table->char('Cve',10)->unique();
-            $table->string('Nombre',256);
-            $table->string('Descripcion',256);
+        if (!Schema::hasTable('Proveedores')) {
+            Schema::create('Proveedores', function (Blueprint $table) {
+                $table->uuid('uuid')->primary();
+                
+                $table->char('Cve',10)->unique();
+                $table->string('Nombre',256);
+                $table->string('Descripcion',256);
 
-            $table->char('CreadoPor', 36)->nullable();
-            $table->char('ModificadoPor', 36)->nullable();
-            $table->char('EliminadoPor', 36)->nullable();
-            $table->timestamps();
-            $table->softDeletes();     
-        });
+                $table->char('CreadoPor', 36)->nullable();
+                $table->char('ModificadoPor', 36)->nullable();
+                $table->char('EliminadoPor', 36)->nullable();
+                $table->timestamps();
+                $table->softDeletes();     
+            });
+        }
     }
     /**
      * Reverse the migrations.

@@ -11,7 +11,6 @@ use Throwable;
 
 class ActivosController extends Controller
 {
-    // obtiene todos los EntFederativas
     public function index()
     {
         $activo = Activos::all();
@@ -20,12 +19,12 @@ class ActivosController extends Controller
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo EntFederativas
         $nuevo_activo = new Activos();
         try {
             $nuevo_activo::create([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
+                'Descripcion' => $request->descripcion,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor                
@@ -44,7 +43,8 @@ class ActivosController extends Controller
         try {
             $activo->update([
                 'Cve' => $request->cve,
-                'Nombre' => $request->nombre,               
+                'Nombre' => $request->nombre,
+                'Descripcion' => $request->descripcion,               
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
@@ -58,7 +58,6 @@ class ActivosController extends Controller
     }
     public function destroy(Request $request)
     {
-        // Buscamos el emplearegistrodo a eliminar 
         $activo = Activos::find($request->uuid); 
         $activo->Delete();
         return $activo;

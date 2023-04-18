@@ -11,7 +11,6 @@ use Throwable;
 
 class MarcasController extends Controller
 {
-    // obtiene todos los Marcas
     public function index()
     {
         $marca = Marcas::all();
@@ -20,7 +19,6 @@ class MarcasController extends Controller
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo Marcas
         $nuevo_marca = new Marcas();
         try {
             $nuevo_marca::create([
@@ -60,7 +58,6 @@ class MarcasController extends Controller
     }
     public function destroy(Request $request)
     {
-        // Buscamos el empleado a eliminar 
         $marca = Marcas::find($request->uuid); 
         $marca->Delete();
         return $marca;

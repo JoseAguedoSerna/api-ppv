@@ -13,13 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('UsuariosPerfiles', function (Blueprint $table) {
-            $table->uuid('uuid')->primary();
-            $table->uuid('uuidUsuario');
-            $table->foreign('uuidUsuario')->references('uuid')->on('Usuarios')->onDelete('cascade');
-            $table->uuid('uuidPerfil');
-            $table->foreign('uuidPerfil')->references('uuid')->on('Perfiles')->onDelete('cascade');            
-        });
+        if (!Schema::hasTable('UsuariosPerfiles')) {
+            Schema::create('UsuariosPerfiles', function (Blueprint $table) {
+                $table->uuid('uuid')->primary();
+                $table->uuid('uuidUsuario');
+                $table->foreign('uuidUsuario')->references('uuid')->on('Usuarios')->onDelete('cascade');
+                $table->uuid('uuidPerfil');
+                $table->foreign('uuidPerfil')->references('uuid')->on('Perfiles')->onDelete('cascade');            
+            });
+        }
     }
     /**
      * Reverse the migrations.

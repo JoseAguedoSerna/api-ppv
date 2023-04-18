@@ -11,7 +11,6 @@ use Throwable;
 
 class ReportesController extends Controller
 {
-    // obtiene todos los Reportes
     public function index()
     {
         $reporte = Reportes::all();
@@ -20,7 +19,6 @@ class ReportesController extends Controller
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo Reportes
         $nuevo_reporte = new Reportes();
         try {
             $nuevo_reporte::create([
@@ -60,7 +58,6 @@ class ReportesController extends Controller
     }
     public function destroy(Request $request)
     {
-        // Buscamos el empleado a eliminar 
         $reporte = Reportes::find($request->uuid); 
         $reporte->Delete();
         return $reporte;

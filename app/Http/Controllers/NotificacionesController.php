@@ -11,7 +11,6 @@ use Throwable;
 
 class NotificacionesController extends Controller
 {
-    // obtiene todos los Notificaciones
     public function index()
     {
         $notificacion = Notificaciones::all();
@@ -20,7 +19,6 @@ class NotificacionesController extends Controller
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo Notificaciones
         $nuevo_notificacion = new Notificaciones();
         try {
             $nuevo_notificacion::create([
@@ -60,7 +58,6 @@ class NotificacionesController extends Controller
     }
     public function destroy(Request $request)
     {
-        // Buscamos el empleado a eliminar 
         $notificacion = Notificaciones::find($request->uuid); 
         $notificacion->Delete();
         return $notificacion;

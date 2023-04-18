@@ -11,7 +11,6 @@ use Throwable;
 
 class PerfilesController extends Controller
 {
-    // obtiene todos los Perfiles
     public function index()
     {
         $perfil = Perfiles::all();
@@ -20,7 +19,6 @@ class PerfilesController extends Controller
     // insert
     public function store(Request $request)
     {
-        // Creamos un objeto de tipo Perfiles
         $nuevo_perfil = new Perfiles();
         try {
             $nuevo_perfil::create([
@@ -60,7 +58,6 @@ class PerfilesController extends Controller
     }
     public function destroy(Request $request)
     {
-        // Buscamos el empleado a eliminar 
         $perfil = Perfiles::find($request->uuid); 
         $perfil->Delete();
         return $perfil;
