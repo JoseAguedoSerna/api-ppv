@@ -58,9 +58,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // delete envia actualiza estatus
 // TODOS los catalogos
 
+Route::prefix('iniciosesion')->group(function () {
+    Route::post('menususuario',[MenusController::class,'generaMenusUsuario']);
+});
+
 Route::middleware(JwtSeguridad::class)->group(function () {
     Route::prefix('catalogos')->group(function (){
-        #Menus        
+        #Menus
         Route::get('obtienemenus',[MenusController::class,'index']);
         Route::post('guardamenus',[MenusController::class,'store']);
         Route::post('actualizamenus',[MenusController::class,'update']);
@@ -222,7 +226,7 @@ Route::middleware(JwtSeguridad::class)->group(function () {
         Route::get('obtienepresentacionesmuebles',[PresentacionesMueblesController::class,'index']);
         Route::post('guardapresentacionesmuebles',[PresentacionesMueblesController::class,'store']);
         Route::post('actualizapresentacionesmuebles',[PresentacionesMueblesController::class,'update']);
-        Route::post('eliminapresentacionesmuebles',[PresentacionesMueblesController::class,'destroy']);        
+        Route::post('eliminapresentacionesmuebles',[PresentacionesMueblesController::class,'destroy']);
         #Resguardos
         Route::get('obtieneresguardos',[ResguardosController::class,'index']);
         Route::post('guardaresguardos',[ResguardosController::class,'store']);
