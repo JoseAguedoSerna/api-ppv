@@ -15,7 +15,7 @@ use App\Http\Controllers\{
     MenusController,
     MunicipiosController,
     NivelReportesController,
-        NotificacionesController,
+    NotificacionesController,
     PerfilesController,
     PermisosController,
     PresentacionesMueblesController,
