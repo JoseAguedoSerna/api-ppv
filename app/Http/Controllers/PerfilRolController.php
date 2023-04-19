@@ -2,47 +2,57 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Models\PerfilRol;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+use Throwable;
 
 class PerfilRolController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // obtiene todos los PerfilRol
     public function index()
     {
-        //
+        $perfilrol = PerfilRol::all();
+        return $perfilrol;
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    // insert
     public function store(Request $request)
     {
-        //
+        $nuevo_perfilrol = new PerfilRol();
+        try {
+            $nuevo_perfilrol::create([
+                'uuidPerfil' => $request->uuidperfil,
+                'uuidRol' => $request->uuidrol,
+                ]);
+        } catch (Throwable $e) {
+            abort(404, $e->getMessage());
+        }
+        $firstPerfilRol = PerfilRol::latest('uuid', 'asc')->first();
+        $data = json_encode($firstPerfilRol);
+        return $data;
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    // update registro
+    public function update(Request $request)
     {
-        //
+        $perfilrol = PerfilRol::find($request->uuid);
+        try {
+            $perfilrol->update([
+                'uuidPerfil' => $request->uuidperfil,
+                'uuidRol' => $request->uuidrol,
+                ]);        
+                $perfilrol->uuid;                   
+        } catch (Throwable $e) {
+            abort(404, $e->getMessage());
+        }
+        $data = json_encode($perfilrol);
+        return $data;
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(Request $request)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $perfilrol = PerfilRol::find($request->uuid); 
+        $perfilrol->Delete();
+        return $perfilrol;
     }
 }

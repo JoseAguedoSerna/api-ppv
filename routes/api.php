@@ -40,6 +40,13 @@ use App\Http\Controllers\{
     TiposComprobantesController,
     ActivosController,
     EstatusResguardoController,
+
+    DependenciasTiposController,
+    MenuPermisosController,
+    PerfilRolController,
+    RolMenusController,
+    UsuarioPerfile,
+
     #Muebles
     ArticulosController,
     ResguardosDetController,
@@ -217,9 +224,34 @@ Route::middleware(JwtSeguridad::class)->group(function () {
         Route::get('obtieneestatusresguardo',[EstatusResguardoController::class,'index']);
         Route::post('guardaestatusresguardo',[EstatusResguardoController::class,'store']);
         Route::post('actualizaestatusresguardo',[EstatusResguardoController::class,'update']);
-        Route::post('eliminaestatusresguardo',[EstatusResguardoController::class,'destroy']);        
+        Route::post('eliminaestatusresguardo',[EstatusResguardoController::class,'destroy']);   
+        
+        #DependenciasTiposController
+        Route::get('obtienedependenciastipos',[DependenciasTiposController::class,'index']);
+        Route::post('guardadependenciastipos',[DependenciasTiposController::class,'store']);
+        Route::post('actualizadependenciastipos',[DependenciasTiposController::class,'update']);
+        Route::post('eliminadependenciastipos',[DependenciasTiposController::class,'destroy']);
+        #MenuPermisoController
+        Route::get('obtienemenupermiso',[MenuPermisoController::class,'index']);
+        Route::post('guardamenupermiso',[MenuPermisoController::class,'store']);
+        Route::post('actualizamenupermiso',[MenuPermisoController::class,'update']);
+        Route::post('eliminamenupermiso',[MenuPermisoController::class,'destroy']);
+        #PerfilRolController
+        Route::get('obtieneperfilrol',[PerfilRolController::class,'index']);
+        Route::post('guardaperfilrol',[PerfilRolController::class,'store']);
+        Route::post('actualizaperfilrol',[PerfilRolController::class,'update']);
+        Route::post('eliminaperfilrol',[PerfilRolController::class,'destroy']);
+        #RolMenuController
+        Route::get('obtienerolmenu',[RolMenuController::class,'index']);
+        Route::post('guardarolmenu',[RolMenuController::class,'store']);
+        Route::post('actualizarolmenu',[RolMenuController::class,'update']);
+        Route::post('eliminarolmenu',[RolMenuController::class,'destroy']);
+        #UsuarioPerfil
+        Route::get('obtieneusuarioperfil',[UsuarioPerfilController::class,'index']);
+        Route::post('guardausuarioperfil',[UsuarioPerfilController::class,'store']);
+        Route::post('actualizausuarioperfil',[UsuarioPerfilController::class,'update']);
+        Route::post('eliminausuarioperfil',[UsuarioPerfilController::class,'destroy']);
     });
-
     Route::prefix('muebles')->group(function (){
         #Articulos
         Route::get('obtienearticulos',[ArticulosController::class,'index']);
