@@ -10,6 +10,8 @@ services:
       DB_DATABASE: "DocCentral"
       DB_USERNAME: "root"
       DB_PASSWORD: "xQRA0xBC87Gs"
+      JWT_SECRET: "2A95F5CCD11DE255FEE9451BDE433"
+      JWT_TTL: "60"
     volumes:
       - .:/var/www/html
       - /var/www/html/vendor
