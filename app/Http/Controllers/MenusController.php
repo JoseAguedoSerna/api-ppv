@@ -17,7 +17,7 @@ class MenusController extends Controller
     {
         $menu = Menus::all();
         return $menu;
-    }   
+    }
     // insert
     public function store(Request $request)
     {
@@ -69,7 +69,7 @@ class MenusController extends Controller
     // Delete
     public function destroy(Request $request)
     {
-        $menu = Menus::find($request->uuid); 
+        $menu = Menus::find($request->uuid);
         $menu->Delete();
         return $menu;
     }
