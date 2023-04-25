@@ -2,47 +2,57 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Models\UsuarioPerfil;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+use Throwable;
 
 class UsuarioPerfilController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // obtiene todos los UsuarioPerfil
     public function index()
     {
-        //
+        $usuarioperfil = UsuarioPerfil::all();
+        return $usuarioperfil;
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    // insert
     public function store(Request $request)
     {
-        //
+        $nuevo_usuarioperfil = new UsuarioPerfil();
+        try {
+            $nuevo_usuarioperfil::create([
+                'uuidUsuario' => $request->uuidusuario,
+                'uuidPerfil' => $request->uuidperfil,
+                ]);
+        } catch (Throwable $e) {
+            abort(404, $e->getMessage());
+        }
+        $firstUsuarioPerfil = UsuarioPerfil::latest('uuid', 'asc')->first();
+        $data = json_encode($firstUsuarioPerfil);
+        return $data;
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    // update registro
+    public function update(Request $request)
     {
-        //
+        $usuarioperfil = UsuarioPerfil::find($request->uuid);
+        try {
+            $usuarioperfil->update([
+                'uuidUsuario' => $request->uuidusuario,
+                'uuidPerfil' => $request->uuidperfil,
+                ]);        
+                $usuarioperfil->uuid;                   
+        } catch (Throwable $e) {
+            abort(404, $e->getMessage());
+        }
+        $data = json_encode($usuarioperfil);
+        return $data;
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(Request $request)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $usuarioperfil = UsuarioPerfil::find($request->uuid); 
+        $usuarioperfil->Delete();
+        return $usuarioperfil;
     }
 }
