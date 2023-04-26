@@ -63,9 +63,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // delete envia actualiza estatus
 // TODOS los catalogos
 
-Route::middleware(JwtSeguridad::class)->group(function () {
+//Route::middleware(JwtSeguridad::class)->group(function () {
     Route::prefix('catalogos')->group(function (){
-        #Menus        
+        #Menus
         Route::get('obtienemenus',[MenusController::class,'index']);
         Route::post('guardamenus',[MenusController::class,'store']);
         Route::post('actualizamenus',[MenusController::class,'update']);
@@ -224,8 +224,8 @@ Route::middleware(JwtSeguridad::class)->group(function () {
         Route::get('obtieneestatusresguardo',[EstatusResguardoController::class,'index']);
         Route::post('guardaestatusresguardo',[EstatusResguardoController::class,'store']);
         Route::post('actualizaestatusresguardo',[EstatusResguardoController::class,'update']);
-        Route::post('eliminaestatusresguardo',[EstatusResguardoController::class,'destroy']);   
-        
+        Route::post('eliminaestatusresguardo',[EstatusResguardoController::class,'destroy']);
+
         #DependenciasTiposController
         Route::get('obtienedependenciastipos',[DependenciasTiposController::class,'index']);
         Route::post('guardadependenciastipos',[DependenciasTiposController::class,'store']);
@@ -258,6 +258,7 @@ Route::middleware(JwtSeguridad::class)->group(function () {
         Route::post('guardaarticulos',[ArticulosController::class,'store']);
         Route::post('actualizaarticulos',[ArticulosController::class,'update']);
         Route::post('eliminaarticulos',[ArticulosController::class,'destroy']);
+        Route::post('detallearticulo',[ArticulosController::class,'show']);
         #Resguardos
         Route::get('obtieneresguardos',[ResguardosController::class,'index']);
         Route::post('guardaresguardos',[ResguardosController::class,'store']);
@@ -269,4 +270,4 @@ Route::middleware(JwtSeguridad::class)->group(function () {
         Route::post('actualizaresguardosdet',[ResguardosDetController::class,'update']);
         Route::post('eliminaresguardosdet',[ResguardosDetController::class,'destroy']);
     });
-});
+//});

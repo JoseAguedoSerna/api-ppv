@@ -54,6 +54,13 @@ class ArticulosController extends Controller
         $data = json_encode($firstArticulo);
         return $data;
     }
+
+    public function show(Request $request)
+    {
+        $modelo = Articulos::find($request->IdArticulo);
+        return json_encode($modelo);
+
+    }
     // update registro
     public function update(Request $request)
     {
