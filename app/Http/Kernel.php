@@ -20,8 +20,8 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
-        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        'JwtSeguridad' => \App\Http\Middleware\JwtSeguridad::class
+        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class
+
     ];
 
     /**
@@ -37,12 +37,17 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+
         ],
 
         'api' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        ],
+
+        'JwtSeguridad' => [
+            \App\Http\Middleware\JwtSeguridad::class,
         ],
     ];
 
