@@ -20,9 +20,9 @@ class SecretariaController extends Controller
     // insert
     public function store(Request $request)
     {
-        $nuevo_secretaria = new Secretaria();
+        $nuevo_Secretaria = new Secretaria();
         try {
-            $nuevo_secretaria::create([
+            $nuevo_Secretaria::create([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,

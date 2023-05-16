@@ -249,6 +249,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('actualizasecretaria',[SecretariaController::class,'update']);
         Route::post('eliminasecretaria',[SecretariaController::class,'destroy']);
         Route::post('detallesecretaria',[SecretariaController::class,'show']);
+        
         #DependenciasTiposController
         Route::get('obtienedependenciastipos',[DependenciasTiposController::class,'index']);
         Route::post('guardadependenciastipos',[DependenciasTiposController::class,'store']);

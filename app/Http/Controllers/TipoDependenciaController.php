@@ -3,24 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\TipoDependencia;
+use App\Models\TiposDependencias;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Throwable;
 
-class TipoDependenciaController extends Controller
+class TiposDependenciasController extends Controller
 {
     // obtiene todos los registros
     public function index(Request $request)
     {
-        $tdependencia = TipoDependencia::all();
+        $tdependencia = TiposDependencias::all();
         return $tadquisicion;
     }   
     // insert
     public function store(Request $request)
     {
-        $nuevo_tdependencia = new TipoDependencia();
+        $nuevo_tdependencia = new TiposDependencias();
         try {
             $nuevo_tdependencia::create([
                 'Cve' => $request->cve,
@@ -33,14 +33,14 @@ class TipoDependenciaController extends Controller
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $firstTDependencia = TipoDependencia::latest('uuid', 'asc')->first();
+        $firstTDependencia = TiposDependencias::latest('uuid', 'asc')->first();
         $data = json_encode($firstTDependencia);
         return $data;
     }
     // update registro
     public function update(Request $request)
     {
-        $tdependencia = TipoDependencia::find($request->uuid);
+        $tdependencia = TiposDependencias::find($request->uuid);
         try {
             $tdependencia->update([
                 'Cve' => $request->cve,
@@ -60,7 +60,7 @@ class TipoDependenciaController extends Controller
     // Delete
     public function destroy(Request $request)
     {
-        $tdependencia = TipoDependencia::find($request->uuid); 
+        $tdependencia = TiposDependencias::find($request->uuid); 
         $tdependencia->Delete();
         return $tdependencia;
     }
