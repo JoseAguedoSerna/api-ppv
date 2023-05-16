@@ -3,29 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Empleados;
+use App\Models\Secretaria;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Throwable;
 
-class EmpleadosController extends Controller
+class SecretariaController extends Controller
 {
-    public function index()
+    // obtiene todos los registros
+    public function index(Request $request)
     {
-        $empleado = Empleados::all();
-        return $empleado;
-    }
+        $secretaria = Secretaria::all();
+        return $secretaria;
+    }   
     // insert
     public function store(Request $request)
     {
-        $nuevo_empleado = new Empleados();
+        $nuevo_Secretaria = new Secretaria();
         try {
-            $nuevo_empleado::create([
+            $nuevo_Secretaria::create([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
-                'ApellidoPaterno' => $request->apellidopaterno,
-                'ApellidoMaterno' => $request->apellidomaterno,
+                'Descripcion' => $request->descripcion,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor                
@@ -33,36 +33,35 @@ class EmpleadosController extends Controller
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $firstEmpleado = Empleados::latest('uuid', 'asc')->first();
-        $data = json_encode($firstEmpleado);
+        $firstSecretaria = Secretaria::latest('uuid', 'asc')->first();
+        $data = json_encode($firstSecretaria);
         return $data;
     }
     // update registro
     public function update(Request $request)
     {
-        $empleado = Empleados::find($request->uuid);
+        $secretaria = Secretaria::find($request->uuid);
         try {
-            $empleado->update([
+            $secretaria->update([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
-                'ApellidoPaterno' => $request->apellidopaterno,
-                'ApellidoMaterno' => $request->apellidomaterno,
+                'Descripcion' => $request->descripcion,               
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
                 ]);        
-                $empleado->uuid;                   
+                $secretaria->uuid;                   
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $data = json_encode($empleado);
+        $data = json_encode($secretaria);
         return $data;
     }
-    // delete logico
+    // Delete
     public function destroy(Request $request)
     {
-        $empleado = empleados::find($request->uuid); 
-        $empleado->Delete();
-        return $empleado;
+        $secretaria = Secretaria::find($request->uuid); 
+        $secretaria->Delete();
+        return $secretaria;
     }
 }

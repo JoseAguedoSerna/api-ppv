@@ -13,8 +13,14 @@ class ArticulosController extends Controller
 {
     public function index()
     {
-        $articulo = Articulos::all();
-        return $articulo;
+        $articulo = Articulos::paginate(10);
+        return response()->json([
+            'data' => $articulo->toArray(),
+            'current_page' => $articulo->currentPage(),
+            'last_page' => $articulo->lastPage(),
+            'total' => $articulo->total()
+        ]);
+        //return $articulo;
     }
     // insert
     public function store(Request $request)
@@ -38,7 +44,7 @@ class ArticulosController extends Controller
                 'Activo' => $request->activo,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
-                'EliminadoPor' => $request->eliminadopor                
+                'EliminadoPor' => $request->eliminadopor
                 ]);
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
@@ -46,6 +52,12 @@ class ArticulosController extends Controller
         $firstArticulo = Articulos::latest('uuid', 'asc')->first();
         $data = json_encode($firstArticulo);
         return $data;
+    }
+
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('NoComprobante',$request->cveart)->get();
+        return json_encode($detalle);
     }
     // update registro
     public function update(Request $request)
@@ -66,12 +78,12 @@ class ArticulosController extends Controller
                 'NoSerie' => $request->noserie,
                 'uuidMarca' => $request->uuidmarca,
                 'uuidModelos' => $request->uuidmodelo,
-                'Activo' => $request->activo,              
+                'Activo' => $request->activo,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
-                ]);        
-                $articulo->uuid;                   
+                ]);
+                $articulo->uuid;
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
@@ -80,7 +92,7 @@ class ArticulosController extends Controller
     }
     public function destroy(Request $request)
     {
-        $articulo = Articulos::find($request->uuid); 
+        $articulo = Articulos::find($request->uuid);
         $articulo->Delete();
         return $articulo;
     }

@@ -31,6 +31,7 @@ class MenusController extends Controller
                 'Path' => $request->path,
                 'Nivel' => $request->nivel,
                 'Ordenamiento' => $request->ordenamiento,
+                'MenuPadre' => $request->menupadre,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor

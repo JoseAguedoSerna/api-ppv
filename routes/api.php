@@ -47,10 +47,21 @@ use App\Http\Controllers\{
     RolMenusController,
     UsuarioPerfile,
 
+    TitularController,
+    SecretariaController,
+
     #Muebles
     ArticulosController,
     ResguardosDetController,
     ResguardosController,
+
+    #Tickets
+    TicketsController,
+    TiposTicketsController,
+    CategoriasTicketsController,
+    PrioridadTicketsController,
+    StatusTicketsController
+
 
 };
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -63,11 +74,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // delete envia actualiza estatus
 // TODOS los catalogos
 
-Route::prefix('iniciosesion')->group(function () {
-    Route::post('menususuario',[MenusController::class,'generaMenusUsuario']);
-});
-
-Route::middleware(JwtSeguridad::class)->group(function () {
+//Route::middleware(JwtSeguridad::class)->group(function () {
     Route::prefix('catalogos')->group(function (){
         #Menus
         Route::get('obtienemenus',[MenusController::class,'index']);
@@ -228,7 +235,20 @@ Route::middleware(JwtSeguridad::class)->group(function () {
         Route::get('obtieneestatusresguardo',[EstatusResguardoController::class,'index']);
         Route::post('guardaestatusresguardo',[EstatusResguardoController::class,'store']);
         Route::post('actualizaestatusresguardo',[EstatusResguardoController::class,'update']);
-        Route::post('eliminaestatusresguardo',[EstatusResguardoController::class,'destroy']);   
+        Route::post('eliminaestatusresguardo',[EstatusResguardoController::class,'destroy']);
+
+        #Titular
+        Route::get('obtienetitular',[TitularController::class,'index']);
+        Route::post('guardatitular',[TitularController::class,'store']);
+        Route::post('actualizatitular',[TitularController::class,'update']);
+        Route::post('eliminatitular',[TitularController::class,'destroy']);
+        Route::post('detalletitular',[TitularController::class,'show']);
+        #Secretaria
+        Route::get('obtienesecretaria',[SecretariaController::class,'index']);
+        Route::post('guardasecretaria',[SecretariaController::class,'store']);
+        Route::post('actualizasecretaria',[SecretariaController::class,'update']);
+        Route::post('eliminasecretaria',[SecretariaController::class,'destroy']);
+        Route::post('detallesecretaria',[SecretariaController::class,'show']);
         
         #DependenciasTiposController
         Route::get('obtienedependenciastipos',[DependenciasTiposController::class,'index']);
@@ -262,6 +282,8 @@ Route::middleware(JwtSeguridad::class)->group(function () {
         Route::post('guardaarticulos',[ArticulosController::class,'store']);
         Route::post('actualizaarticulos',[ArticulosController::class,'update']);
         Route::post('eliminaarticulos',[ArticulosController::class,'destroy']);
+        
+        Route::post('detallearticulo',[ArticulosController::class,'show']);
         #Resguardos
         Route::get('obtieneresguardos',[ResguardosController::class,'index']);
         Route::post('guardaresguardos',[ResguardosController::class,'store']);
@@ -273,4 +295,37 @@ Route::middleware(JwtSeguridad::class)->group(function () {
         Route::post('actualizaresguardosdet',[ResguardosDetController::class,'update']);
         Route::post('eliminaresguardosdet',[ResguardosDetController::class,'destroy']);
     });
-});
+
+    Route::prefix('tickets')->group(function (){
+        #Tickets
+        Route::get('obtienetickets',[TicketsController::class,'index']);
+        Route::post('guardatickets',[TicketsController::class,'store']);
+        Route::post('actualizatickets',[TicketsController::class,'update']);
+        Route::post('eliminatickets',[TicketsController::class,'destroy']);        
+        Route::post('detalletickets',[TicketsController::class,'show']);
+        #TiposTickets
+        Route::get('obtienetipostickets',[TiposTicketsController::class,'index']);
+        Route::post('guardatipostickets',[TiposTicketsController::class,'store']);
+        Route::post('actualizatipostickets',[TiposTicketsController::class,'update']);
+        Route::post('eliminatipostickets',[TiposTicketsController::class,'destroy']);
+        Route::post('detalletipostickets',[TiposTicketsController::class,'show']);
+        #CategoriasTickets
+        Route::get('obtienecategoriastickets',[CategoriasTicketsController::class,'index']);
+        Route::post('guardacategoriastickets',[CategoriasTicketsController::class,'store']);
+        Route::post('actualizacategoriastickets',[CategoriasTicketsController::class,'update']);
+        Route::post('eliminacategoriastickets',[CategoriasTicketsController::class,'destroy']);
+        Route::post('detallecategoriastickets',[CategoriasTicketsController::class,'show']);
+        #PrioridadTickets
+        Route::get('obtieneprioridadtickets',[PrioridadTicketsController::class,'index']);
+        Route::post('guardaprioridadtickets',[PrioridadTicketsController::class,'store']);
+        Route::post('actualizaprioridadtickets',[PrioridadTicketsController::class,'update']);
+        Route::post('eliminaprioridadtickets',[PrioridadTicketsController::class,'destroy']);
+        Route::post('detalleprioridadtickets',[PrioridadTicketsController::class,'show']);    
+        #StatusTickets
+        Route::get('obtienestatustickets',[StatusTicketsController::class,'index']);
+        Route::post('guardastatustickets',[StatusTicketsController::class,'store']);
+        Route::post('actualizastatustickets',[StatusTicketsController::class,'update']);
+        Route::post('eliminastatustickets',[StatusTicketsController::class,'destroy']);
+        Route::post('detallestatustickets',[StatusTicketsController::class,'show']); 
+    });
+//});
