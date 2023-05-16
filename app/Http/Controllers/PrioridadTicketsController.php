@@ -3,34 +3,40 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Menus;
+use App\Models\PrioridadTickets;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Throwable;
 
-class MenusController extends Controller
+class PrioridadTicketsController extends Controller
 {
     // obtiene todos los registros
     public function index(Request $request)
     {
-        $menu = Menus::all();
-        return $menu;
-    }   
+        $ptickets = PrioridadTickets::paginate(10);
+        return response()->json([
+            'data' => $ptickets->toArray(),
+            'current_page' => $ptickets->currentPage(),
+            'last_page' => $ptickets->lastPage(),
+            'total' => $ptickets->total()
+        ]);
+        //return $articulo;
+    }
+    public function show(Request $request)
+    {
+        $ptickets = PrioridadTickets::where('nombre',$request->nombre)->get();
+        return json_encode($ptickets);
+    }        
     // insert
     public function store(Request $request)
     {
-        $nuevo_menu = new Menus();
+        $nuevo_ptickets = new PrioridadTickets();
         try {
-            $nuevo_menu::create([
+            $nuevo_ptickets::create([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
-                'Icono' => $request->icono,
-                'Path' => $request->path,
-                'Nivel' => $request->nivel,
-                'Ordenamiento' => $request->ordenamiento,
-                'MenuPadre' => $request->menupadre,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor                
@@ -38,39 +44,35 @@ class MenusController extends Controller
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $firstMenu = Menus::latest('uuid', 'asc')->first();
-        $data = json_encode($firstMenu);
+        $firstPTickets = PrioridadTickets::latest('uuid', 'asc')->first();
+        $data = json_encode($firstPTickets);
         return $data;
     }
     // update registro
     public function update(Request $request)
     {
-        $menu = Menus::find($request->uuid);
+        $ptickets = PrioridadTickets::find($request->uuid);
         try {
-            $menu->update([
+            $ptickets->update([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
-                'Descripcion' => $request->descripcion,
-                'Icono' => $request->icono,
-                'Path' => $request->path,
-                'Nivel' => $request->nivel,
-                'Ordenamiento' => $request->ordenamiento,                
+                'Descripcion' => $request->descripcion,               
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
                 ]);        
-                $menu->uuid;                   
+                $ptickets->uuid;                   
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $data = json_encode($menu);
+        $data = json_encode($ptickets);
         return $data;
     }
     // Delete
     public function destroy(Request $request)
     {
-        $menu = Menus::find($request->uuid); 
-        $menu->Delete();
-        return $menu;
+        $ptickets = PrioridadTickets::find($request->uuid); 
+        $ptickets->Delete();
+        return $ptickets;
     }
 }

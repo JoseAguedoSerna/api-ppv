@@ -25,7 +25,7 @@ class UsuariosController extends Controller
                 'uuidTiCentral' => $request->uuidticentral,
                 'uuidDependencia' => $request->uuiddependencia,
                 'NombreCorto' => $request->nombrecorto,
-                'Puesto' => $request->puesto,
+                'uuidPuesto' => $request->puesto,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor                

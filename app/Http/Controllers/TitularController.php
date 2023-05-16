@@ -3,34 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Menus;
+use App\Models\Titular;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Throwable;
 
-class MenusController extends Controller
+class TitularController extends Controller
 {
     // obtiene todos los registros
     public function index(Request $request)
     {
-        $menu = Menus::all();
-        return $menu;
+        $titular = Titular::all();
+        return $titular;
     }   
     // insert
     public function store(Request $request)
     {
-        $nuevo_menu = new Menus();
+        $nuevo_Titular = new Titular();
         try {
-            $nuevo_menu::create([
+            $nuevo_Titular::create([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
-                'Icono' => $request->icono,
-                'Path' => $request->path,
-                'Nivel' => $request->nivel,
-                'Ordenamiento' => $request->ordenamiento,
-                'MenuPadre' => $request->menupadre,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor                
@@ -38,39 +33,35 @@ class MenusController extends Controller
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $firstMenu = Menus::latest('uuid', 'asc')->first();
-        $data = json_encode($firstMenu);
+        $firstTitular = Titular::latest('uuid', 'asc')->first();
+        $data = json_encode($firstTitular);
         return $data;
     }
     // update registro
     public function update(Request $request)
     {
-        $menu = Menus::find($request->uuid);
+        $titular = Titular::find($request->uuid);
         try {
-            $menu->update([
+            $titular->update([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
-                'Descripcion' => $request->descripcion,
-                'Icono' => $request->icono,
-                'Path' => $request->path,
-                'Nivel' => $request->nivel,
-                'Ordenamiento' => $request->ordenamiento,                
+                'Descripcion' => $request->descripcion,               
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
                 ]);        
-                $menu->uuid;                   
+                $titular->uuid;                   
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $data = json_encode($menu);
+        $data = json_encode($titular);
         return $data;
     }
     // Delete
     public function destroy(Request $request)
     {
-        $menu = Menus::find($request->uuid); 
-        $menu->Delete();
-        return $menu;
+        $titular = Titular::find($request->uuid); 
+        $titular->Delete();
+        return $titular;
     }
 }

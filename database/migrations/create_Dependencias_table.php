@@ -22,6 +22,14 @@ return new class extends Migration
                 $table->string('Direccion',256);
                 $table->string('Telefono',10);
 
+                $table->uuid('uuidTipoDependencia');
+                $table->foreign('uuidTipoDependencia')->references('uuid')->on('TipoDependencia')->onDelete('cascade');
+
+                $table->uuid('uuidTitular');
+                $table->foreign('uuidTitular')->references('uuid')->on('Titular')->onDelete('cascade');
+
+                $table->char('uuidSecretaria', 36)->nullable();
+                $table->foreign('uuidSecretaria')->references('uuid')->on('Secretaria')->onDelete('cascade');
                 
                 $table->char('CreadoPor', 36)->nullable();
                 $table->char('ModificadoPor', 36)->nullable();
