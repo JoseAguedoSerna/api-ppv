@@ -47,6 +47,9 @@ use App\Http\Controllers\{
     RolMenusController,
     UsuarioPerfile,
 
+    TitularController,
+    SecretariaController,
+
     #Muebles
     ArticulosController,
     ResguardosDetController,
@@ -234,6 +237,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('actualizaestatusresguardo',[EstatusResguardoController::class,'update']);
         Route::post('eliminaestatusresguardo',[EstatusResguardoController::class,'destroy']);
 
+        #Titular
+        Route::get('obtienetitular',[TitularController::class,'index']);
+        Route::post('guardatitular',[TitularController::class,'store']);
+        Route::post('actualizatitular',[TitularController::class,'update']);
+        Route::post('eliminatitular',[TitularController::class,'destroy']);
+        Route::post('detalletitular',[TitularController::class,'show']);
+        #Secretaria
+        Route::get('obtienesecretaria',[SecretariaController::class,'index']);
+        Route::post('guardasecretaria',[SecretariaController::class,'store']);
+        Route::post('actualizasecretaria',[SecretariaController::class,'update']);
+        Route::post('eliminasecretaria',[SecretariaController::class,'destroy']);
+        Route::post('detallesecretaria',[SecretariaController::class,'show']);
         #DependenciasTiposController
         Route::get('obtienedependenciastipos',[DependenciasTiposController::class,'index']);
         Route::post('guardadependenciastipos',[DependenciasTiposController::class,'store']);
