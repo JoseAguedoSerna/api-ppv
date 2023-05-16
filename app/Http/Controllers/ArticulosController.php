@@ -14,7 +14,6 @@ class ArticulosController extends Controller
     public function index()
     {
         $articulo = Articulos::paginate(10);
-
         return response()->json([
             'data' => $articulo->toArray(),
             'current_page' => $articulo->currentPage(),
@@ -57,9 +56,8 @@ class ArticulosController extends Controller
 
     public function show(Request $request)
     {
-        $modelo = Articulos::find($request->IdArticulo);
-        return json_encode($modelo);
-
+        $detalle = Articulos::where('NoComprobante',$request->cveart)->get();
+        return json_encode($detalle);
     }
     // update registro
     public function update(Request $request)

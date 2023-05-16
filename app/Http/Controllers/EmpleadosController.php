@@ -58,6 +58,7 @@ class EmpleadosController extends Controller
         $data = json_encode($empleado);
         return $data;
     }
+    // delete logico
     public function destroy(Request $request)
     {
         $empleado = empleados::find($request->uuid); 

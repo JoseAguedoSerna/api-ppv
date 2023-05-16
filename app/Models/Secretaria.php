@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
-class Usuarios extends Model
+class Secretarias extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
-    protected $table = "Usuarios"; #Se indica el nombre de la tabla    
+    protected $table = "Secretarias"; #Se indica el nombre de la tabla    
     protected $primaryKey = "uuid"; #Definimos campo uuis como primary key"    
     public $incrementing = false;  #Quitamos que sea autoincremental
-    protected $fillable = ['uuidTiCentral','uuidDependencia','NombreCorto','uuidPuesto',
+    protected $fillable = ['Cve','Nombre','Descripcion',
                             'CreadoPor','ModificadoPor','EliminadoPor',
                             'created_at','updated_at','deleted_at']; #Se agregan los campos de la tabla que serán visibles en las consultas
    

@@ -3,34 +3,40 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Menus;
+use App\Models\TiposTickets;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Throwable;
 
-class MenusController extends Controller
+class TiposTicketsController extends Controller
 {
     // obtiene todos los registros
     public function index(Request $request)
     {
-        $menu = Menus::all();
-        return $menu;
-    }   
+        $ttickets = TiposTickets::paginate(10);
+        return response()->json([
+            'data' => $ttickets->toArray(),
+            'current_page' => $ttickets->currentPage(),
+            'last_page' => $ttickets->lastPage(),
+            'total' => $ttickets->total()
+        ]);
+        //return $articulo;
+    }
+    public function show(Request $request)
+    {
+        $ttickets = TiposTickets::where('nombre',$request->nombre)->get();
+        return json_encode($ttickets);
+    }        
     // insert
     public function store(Request $request)
     {
-        $nuevo_menu = new Menus();
+        $nuevo_ttickets = new TiposTickets();
         try {
-            $nuevo_menu::create([
+            $nuevo_ttickets::create([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
-                'Icono' => $request->icono,
-                'Path' => $request->path,
-                'Nivel' => $request->nivel,
-                'Ordenamiento' => $request->ordenamiento,
-                'MenuPadre' => $request->menupadre,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor                
@@ -38,39 +44,35 @@ class MenusController extends Controller
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $firstMenu = Menus::latest('uuid', 'asc')->first();
-        $data = json_encode($firstMenu);
+        $firstTTickets = TiposTickets::latest('uuid', 'asc')->first();
+        $data = json_encode($firstTTickets);
         return $data;
     }
     // update registro
     public function update(Request $request)
     {
-        $menu = Menus::find($request->uuid);
+        $ttickets = TiposTickets::find($request->uuid);
         try {
-            $menu->update([
+            $ttickets->update([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
-                'Descripcion' => $request->descripcion,
-                'Icono' => $request->icono,
-                'Path' => $request->path,
-                'Nivel' => $request->nivel,
-                'Ordenamiento' => $request->ordenamiento,                
+                'Descripcion' => $request->descripcion,               
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
                 ]);        
-                $menu->uuid;                   
+                $ttickets->uuid;                   
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $data = json_encode($menu);
+        $data = json_encode($ttickets);
         return $data;
     }
     // Delete
     public function destroy(Request $request)
     {
-        $menu = Menus::find($request->uuid); 
-        $menu->Delete();
-        return $menu;
+        $ttickets = TiposTickets::find($request->uuid); 
+        $ttickets->Delete();
+        return $ttickets;
     }
 }
