@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
-class Secretarias extends Model
+class Secretaria extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
     protected $table = "Secretarias"; #Se indica el nombre de la tabla    
