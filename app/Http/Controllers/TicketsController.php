@@ -16,7 +16,7 @@ class TicketsController extends Controller
     {
         // $tickets = Tickets::paginate(10);
         $tickets = DB::table('Tickets')        
-        ->select('Tickets.*','Empleados.Nombre','Empleados.ApellidoPaterno','Empleados.ApellidoMaterno','TiposTickets.Nombre as TipoTicket','CategoriasTickets.Nombre as CategoriaTicket','PrioridadTickets.Nombre as PrioridadTicket','StatusTickets.Nombre as StatusTicket')
+        ->select(['Tickets.*',DB::raw("CONCAT(Empleados.Nombre,' ',Empleados.ApellidoPaterno,' ',Empleados.ApellidoMaterno)  AS Nombre"),'TiposTickets.Nombre as TipoTicket','CategoriasTickets.Nombre as CategoriaTicket','PrioridadTickets.Nombre as PrioridadTicket','StatusTickets.Nombre as StatusTicket'])
         ->join('Empleados', 'Tickets.Asignadoa', '=', 'Empleados.uuid')
         ->join('TiposTickets', 'Tickets.uuidTipoTicket', '=', 'TiposTickets.uuid')
         ->join('CategoriasTickets', 'Tickets.uuidCategoriaTicket', '=', 'CategoriasTickets.uuid')
@@ -46,7 +46,7 @@ class TicketsController extends Controller
             $nuevo_tickets::create([
                 'Cve'=> $request->cve,
                 'Descripcion'=> $request->descripcion,
-                'Asignado a'=> $request->asignadoa,
+                'Asignadoa'=> $request->asignadoa,
                 'uuidTipoTicket'=> $request->uuidtipoticket,
                 'uuidCategoriaTicket'=> $request->uuidcategoriaticket,
                 'uuidPrioridadTickets'=> $request->uuidprioridadticket,
@@ -56,7 +56,7 @@ class TicketsController extends Controller
                 'EliminadoPor' => $request->eliminadopor
                 ]);
         } catch (Throwable $e) {
-            abort(404, $e->getMessage());
+            abort(403, $e->getMessage());
         }
         $firstTickets = Tickets::latest('uuid', 'asc')->first();
         $data = json_encode($firstTickets);
@@ -70,7 +70,8 @@ class TicketsController extends Controller
             $tickets->update([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
-                'Descripcion' => $request->descripcion,               
+                'Descripcion' => $request->descripcion, 
+                'Asignadoa'=> $request->asignadoa,              
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor

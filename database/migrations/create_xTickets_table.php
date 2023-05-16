@@ -19,7 +19,7 @@ return new class extends Migration
 
                 $table->char('Cve',10)->unique();                    
                 $table->string('Descripcion',5000);
-                $table->string('Asignado a',150);
+                $table->string('Asignadoa',150);
 
                 $table->uuid('uuidTipoTicket');
                 $table->foreign('uuidTipoTicket')->references('uuid')->on('TiposTickets')->onDelete('cascade');      
