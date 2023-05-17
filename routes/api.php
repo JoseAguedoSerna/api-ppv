@@ -86,6 +86,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('guardadependencias',[DependenciasController::class,'store']);
         Route::post('actualizadependencias',[DependenciasController::class,'update']);
         Route::post('eliminadependencias',[DependenciasController::class,'destroy']);
+        Route::post('detalledependencias',[DependenciasController::class,'show']);
         #Empleados
         Route::get('obtieneempleados',[EmpleadosController::class,'index']);
         Route::post('guardaempleados',[EmpleadosController::class,'store']);

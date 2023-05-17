@@ -17,6 +17,11 @@ class DependenciasController extends Controller
         $Dependencia = Dependencias::all();
         return $Dependencia;
     }
+    public function show(Request $request)
+    {
+        $detalle = Dependencias::where('uuid',$request->uuid)->get();
+        return json_encode($detalle);
+    }
     // insert
     public function store(Request $request)
     {
