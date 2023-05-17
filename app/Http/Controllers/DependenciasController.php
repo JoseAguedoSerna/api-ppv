@@ -55,7 +55,14 @@ class DependenciasController extends Controller
         try {
             $dependencia->update([
                 'Cve' => $request->cve,
-                'Nombre' => $request->nombre,             
+                'Nombre' => $request->nombre,
+                'Direccion' => $request->direccion,
+                'Telefono' => $request->telefono,
+
+                'uuidTipoDependencia'=> $request->uuidtipodependencia,
+                'uuidTitular'=> $request->uuidtitular,
+                'uuidSecretaria'=> $request->uuidsecretaria,
+                         
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
