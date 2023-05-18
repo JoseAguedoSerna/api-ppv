@@ -21,10 +21,12 @@ class TicketsController extends Controller
         ->join('TiposTickets', 'Tickets.uuidTipoTicket', '=', 'TiposTickets.uuid')
         ->join('CategoriasTickets', 'Tickets.uuidCategoriaTicket', '=', 'CategoriasTickets.uuid')
         ->join('PrioridadTickets', 'Tickets.uuidPrioridadTickets', '=', 'PrioridadTickets.uuid')
-        ->join('StatusTickets', 'Tickets.uuidStatusTicket', '=', 'StatusTickets.uuid')        
+        ->join('StatusTickets', 'Tickets.uuidStatusTicket', '=', 'StatusTickets.uuid')    
+        ->whereNull('Tickets.deleted_at')
         ->get();
-        // $tickets::paginate(10);
 
+    
+        // $tickets::paginate(10);
         // return response()->json([
         //     'data' => $tickets->toArray(),
         //     'current_page' => $tickets->currentPage(),
