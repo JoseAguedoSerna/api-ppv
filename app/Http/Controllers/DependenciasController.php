@@ -62,7 +62,7 @@ class DependenciasController extends Controller
                 'uuidTipoDependencia'=> $request->uuidtipodependencia,
                 'uuidTitular'=> $request->uuidtitular,
                 'uuidSecretaria'=> $request->uuidsecretaria,
-                         
+
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
