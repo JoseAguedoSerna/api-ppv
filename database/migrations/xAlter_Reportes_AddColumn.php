@@ -12,9 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('Reportes', function (Blueprint $table) {
-            $table->uuid('uuidTipoReporte')->after('Descripcion');            
-            // $table->foreign('uuidTipoReporte')->references('uuid')->on('TiposReportes')->onDelete('cascade');            
-            //
+            $table->uuid('uuidTipoReporte')->after('Descripcion');
+            // $table->foreign('uuidTipoReporte')->references('uuid')->on('TiposReportes')->onDelete('cascade');
         });
     }
 
@@ -24,7 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('Reportes', function (Blueprint $table) {
-            //
+            $table->dropForeign(['uuidTipoReporte']);
+            $table->dropColumn('uuidTipoReporte');
         });
     }
 };
