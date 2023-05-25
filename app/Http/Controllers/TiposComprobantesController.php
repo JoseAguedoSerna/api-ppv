@@ -11,10 +11,20 @@ use Throwable;
 
 class TiposComprobanteController extends Controller
 {
+    // public function index()
+    // {
+    //     $tcomprobante = TiposComprobantes::all();
+    //     return $tcomprobante;
+    // }
     public function index()
     {
-        $tcomprobante = TiposComprobantes::all();
-        return $tcomprobante;
+        $tcomprobante = TiposComprobantes::paginate(10);
+        return response()->json([
+            'data' => $tcomprobante->toArray(),
+            'current_page' => $tcomprobante->currentPage(),
+            'last_page' => $tcomprobante->lastPage(),
+            'total' => $tcomprobante->total()
+        ]);
     }
     // insert
     public function store(Request $request)

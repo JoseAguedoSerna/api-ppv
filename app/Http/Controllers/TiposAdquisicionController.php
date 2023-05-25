@@ -12,11 +12,21 @@ use Throwable;
 class TiposAdquisicionController extends Controller
 {
     // obtiene todos los registros
-    public function index(Request $request)
+    // public function index(Request $request)
+    // {
+    //     $tadquisicion = TiposAdquisicion::all();
+    //     return $tadquisicion;
+    // }   
+    public function index()
     {
-        $tadquisicion = TiposAdquisicion::all();
-        return $tadquisicion;
-    }   
+        $tadquisicion = TiposAdquisicion::paginate(10);
+        return response()->json([
+            'data' => $tadquisicion->toArray(),
+            'current_page' => $tadquisicion->currentPage(),
+            'last_page' => $tadquisicion->lastPage(),
+            'total' => $tadquisicion->total()
+        ]);
+    }
     // insert
     public function store(Request $request)
     {

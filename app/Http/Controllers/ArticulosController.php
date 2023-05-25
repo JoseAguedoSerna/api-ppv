@@ -11,11 +11,23 @@ use Throwable;
 
 class ArticulosController extends Controller
 {
+    // public function index()
+    // {
+    //     $articulo = Articulos::all();
+    //     return $articulo;
+    // }
+
     public function index()
     {
-        $articulo = Articulos::all();
-        return $articulo;
+        $articulo = Articulos::paginate(10);
+        return response()->json([
+            'data' => $articulo->toArray(),
+            'current_page' => $articulo->currentPage(),
+            'last_page' => $articulo->lastPage(),
+            'total' => $articulo->total()
+        ]);
     }
+
     // insert
     public function store(Request $request)
     {

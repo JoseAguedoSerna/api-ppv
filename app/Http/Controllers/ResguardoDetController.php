@@ -12,11 +12,21 @@ use Throwable;
 class ResguardoDetController extends Controller
 {
     // obtiene todos los registros
-    public function index(Request $request)
+    // public function index(Request $request)
+    // {
+    //     $resguardodet = ResguardoDet::all();
+    //     return $resguardodet;
+    // }   
+    public function index()
     {
-        $resguardodet = ResguardoDet::all();
-        return $resguardodet;
-    }   
+        $resguardodet = ResguardoDet::paginate(10);
+        return response()->json([
+            'data' => $resguardodet->toArray(),
+            'current_page' => $resguardodet->currentPage(),
+            'last_page' => $resguardodet->lastPage(),
+            'total' => $resguardodet->total()
+        ]);
+    }
     // insert
     public function store(Request $request)
     {
@@ -24,7 +34,7 @@ class ResguardoDetController extends Controller
         try {
             $nuevo_resguardodet::create([
                 'uuidResguardo' => $request->uuidresguardo,
-                'uuidArticulo' => $request->uuidarticulo,
+                'uuidresguardodet' => $request->uuidresguardodet,
                 'Estatus' => $request->estatus,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
@@ -44,7 +54,7 @@ class ResguardoDetController extends Controller
         try {
             $resguardodet->update([
                 'uuidResguardo' => $request->uuidresguardo,
-                'uuidArticulo' => $request->uuidarticulo,
+                'uuidresguardodet' => $request->uuidresguardodet,
                 'Estatus' => $request->estatus,              
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,

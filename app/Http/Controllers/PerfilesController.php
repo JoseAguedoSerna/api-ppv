@@ -11,10 +11,21 @@ use Throwable;
 
 class PerfilesController extends Controller
 {
+    // public function index()
+    // {
+    //     $perfil = Perfiles::all();
+    //     return $perfil;
+    // }
+
     public function index()
     {
-        $perfil = Perfiles::all();
-        return $perfil;
+        $perfil = Perfiles::paginate(10);
+        return response()->json([
+            'data' => $perfil->toArray(),
+            'current_page' => $perfil->currentPage(),
+            'last_page' => $perfil->lastPage(),
+            'total' => $perfil->total()
+        ]);
     }
     // insert
     public function store(Request $request)

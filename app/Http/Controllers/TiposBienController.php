@@ -11,10 +11,20 @@ use Throwable;
 
 class TiposBienController extends Controller
 {
+    // public function index()
+    // {
+    //     $tbien = TiposBien::all();
+    //     return $tbien;
+    // }
     public function index()
     {
-        $tbien = TiposBien::all();
-        return $tbien;
+        $tbien = TiposBien::paginate(10);
+        return response()->json([
+            'data' => $tbien->toArray(),
+            'current_page' => $tbien->currentPage(),
+            'last_page' => $tbien->lastPage(),
+            'total' => $tbien->total()
+        ]);
     }
     // insert
     public function store(Request $request)

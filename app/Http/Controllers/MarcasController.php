@@ -11,10 +11,21 @@ use Throwable;
 
 class MarcasController extends Controller
 {
+    // public function index()
+    // {
+    //     $marca = Marcas::all();
+    //     return $marca;
+    // }
+
     public function index()
     {
-        $marca = Marcas::all();
-        return $marca;
+        $marca = Marcas::paginate(10);
+        return response()->json([
+            'data' => $marca->toArray(),
+            'current_page' => $marca->currentPage(),
+            'last_page' => $marca->lastPage(),
+            'total' => $marca->total()
+        ]);
     }
     // insert
     public function store(Request $request)

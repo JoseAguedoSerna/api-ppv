@@ -11,10 +11,20 @@ use Throwable;
 
 class TiposProcesosController extends Controller
 {
+    // public function index()
+    // {
+    //     $tproceso = TiposProcesos::all();
+    //     return $tproceso;
+    // }
     public function index()
     {
-        $tproceso = TiposProcesos::all();
-        return $tproceso;
+        $tproceso = TiposProcesos::paginate(10);
+        return response()->json([
+            'data' => $tproceso->toArray(),
+            'current_page' => $tproceso->currentPage(),
+            'last_page' => $tproceso->lastPage(),
+            'total' => $tproceso->total()
+        ]);
     }
     // insert
     public function store(Request $request)

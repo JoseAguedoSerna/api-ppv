@@ -11,10 +11,21 @@ use Throwable;
 
 class EmpleadosController extends Controller
 {
+    // public function index()
+    // {
+    //     $empleado = Empleados::all();
+    //     return $empleado;
+    // }
+
     public function index()
     {
-        $empleado = Empleados::all();
-        return $empleado;
+        $empleado = Empleados::paginate(10);
+        return response()->json([
+            'data' => $empleado->toArray(),
+            'current_page' => $empleado->currentPage(),
+            'last_page' => $empleado->lastPage(),
+            'total' => $empleado->total()
+        ]);
     }
     // insert
     public function store(Request $request)

@@ -12,10 +12,21 @@ use Throwable;
 class DependenciasController extends Controller
 {
     // obtiene todos los dependencias
+    // public function index()
+    // {
+    //     $Dependencia = Dependencias::all();
+    //     return $Dependencia;
+    // }
+
     public function index()
     {
-        $Dependencia = Dependencias::all();
-        return $Dependencia;
+        $dependencia = Dependencias::paginate(10);
+        return response()->json([
+            'data' => $dependencia->toArray(),
+            'current_page' => $dependencia->currentPage(),
+            'last_page' => $dependencia->lastPage(),
+            'total' => $dependencia->total()
+        ]);
     }
     // insert
     public function store(Request $request)

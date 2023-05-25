@@ -11,10 +11,21 @@ use Throwable;
 
 class ProveedoresController extends Controller
 {
+    // public function index()
+    // {
+    //     $proveedor = Proveedores::all();
+    //     return $proveedor;
+    // }
+
     public function index()
     {
-        $proveedor = Proveedores::all();
-        return $proveedor;
+        $proveedor = Proveedores::paginate(10);
+        return response()->json([
+            'data' => $proveedor->toArray(),
+            'current_page' => $proveedor->currentPage(),
+            'last_page' => $proveedor->lastPage(),
+            'total' => $proveedor->total()
+        ]);
     }
     // insert
     public function store(Request $request)

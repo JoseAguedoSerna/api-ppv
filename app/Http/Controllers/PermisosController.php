@@ -11,10 +11,21 @@ use Throwable;
 
 class PermisosController extends Controller
 {
+    // public function index()
+    // {
+    //     $permiso = Permisos::all();
+    //     return $permiso;
+    // }
+
     public function index()
     {
-        $permiso = Permisos::all();
-        return $permiso;
+        $permiso = Permisos::paginate(10);
+        return response()->json([
+            'data' => $permiso->toArray(),
+            'current_page' => $permiso->currentPage(),
+            'last_page' => $permiso->lastPage(),
+            'total' => $permiso->total()
+        ]);
     }
     // insert
     public function store(Request $request)
