@@ -26,6 +26,11 @@ class TiposProcesosController extends Controller
             'total' => $tproceso->total()
         ]);
     }
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('Cve',$request->cve)->get();
+        return json_encode($detalle);
+    }
     // insert
     public function store(Request $request)
     {

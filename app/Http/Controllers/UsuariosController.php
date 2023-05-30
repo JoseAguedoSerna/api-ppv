@@ -26,6 +26,11 @@ class UsuariosController extends Controller
             'total' => $usuario->total()
         ]);
     }
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('uuidTiCentral',$request->uuidticentral)->get();
+        return json_encode($detalle);
+    }
     // insert
     public function store(Request $request)
     {

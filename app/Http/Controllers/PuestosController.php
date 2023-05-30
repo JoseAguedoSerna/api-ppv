@@ -27,6 +27,11 @@ class PuestosController extends Controller
             'total' => $puesto->total()
         ]);
     }
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('Cve',$request->cve)->get();
+        return json_encode($detalle);
+    }
     // insert
     public function store(Request $request)
     {

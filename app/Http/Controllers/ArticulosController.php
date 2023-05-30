@@ -27,7 +27,11 @@ class ArticulosController extends Controller
             'total' => $articulo->total()
         ]);
     }
-
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('NoSerie',$request->noserie)->get();
+        return json_encode($detalle);
+    }
     // insert
     public function store(Request $request)
     {

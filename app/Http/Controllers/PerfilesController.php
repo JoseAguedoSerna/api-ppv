@@ -17,6 +17,7 @@ class PerfilesController extends Controller
     //     return $perfil;
     // }
 
+    
     public function index()
     {
         $perfil = Perfiles::paginate(10);
@@ -26,6 +27,11 @@ class PerfilesController extends Controller
             'last_page' => $perfil->lastPage(),
             'total' => $perfil->total()
         ]);
+    }
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('Cve',$request->cve)->get();
+        return json_encode($detalle);
     }
     // insert
     public function store(Request $request)

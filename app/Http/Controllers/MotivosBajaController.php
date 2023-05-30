@@ -27,6 +27,12 @@ class MotivosBajaController extends Controller
             'total' => $motivoBaja->total()
         ]);
     }
+
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('Cve',$request->cve)->get();
+        return json_encode($detalle);
+    }
     // insert
     public function store(Request $request)
     {

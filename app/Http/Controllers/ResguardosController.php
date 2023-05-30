@@ -27,6 +27,12 @@ class ResguardosController extends Controller
             'total' => $resguardo->total()
         ]);
     }
+
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('uuidTipoComprobante',$request->uuidtipocomprobante)->get();
+        return json_encode($detalle);
+    }
     // insert
     public function store(Request $request)
     {

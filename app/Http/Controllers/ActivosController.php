@@ -31,7 +31,7 @@ class ActivosController extends Controller
     //Condición WHERE
     public function show(Request $request)
     {
-        $detalle = Articulos::where('NoComprobante',$request->cveart)->get();
+        $detalle = Articulos::where('Cve',$request->cve)->get();
         return json_encode($detalle);
     }
 
