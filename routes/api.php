@@ -289,7 +289,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('guardaarticulos',[ArticulosController::class,'store']);
         Route::post('actualizaarticulos',[ArticulosController::class,'update']);
         Route::post('eliminaarticulos',[ArticulosController::class,'destroy']);
-<<<<<<< HEAD
 
         #Modelos
         Route::get('obtienemodelos',[ModelosController::class,'index']);
@@ -304,9 +303,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('actualizamotivosbaja',[MotivosBajaController::class,'update']);
         Route::post('eliminamotivosbaja',[MotivosBajaController::class,'destroy']);
     
-=======
-        Route::post('detallearticulo',[ArticulosController::class,'show']);
->>>>>>> a44e070f9e6a6ef4b713242b752e21899e148381
         #Resguardos
         Route::get('obtieneresguardos',[ResguardosController::class,'index']);
         Route::post('whereresguardos',[ResguardosController::class,'show']);
@@ -314,7 +310,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('actualizaresguardos',[ResguardosController::class,'update']);
         Route::post('eliminaresguardos',[ResguardosController::class,'destroy']);
         #ResguardoDet
-<<<<<<< HEAD
         Route::get('obtieneresguardodet',[ResguardoDetController::class,'index']);
         Route::post('whereresguardodet',[ResguardoDetController::class,'show']);
         Route::post('guardaresguardodet',[ResguardoDetController::class,'store']);
@@ -337,11 +332,3 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 
-=======
-        Route::get('obtieneresguardosdet',[ResguardosDetController::class,'index']);
-        Route::post('guardaresguardosdet',[ResguardosDetController::class,'store']);
-        Route::post('actualizaresguardosdet',[ResguardosDetController::class,'update']);
-        Route::post('eliminaresguardosdet',[ResguardosDetController::class,'destroy']);
-    });
-//});
->>>>>>> a44e070f9e6a6ef4b713242b752e21899e148381
