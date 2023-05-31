@@ -2,47 +2,57 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Models\RolMenu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+use Throwable;
 
 class RolMenuController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // obtiene todos los RolMenu
     public function index()
     {
-        //
+        $rolmenu = RolMenu::all();
+        return $rolmenu;
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    // insert
     public function store(Request $request)
     {
-        //
+        $nuevo_rolmenu = new RolMenu();
+        try {
+            $nuevo_rolmenu::create([
+                'uuidRol' => $request->uuidrol,
+                'uuidMenu' => $request->uuidmenu,
+                ]);
+        } catch (Throwable $e) {
+            abort(404, $e->getMessage());
+        }
+        $firstRolMenu = RolMenu::latest('uuid', 'asc')->first();
+        $data = json_encode($firstRolMenu);
+        return $data;
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    // update registro
+    public function update(Request $request)
     {
-        //
+        $rolmenu = RolMenu::find($request->uuid);
+        try {
+            $rolmenu->update([
+                'uuidRol' => $request->uuidrol,
+                'uuidMenu' => $request->uuidmenu,
+                ]);        
+                $rolmenu->uuid;                   
+        } catch (Throwable $e) {
+            abort(404, $e->getMessage());
+        }
+        $data = json_encode($rolmenu);
+        return $data;
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(Request $request)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $rolmenu = RolMenu::find($request->uuid); 
+        $rolmenu->Delete();
+        return $rolmenu;
     }
 }

@@ -13,22 +13,19 @@ return new class extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('ResguardoDet')) {
-            Schema::create('ResguardoDet', function (Blueprint $table) {
-                $table->uuid('uuid')->primary(); 
-
-                $table->uuid('uuidResguardo');
-                $table->foreign('uuidResguardo')->references('uuid')->on('Resguardos')->onDelete('cascade');
-                $table->uuid('uuidArticulo');
-                $table->foreign('uuidArticulo')->references('uuid')->on('Articulos')->onDelete('cascade');
+        if (!Schema::hasTable('EstatusResguardo')) {
+            Schema::create('EstatusResguardo', function (Blueprint $table) {
+                $table->uuid('uuid')->primary();
                 
-                $table->tinyInteger('Estatus');
+                $table->char('Cve',10)->unique();
+                $table->string('Nombre',256);
+                $table->string('Descripcion',256);
 
                 $table->char('CreadoPor', 36)->nullable();
                 $table->char('ModificadoPor', 36)->nullable();
                 $table->char('EliminadoPor', 36)->nullable();
                 $table->timestamps();
-                $table->softDeletes();            
+                $table->softDeletes();     
             });
         }
     }
@@ -39,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ResguardoDet');
+        Schema::dropIfExists('EstatusResguardo');
     }
 };

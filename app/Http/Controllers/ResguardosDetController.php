@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\ResguardoDet;
+use App\Models\ResguardosDet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Throwable;
 
-class ResguardoDetController extends Controller
+class ResguardosDetController extends Controller
 {
     // obtiene todos los registros
     // public function index(Request $request)
@@ -19,6 +19,7 @@ class ResguardoDetController extends Controller
     // }   
     public function index()
     {
+<<<<<<< HEAD:app/Http/Controllers/ResguardoDetController.php
         $resguardodet = ResguardoDet::paginate(10);
         return response()->json([
             'data' => $resguardodet->toArray(),
@@ -32,15 +33,24 @@ class ResguardoDetController extends Controller
         $detalle = Articulos::where('uuidResguardo',$request->cve)->get();
         return json_encode($detalle);
     }
+=======
+        $resguardodet = ResguardosDet::all();
+        return $resguardodet;
+    }   
+>>>>>>> a44e070f9e6a6ef4b713242b752e21899e148381:app/Http/Controllers/ResguardosDetController.php
     // insert
     public function store(Request $request)
     {
-        $nuevo_resguardodet = new ResguardoDet();
+        $nuevo_resguardodet = new ResguardosDet();
         try {
             $nuevo_resguardodet::create([
                 'uuidResguardo' => $request->uuidresguardo,
+<<<<<<< HEAD:app/Http/Controllers/ResguardoDetController.php
                 'uuidresguardodet' => $request->uuidresguardodet,
                 'Estatus' => $request->estatus,
+=======
+                'uuidArticulo' => $request->uuidarticulo,
+>>>>>>> a44e070f9e6a6ef4b713242b752e21899e148381:app/Http/Controllers/ResguardosDetController.php
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor                
@@ -48,19 +58,23 @@ class ResguardoDetController extends Controller
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $firstResguardoDet = ResguardoDet::latest('uuid', 'asc')->first();
+        $firstResguardoDet = ResguardosDet::latest('uuid', 'asc')->first();
         $data = json_encode($firstResguardoDet);
         return $data;
     }
     // update registro
     public function update(Request $request)
     {
-        $resguardodet = ResguardoDet::find($request->uuid);
+        $resguardodet = ResguardosDet::find($request->uuid);
         try {
             $resguardodet->update([
                 'uuidResguardo' => $request->uuidresguardo,
+<<<<<<< HEAD:app/Http/Controllers/ResguardoDetController.php
                 'uuidresguardodet' => $request->uuidresguardodet,
                 'Estatus' => $request->estatus,              
+=======
+                'uuidArticulo' => $request->uuidarticulo,             
+>>>>>>> a44e070f9e6a6ef4b713242b752e21899e148381:app/Http/Controllers/ResguardosDetController.php
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
@@ -75,7 +89,7 @@ class ResguardoDetController extends Controller
     // Delete
     public function destroy(Request $request)
     {
-        $resguardodet = ResguardoDet::find($request->uuid); 
+        $resguardodet = ResguardosDet::find($request->uuid); 
         $resguardodet->Delete();
         return $resguardodet;
     }

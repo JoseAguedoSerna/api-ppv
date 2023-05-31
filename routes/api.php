@@ -15,7 +15,7 @@ use App\Http\Controllers\{
     MenusController,
     MunicipiosController,
     NivelReportesController,
-        NotificacionesController,
+    NotificacionesController,
     PerfilesController,
     PermisosController,
     PresentacionesMueblesController,
@@ -35,16 +35,21 @@ use App\Http\Controllers\{
     TransaccionesController,
     UsuariosController,
     ModelosController,
-
     MotivosBajaController,
     TiposAdquisicionController,
     TiposComprobantesController,
+    ActivosController,
+    EstatusResguardoController,
+
+    DependenciasTiposController,
+    MenuPermisosController,
+    PerfilRolController,
+    RolMenusController,
+    UsuarioPerfile,
 
     #Muebles
-    ActivosController,
     ArticulosController,
-    
-    ResguardoDetController,
+    ResguardosDetController,
     ResguardosController,
 
 };
@@ -58,9 +63,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // delete envia actualiza estatus
 // TODOS los catalogos
 
+<<<<<<< HEAD
 
+=======
+//Route::middleware(JwtSeguridad::class)->group(function () {
+>>>>>>> a44e070f9e6a6ef4b713242b752e21899e148381
     Route::prefix('catalogos')->group(function (){
-        #Menus        
+        #Menus
         Route::get('obtienemenus',[MenusController::class,'index']);
         Route::post('wheremenus',[MenusController::class,'show']);
         Route::post('guardamenus',[MenusController::class,'store']);
@@ -222,7 +231,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('guardamodelos',[ModelosController::class,'store']);
         Route::post('actualizamodelos',[ModelosController::class,'update']);
         Route::post('eliminamodelos',[ModelosController::class,'destroy']);
-
         #MotivosBaja
         Route::get('obtienemotivosbaja',[MotivosBajaController::class,'index']);
         Route::post('wheremotivosbaja',[MotivosBajaController::class,'show']);
@@ -241,21 +249,52 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('guardatiposcomprobantes',[TiposComprobantesController::class,'store']);
         Route::post('actualizatiposcomprobantes',[TiposComprobantesController::class,'update']);
         Route::post('eliminatiposcomprobantes',[TiposComprobantesController::class,'destroy']);
-    });
-
-    Route::prefix('muebles')->group(function (){
         #Activos
         Route::get('obtieneactivos',[ActivosController::class,'index']);
         Route::post('whereactivos',[ActivosController::class,'show']);
         Route::post('guardaactivos',[ActivosController::class,'store']);
         Route::post('actualizaactivos',[ActivosController::class,'update']);
         Route::post('eliminaactivos',[ActivosController::class,'destroy']);
+        #EstatusResguardo
+        Route::get('obtieneestatusresguardo',[EstatusResguardoController::class,'index']);
+        Route::post('guardaestatusresguardo',[EstatusResguardoController::class,'store']);
+        Route::post('actualizaestatusresguardo',[EstatusResguardoController::class,'update']);
+        Route::post('eliminaestatusresguardo',[EstatusResguardoController::class,'destroy']);
+
+        #DependenciasTiposController
+        Route::get('obtienedependenciastipos',[DependenciasTiposController::class,'index']);
+        Route::post('guardadependenciastipos',[DependenciasTiposController::class,'store']);
+        Route::post('actualizadependenciastipos',[DependenciasTiposController::class,'update']);
+        Route::post('eliminadependenciastipos',[DependenciasTiposController::class,'destroy']);
+        #MenuPermisoController
+        Route::get('obtienemenupermiso',[MenuPermisoController::class,'index']);
+        Route::post('guardamenupermiso',[MenuPermisoController::class,'store']);
+        Route::post('actualizamenupermiso',[MenuPermisoController::class,'update']);
+        Route::post('eliminamenupermiso',[MenuPermisoController::class,'destroy']);
+        #PerfilRolController
+        Route::get('obtieneperfilrol',[PerfilRolController::class,'index']);
+        Route::post('guardaperfilrol',[PerfilRolController::class,'store']);
+        Route::post('actualizaperfilrol',[PerfilRolController::class,'update']);
+        Route::post('eliminaperfilrol',[PerfilRolController::class,'destroy']);
+        #RolMenuController
+        Route::get('obtienerolmenu',[RolMenuController::class,'index']);
+        Route::post('guardarolmenu',[RolMenuController::class,'store']);
+        Route::post('actualizarolmenu',[RolMenuController::class,'update']);
+        Route::post('eliminarolmenu',[RolMenuController::class,'destroy']);
+        #UsuarioPerfil
+        Route::get('obtieneusuarioperfil',[UsuarioPerfilController::class,'index']);
+        Route::post('guardausuarioperfil',[UsuarioPerfilController::class,'store']);
+        Route::post('actualizausuarioperfil',[UsuarioPerfilController::class,'update']);
+        Route::post('eliminausuarioperfil',[UsuarioPerfilController::class,'destroy']);
+    });
+    Route::prefix('muebles')->group(function (){
         #Articulos
         Route::get('obtienearticulos',[ArticulosController::class,'index']);
         Route::post('wherearticulos',[ArticulosController::class,'show']);
         Route::post('guardaarticulos',[ArticulosController::class,'store']);
         Route::post('actualizaarticulos',[ArticulosController::class,'update']);
         Route::post('eliminaarticulos',[ArticulosController::class,'destroy']);
+<<<<<<< HEAD
 
         #Modelos
         Route::get('obtienemodelos',[ModelosController::class,'index']);
@@ -270,6 +309,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('actualizamotivosbaja',[MotivosBajaController::class,'update']);
         Route::post('eliminamotivosbaja',[MotivosBajaController::class,'destroy']);
     
+=======
+        Route::post('detallearticulo',[ArticulosController::class,'show']);
+>>>>>>> a44e070f9e6a6ef4b713242b752e21899e148381
         #Resguardos
         Route::get('obtieneresguardos',[ResguardosController::class,'index']);
         Route::post('whereresguardos',[ResguardosController::class,'show']);
@@ -277,6 +319,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('actualizaresguardos',[ResguardosController::class,'update']);
         Route::post('eliminaresguardos',[ResguardosController::class,'destroy']);
         #ResguardoDet
+<<<<<<< HEAD
         Route::get('obtieneresguardodet',[ResguardoDetController::class,'index']);
         Route::post('whereresguardodet',[ResguardoDetController::class,'show']);
         Route::post('guardaresguardodet',[ResguardoDetController::class,'store']);
@@ -299,3 +342,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 
+=======
+        Route::get('obtieneresguardosdet',[ResguardosDetController::class,'index']);
+        Route::post('guardaresguardosdet',[ResguardosDetController::class,'store']);
+        Route::post('actualizaresguardosdet',[ResguardosDetController::class,'update']);
+        Route::post('eliminaresguardosdet',[ResguardosDetController::class,'destroy']);
+    });
+//});
+>>>>>>> a44e070f9e6a6ef4b713242b752e21899e148381

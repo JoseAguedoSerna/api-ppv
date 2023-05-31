@@ -3,41 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\PresentacionesMuebles;
+use App\Models\EstatusResguardo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Throwable;
 
-class PresentacionesMueblesController extends Controller
+class EstatusResguardoController extends Controller
 {
-    // public function index()
-    // {
-    //     $pmuebles = PresentacionesMuebles::all();
-    //     return $pmuebles;
-    // }
-
     public function index()
     {
-        $pmuebles = PresentacionesMuebles::paginate(10);
-        return response()->json([
-            'data' => $pmuebles->toArray(),
-            'current_page' => $pmuebles->currentPage(),
-            'last_page' => $pmuebles->lastPage(),
-            'total' => $pmuebles->total()
-        ]);
-    }
-    public function show(Request $request)
-    {
-        $detalle = Articulos::where('Cve',$request->cve)->get();
-        return json_encode($detalle);
+        $estatusresguardo = EstatusResguardo::all();
+        return $estatusresguardo;
     }
     // insert
     public function store(Request $request)
     {
-        $nuevo_pmuebles = new PresentacionesMuebles();
+        $nuevo_estatusresguardo = new EstatusResguardo();
         try {
-            $nuevo_pmuebles::create([
+            $nuevo_estatusresguardo::create([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
@@ -48,16 +32,16 @@ class PresentacionesMueblesController extends Controller
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $firstPMuebles = PresentacionesMuebles::latest('uuid', 'asc')->first();
-        $data = json_encode($firstPMuebles);
+        $firstEstatusResguardo = EstatusResguardo::latest('uuid', 'asc')->first();
+        $data = json_encode($firstEstatusResguardo);
         return $data;
     }
     // update registro
     public function update(Request $request)
     {
-        $pmuebles = PresentacionesMuebles::find($request->uuid);
+        $estatusresguardo = EstatusResguardo::find($request->uuid);
         try {
-            $pmuebles->update([
+            $estatusresguardo->update([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
@@ -65,17 +49,17 @@ class PresentacionesMueblesController extends Controller
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
                 ]);        
-                $pmuebles->uuid;                   
+                $estatusresguardo->uuid;                   
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $data = json_encode($pmuebles);
+        $data = json_encode($estatusresguardo);
         return $data;
     }
     public function destroy(Request $request)
     {
-        $pmuebles = PresentacionesMuebles::find($request->uuid); 
-        $pmuebles->Delete();
-        return $pmuebles;
+        $estatusresguardo = EstatusResguardo::find($request->uuid); 
+        $estatusresguardo->Delete();
+        return $estatusresguardo;
     }
 }

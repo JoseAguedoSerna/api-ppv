@@ -8,13 +8,11 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
-use Illuminate\Database\Eloquent\Collection;
-
-class Activos extends Model
+class EstatusResguardo extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
-    protected $table = "Activos"; #Se indica el nombre de la tabla    
-    protected $primaryKey = "uuid"; #Definimos campo uuis como primary key
+    protected $table = "EstatusResguardo"; #Se indica el nombre de la tabla    
+    protected $primaryKey = "uuid"; #Definimos campo uuis como primary key"    
     public $incrementing = false;  #Quitamos que sea autoincremental
     protected $fillable = ['Cve','Nombre','Descripcion',
                             'CreadoPor','ModificadoPor','EliminadoPor',

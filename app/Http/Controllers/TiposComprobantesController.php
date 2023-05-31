@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 use Throwable;
 
-class TiposComprobanteController extends Controller
+class TiposComprobantesController extends Controller
 {
     // public function index()
     // {
