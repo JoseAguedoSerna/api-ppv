@@ -64,12 +64,12 @@ class ArticulosController extends Controller
         return $data;
     }
 
-    public function show(Request $request)
-    {
-        $modelo = Articulos::find($request->IdArticulo);
-        return json_encode($modelo);
+    // public function show(Request $request)
+    // {
+    //     $modelo = Articulos::find($request->IdArticulo);
+    //     return json_encode($modelo);
 
-    }
+    // }
     // update registro
     public function update(Request $request)
     {
