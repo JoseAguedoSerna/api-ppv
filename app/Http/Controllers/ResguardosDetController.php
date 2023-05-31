@@ -59,12 +59,8 @@ class ResguardosDetController extends Controller
         try {
             $resguardodet->update([
                 'uuidResguardo' => $request->uuidresguardo,
-<<<<<<< HEAD:app/Http/Controllers/ResguardoDetController.php
                 'uuidresguardodet' => $request->uuidresguardodet,
                 'Estatus' => $request->estatus,              
-=======
-                'uuidArticulo' => $request->uuidarticulo,             
->>>>>>> a44e070f9e6a6ef4b713242b752e21899e148381:app/Http/Controllers/ResguardosDetController.php
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
