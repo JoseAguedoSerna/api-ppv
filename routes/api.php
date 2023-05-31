@@ -63,11 +63,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // delete envia actualiza estatus
 // TODOS los catalogos
 
-<<<<<<< HEAD
-
-=======
-//Route::middleware(JwtSeguridad::class)->group(function () {
->>>>>>> a44e070f9e6a6ef4b713242b752e21899e148381
     Route::prefix('catalogos')->group(function (){
         #Menus
         Route::get('obtienemenus',[MenusController::class,'index']);

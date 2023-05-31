@@ -20,25 +20,17 @@ class ArticulosController extends Controller
     public function index()
     {
         $articulo = Articulos::paginate(10);
-<<<<<<< HEAD
-=======
-
->>>>>>> a44e070f9e6a6ef4b713242b752e21899e148381
         return response()->json([
             'data' => $articulo->toArray(),
             'current_page' => $articulo->currentPage(),
             'last_page' => $articulo->lastPage(),
             'total' => $articulo->total()
         ]);
-<<<<<<< HEAD
     }
     public function show(Request $request)
     {
         $detalle = Articulos::where('NoSerie',$request->noserie)->get();
         return json_encode($detalle);
-=======
-        //return $articulo;
->>>>>>> a44e070f9e6a6ef4b713242b752e21899e148381
     }
     // insert
     public function store(Request $request)

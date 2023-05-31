@@ -19,7 +19,6 @@ class ResguardosDetController extends Controller
     // }   
     public function index()
     {
-<<<<<<< HEAD:app/Http/Controllers/ResguardoDetController.php
         $resguardodet = ResguardoDet::paginate(10);
         return response()->json([
             'data' => $resguardodet->toArray(),
@@ -33,11 +32,6 @@ class ResguardosDetController extends Controller
         $detalle = Articulos::where('uuidResguardo',$request->cve)->get();
         return json_encode($detalle);
     }
-=======
-        $resguardodet = ResguardosDet::all();
-        return $resguardodet;
-    }   
->>>>>>> a44e070f9e6a6ef4b713242b752e21899e148381:app/Http/Controllers/ResguardosDetController.php
     // insert
     public function store(Request $request)
     {
