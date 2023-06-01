@@ -14,7 +14,17 @@ class MenusController extends Controller
     // obtiene todos los registros
     public function index(Request $request)
     {
-        $menu = Menus::all();
+        // $menu = Menus::all();
+        // return $menu;
+        try {
+            $menu = DB::table('Menus as M1')                
+            ->leftJoin('Menus as M2', 'M1.MenuPadre', '=', 'M2.uuid')
+            ->select('M1.*','M2.Nombre as NomMP')
+            ->whereNull('M1.deleted_at')
+            ->get();            
+        } catch (Throwable $e) {
+            abort(404, $e->getMessage());
+        }
         return $menu;
     }   
     // insert
@@ -54,10 +64,11 @@ class MenusController extends Controller
                 'Icono' => $request->icono,
                 'Path' => $request->path,
                 'Nivel' => $request->nivel,
-                'Ordenamiento' => $request->ordenamiento,                
+                'Ordenamiento' => $request->ordenamiento,
+                'MenuPadre' => $request->menupadre,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
-                'EliminadoPor' => $request->eliminadopor
+                'EliminadoPor' => $request->eliminadopor   
                 ]);        
                 $menu->uuid;                   
         } catch (Throwable $e) {

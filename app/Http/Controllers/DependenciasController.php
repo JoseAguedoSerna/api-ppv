@@ -14,8 +14,26 @@ class DependenciasController extends Controller
     // obtiene todos los dependencias
     public function index()
     {
-        $Dependencia = Dependencias::all();
+        // $Dependencia = Dependencias::all();
+        // return $Dependencia;
+        $Dependencia = DB::table('Dependencias')        
+        ->select(['Dependencias.*','TiposDependencias.Nombre as TiposDependencias','Titular.Nombre as Titular','Secretarias.Nombre as Secretarias'])
+        ->join('TiposDependencias', 'Dependencias.uuidTipoDependencia', '=', 'TiposDependencias.uuid')
+        ->join('Titular', 'Dependencias.uuidTitular', '=', 'Titular.uuid')
+        ->join('Secretarias', 'Dependencias.uuidSecretaria', '=', 'Secretarias.uuid')
+        ->whereNull('Dependencias.deleted_at')
+        ->get();
+    
+        // $tickets::paginate(10);
+        // return response()->json([
+        //     'data' => $tickets->toArray(),
+        //     'current_page' => $tickets->currentPage(),
+        //     'last_page' => $tickets->lastPage(),
+        //     'total' => $tickets->total()
+        // ]);
         return $Dependencia;
+
+
     }
     public function show(Request $request)
     {
@@ -62,7 +80,7 @@ class DependenciasController extends Controller
                 'uuidTipoDependencia'=> $request->uuidtipodependencia,
                 'uuidTitular'=> $request->uuidtitular,
                 'uuidSecretaria'=> $request->uuidsecretaria,
-                         
+
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
