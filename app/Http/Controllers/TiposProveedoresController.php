@@ -11,10 +11,25 @@ use Throwable;
 
 class TiposProveedoresController extends Controller
 {
+    // public function index()
+    // {
+    //     $tproveedor = TiposProveedores::all();
+    //     return $tproveedor;
+    // }
     public function index()
     {
-        $tproveedor = TiposProveedores::all();
-        return $tproveedor;
+        $tproveedor = TiposProveedores::paginate(10);
+        return response()->json([
+            'data' => $tproveedor->toArray(),
+            'current_page' => $tproveedor->currentPage(),
+            'last_page' => $tproveedor->lastPage(),
+            'total' => $tproveedor->total()
+        ]);
+    }
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('Cve',$request->cve)->get();
+        return json_encode($detalle);
     }
     // insert
     public function store(Request $request)

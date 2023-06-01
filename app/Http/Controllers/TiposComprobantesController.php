@@ -11,10 +11,25 @@ use Throwable;
 
 class TiposComprobantesController extends Controller
 {
+    // public function index()
+    // {
+    //     $tcomprobante = TiposComprobantes::all();
+    //     return $tcomprobante;
+    // }
     public function index()
     {
-        $tcomprobante = TiposComprobantes::all();
-        return $tcomprobante;
+        $tcomprobante = TiposComprobantes::paginate(10);
+        return response()->json([
+            'data' => $tcomprobante->toArray(),
+            'current_page' => $tcomprobante->currentPage(),
+            'last_page' => $tcomprobante->lastPage(),
+            'total' => $tcomprobante->total()
+        ]);
+    }
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('Cve',$request->cve)->get();
+        return json_encode($detalle);
     }
     // insert
     public function store(Request $request)

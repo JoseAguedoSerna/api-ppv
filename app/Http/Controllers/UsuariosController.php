@@ -11,10 +11,25 @@ use Throwable;
 
 class UsuariosController extends Controller
 {
+    // public function index()
+    // {
+    //     $usuario = Usuarios::all();
+    //     return $usuario;
+    // }
     public function index()
     {
-        $usuario = Usuarios::all();
-        return $usuario;
+        $usuario = Usuarios::paginate(10);
+        return response()->json([
+            'data' => $usuario->toArray(),
+            'current_page' => $usuario->currentPage(),
+            'last_page' => $usuario->lastPage(),
+            'total' => $usuario->total()
+        ]);
+    }
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('uuidTiCentral',$request->uuidticentral)->get();
+        return json_encode($detalle);
     }
     // insert
     public function store(Request $request)

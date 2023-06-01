@@ -11,10 +11,25 @@ use Throwable;
 
 class TiposTransaccionesController extends Controller
 {
+    // public function index()
+    // {
+    //     $ttransaccion = TiposTransacciones::all();
+    //     return $ttransaccion;
+    // }
     public function index()
     {
-        $ttransaccion = TiposTransacciones::all();
-        return $ttransaccion;
+        $ttransaccion = TiposTransacciones::paginate(10);
+        return response()->json([
+            'data' => $ttransaccion->toArray(),
+            'current_page' => $ttransaccion->currentPage(),
+            'last_page' => $ttransaccion->lastPage(),
+            'total' => $ttransaccion->total()
+        ]);
+    }
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('Cve',$request->cve)->get();
+        return json_encode($detalle);
     }
     // insert
     public function store(Request $request)

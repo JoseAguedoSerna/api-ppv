@@ -11,10 +11,25 @@ use Throwable;
 
 class TiposReportesController extends Controller
 {
+    // public function index()
+    // {
+    //     $treporte = TiposReportes::all();
+    //     return $treporte;
+    // }
     public function index()
     {
-        $treporte = TiposReportes::all();
-        return $treporte;
+        $treporte = TiposReportes::paginate(10);
+        return response()->json([
+            'data' => $treporte->toArray(),
+            'current_page' => $treporte->currentPage(),
+            'last_page' => $treporte->lastPage(),
+            'total' => $treporte->total()
+        ]);
+    }
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('Cve',$request->cve)->get();
+        return json_encode($detalle);
     }
     // insert
     public function store(Request $request)

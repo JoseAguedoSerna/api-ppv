@@ -11,10 +11,26 @@ use Throwable;
 
 class PresentacionesMueblesController extends Controller
 {
+    // public function index()
+    // {
+    //     $pmuebles = PresentacionesMuebles::all();
+    //     return $pmuebles;
+    // }
+
     public function index()
     {
-        $pmuebles = PresentacionesMuebles::all();
-        return $pmuebles;
+        $pmuebles = PresentacionesMuebles::paginate(10);
+        return response()->json([
+            'data' => $pmuebles->toArray(),
+            'current_page' => $pmuebles->currentPage(),
+            'last_page' => $pmuebles->lastPage(),
+            'total' => $pmuebles->total()
+        ]);
+    }
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('Cve',$request->cve)->get();
+        return json_encode($detalle);
     }
     // insert
     public function store(Request $request)

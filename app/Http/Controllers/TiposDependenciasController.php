@@ -11,10 +11,25 @@ use Throwable;
 
 class TiposDependenciasController extends Controller
 {
+    // public function index()
+    // {
+    //     $tdependencias = TiposDependencias::all();
+    //     return $tdependencias;
+    // }
     public function index()
     {
-        $tdependencias = TiposDependencias::all();
-        return $tdependencias;
+        $tdependencias = TiposDependencias::paginate(10);
+        return response()->json([
+            'data' => $tdependencias->toArray(),
+            'current_page' => $tdependencias->currentPage(),
+            'last_page' => $tdependencias->lastPage(),
+            'total' => $tdependencias->total()
+        ]);
+    }
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('Cve',$request->cve)->get();
+        return json_encode($detalle);
     }
     // insert
     public function store(Request $request)
