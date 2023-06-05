@@ -11,6 +11,12 @@ use Throwable;
 
 class ArticulosController extends Controller
 {
+    // public function index()
+    // {
+    //     $articulo = Articulos::all();
+    //     return $articulo;
+    // }
+
     public function index()
     {
         $articulo = Articulos::paginate(10);
@@ -20,7 +26,11 @@ class ArticulosController extends Controller
             'last_page' => $articulo->lastPage(),
             'total' => $articulo->total()
         ]);
-        //return $articulo;
+    }
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('NoSerie',$request->noserie)->get();
+        return json_encode($detalle);
     }
     // insert
     public function store(Request $request)
@@ -59,6 +69,12 @@ class ArticulosController extends Controller
         $detalle = Articulos::where('NoComprobante',$request->cveart)->get();
         return json_encode($detalle);
     }
+    // public function show(Request $request)
+    // {
+    //     $modelo = Articulos::find($request->IdArticulo);
+    //     return json_encode($modelo);
+
+    // }
     // update registro
     public function update(Request $request)
     {

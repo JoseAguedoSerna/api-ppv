@@ -11,10 +11,25 @@ use Throwable;
 
 class TiposClasificacionController extends Controller
 {
+    // public function index()
+    // {
+    //     $tclasificacion = TiposClasificacion::all();
+    //     return $tclasificacion;
+    // }
     public function index()
     {
-        $tclasificacion = TiposClasificacion::all();
-        return $tclasificacion;
+        $tclasificacion = TiposClasificacion::paginate(10);
+        return response()->json([
+            'data' => $tclasificacion->toArray(),
+            'current_page' => $tclasificacion->currentPage(),
+            'last_page' => $tclasificacion->lastPage(),
+            'total' => $tclasificacion->total()
+        ]);
+    }
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('Cve',$request->cve)->get();
+        return json_encode($detalle);
     }
     // insert
     public function store(Request $request)

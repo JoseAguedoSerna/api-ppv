@@ -12,14 +12,50 @@ use Throwable;
 class DependenciasController extends Controller
 {
     // obtiene todos los dependencias
+    // public function index()
+    // {
+    //     $Dependencia = Dependencias::all();
+    //     return $Dependencia;
+    // }
+
     public function index()
     {
-        $Dependencia = Dependencias::all();
+        // $Dependencia = Dependencias::all();
+        // return $Dependencia;
+        $Dependencia = DB::table('Dependencias')        
+        ->select(['Dependencias.*','TiposDependencias.Nombre as TiposDependencias','Titular.Nombre as Titular','Secretarias.Nombre as Secretarias'])
+        ->join('TiposDependencias', 'Dependencias.uuidTipoDependencia', '=', 'TiposDependencias.uuid')
+        ->join('Titular', 'Dependencias.uuidTitular', '=', 'Titular.uuid')
+        ->join('Secretarias', 'Dependencias.uuidSecretaria', '=', 'Secretarias.uuid')
+        ->whereNull('Dependencias.deleted_at')
+        ->get();
+    
+        // $tickets::paginate(10);
+        // return response()->json([
+        //     'data' => $tickets->toArray(),
+        //     'current_page' => $tickets->currentPage(),
+        //     'last_page' => $tickets->lastPage(),
+        //     'total' => $tickets->total()
+        // ]);
         return $Dependencia;
+
+
     }
     public function show(Request $request)
     {
         $detalle = Dependencias::where('uuid',$request->uuid)->get();
+        $dependencia = Dependencias::paginate(10);
+        return response()->json([
+            'data' => $dependencia->toArray(),
+            'current_page' => $dependencia->currentPage(),
+            'last_page' => $dependencia->lastPage(),
+            'total' => $dependencia->total()
+        ]);
+    }
+
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('Cve',$request->cve)->get();
         return json_encode($detalle);
     }
     // insert
@@ -32,6 +68,10 @@ class DependenciasController extends Controller
                 'Nombre' => $request->nombre,
                 'Direccion' => $request->direccion,
                 'Telefono' => $request->telefono,
+
+                'uuidTipoDependencia'=> $request->uuidtipodependencia,
+                'uuidTitular'=> $request->uuidtitular,
+                'uuidSecretaria'=> $request->uuidsecretaria,
 
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
@@ -51,7 +91,14 @@ class DependenciasController extends Controller
         try {
             $dependencia->update([
                 'Cve' => $request->cve,
-                'Nombre' => $request->nombre,             
+                'Nombre' => $request->nombre,
+                'Direccion' => $request->direccion,
+                'Telefono' => $request->telefono,
+
+                'uuidTipoDependencia'=> $request->uuidtipodependencia,
+                'uuidTitular'=> $request->uuidtitular,
+                'uuidSecretaria'=> $request->uuidsecretaria,
+
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor

@@ -11,11 +11,28 @@ use Throwable;
 
 class ModelosController extends Controller
 {
-    public function index(Request $request)
+    // public function index(Request $request)
+    // {
+    //     $modelo = Modelos::all();
+    //     return $modelo;
+    // }   
+
+    public function index()
     {
-        $modelo = Modelos::all();
-        return $modelo;
-    }   
+        $modelo = Modelos::paginate(10);
+        return response()->json([
+            'data' => $modelo->toArray(),
+            'current_page' => $modelo->currentPage(),
+            'last_page' => $modelo->lastPage(),
+            'total' => $modelo->total()
+        ]);
+    }
+
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('Cve',$request->cve)->get();
+        return json_encode($detalle);
+    }
     // insert
     public function store(Request $request)
     {

@@ -13,10 +13,40 @@ use Throwable;
 class MenusController extends Controller
 {
     // obtiene todos los registros
-    public function index(Request $request)
+    // public function index(Request $request)
+    // {
+    //     $menu = Menus::all();
+    //     return $menu;
+    // }   
+
+    public function index()
     {
-        $menu = Menus::all();
+        // $menu = Menus::all();
+        // return $menu;
+        try {
+            $menu = DB::table('Menus as M1')                
+            ->leftJoin('Menus as M2', 'M1.MenuPadre', '=', 'M2.uuid')
+            ->select('M1.*','M2.Nombre as NomMP')
+            ->whereNull('M1.deleted_at')
+            ->get();            
+        } catch (Throwable $e) {
+            abort(404, $e->getMessage());
+        }
         return $menu;
+    }   
+        $menu = Menus::paginate(10);
+        return response()->json([
+            'data' => $menu->toArray(),
+            'current_page' => $menu->currentPage(),
+            'last_page' => $menu->lastPage(),
+            'total' => $menu->total()
+        ]);
+    }
+
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('Cve',$request->cve)->get();
+        return json_encode($detalle);
     }
     // insert
     public function store(Request $request)
@@ -61,6 +91,12 @@ class MenusController extends Controller
                 'EliminadoPor' => $request->eliminadopor
                 ]);
                 $menu->uuid;
+                'MenuPadre' => $request->menupadre,
+                'CreadoPor' => $request->creadopor,
+                'ModificadoPor' => $request->modificadopor,
+                'EliminadoPor' => $request->eliminadopor   
+                ]);        
+                $menu->uuid;                   
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
