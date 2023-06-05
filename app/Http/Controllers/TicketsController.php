@@ -15,7 +15,6 @@ class TicketsController extends Controller
     public function index(Request $request)
     {
         // $tickets = Tickets::paginate(10);
-<<<<<<< Updated upstream
         $tickets = DB::table('Tickets')        
         ->select(['Tickets.*',DB::raw("CONCAT(Empleados.Nombre,' ',Empleados.ApellidoPaterno,' ',Empleados.ApellidoMaterno)  AS Nombre"),'TiposTickets.Nombre as TipoTicket','CategoriasTickets.Nombre as CategoriaTicket','PrioridadTickets.Nombre as PrioridadTicket','StatusTickets.Nombre as StatusTicket'])
         ->join('Empleados', 'Tickets.Asignadoa', '=', 'Empleados.uuid')
@@ -24,7 +23,6 @@ class TicketsController extends Controller
         ->join('PrioridadTickets', 'Tickets.uuidPrioridadTickets', '=', 'PrioridadTickets.uuid')
         ->join('StatusTickets', 'Tickets.uuidStatusTicket', '=', 'StatusTickets.uuid')        
         ->get();
-=======
         //$tickets = DB::table('Tickets')
         //->select(['Tickets.*',DB::raw("CONCAT(Empleados.Nombre,' ',Empleados.ApellidoPaterno,' ',Empleados.ApellidoMaterno)  AS Nombre"),'TiposTickets.Nombre as TipoTicket','CategoriasTickets.Nombre as CategoriaTicket','PrioridadTickets.Nombre as PrioridadTicket','StatusTickets.Nombre as StatusTicket'])
         //->join('TiposTickets', 'Tickets.uuidTipoTicket', '=', 'TiposTickets.uuid')
@@ -40,7 +38,6 @@ class TicketsController extends Controller
             ->get();
 
 
->>>>>>> Stashed changes
         // $tickets::paginate(10);
 
         // return response()->json([
