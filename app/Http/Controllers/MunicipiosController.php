@@ -11,10 +11,27 @@ use Throwable;
 
 class MunicipiosController extends Controller
 {
+    // public function index()
+    // {
+    //     $municipio = Municipios::all();
+    //     return $municipio;
+    // }
+
     public function index()
     {
-        $municipio = Municipios::all();
-        return $municipio;
+        $municipio = Municipios::paginate(10);
+        return response()->json([
+            'data' => $municipio->toArray(),
+            'current_page' => $municipio->currentPage(),
+            'last_page' => $municipio->lastPage(),
+            'total' => $municipio->total()
+        ]);
+    }
+
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('Cve',$request->cve)->get();
+        return json_encode($detalle);
     }
     // insert
     public function store(Request $request)

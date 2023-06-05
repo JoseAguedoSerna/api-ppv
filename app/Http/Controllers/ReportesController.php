@@ -11,6 +11,12 @@ use Throwable;
 
 class ReportesController extends Controller
 {
+    // public function index()
+    // {
+    //     $reporte = Reportes::all();
+    //     return $reporte;
+    // }
+
     public function index()
     {
         // $reporte = Reportes::all();
@@ -21,6 +27,18 @@ class ReportesController extends Controller
         ->get();
 
         return $reporte;
+        $reporte = Reportes::paginate(10);
+        return response()->json([
+            'data' => $reporte->toArray(),
+            'current_page' => $reporte->currentPage(),
+            'last_page' => $reporte->lastPage(),
+            'total' => $reporte->total()
+        ]);
+    }
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('Cve',$request->cve)->get();
+        return json_encode($detalle);
     }
     // insert
     public function store(Request $request)

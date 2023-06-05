@@ -12,7 +12,13 @@ use Throwable;
 class MenusController extends Controller
 {
     // obtiene todos los registros
-    public function index(Request $request)
+    // public function index(Request $request)
+    // {
+    //     $menu = Menus::all();
+    //     return $menu;
+    // }   
+
+    public function index()
     {
         // $menu = Menus::all();
         // return $menu;
@@ -27,6 +33,20 @@ class MenusController extends Controller
         }
         return $menu;
     }   
+        $menu = Menus::paginate(10);
+        return response()->json([
+            'data' => $menu->toArray(),
+            'current_page' => $menu->currentPage(),
+            'last_page' => $menu->lastPage(),
+            'total' => $menu->total()
+        ]);
+    }
+
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('Cve',$request->cve)->get();
+        return json_encode($detalle);
+    }
     // insert
     public function store(Request $request)
     {

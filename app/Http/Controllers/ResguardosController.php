@@ -11,12 +11,28 @@ use Throwable;
 
 class ResguardosController extends Controller
 {
-    // obtiene todos los registros
-    public function index(Request $request)
+    // // obtiene todos los registros
+    // public function index(Request $request)
+    // {
+    //     $resguardo = Resguardos::all();
+    //     return $resguardo;
+    // }   
+    public function index()
     {
-        $resguardo = Resguardos::all();
-        return $resguardo;
-    }   
+        $resguardo = Resguardos::paginate(10);
+        return response()->json([
+            'data' => $resguardo->toArray(),
+            'current_page' => $resguardo->currentPage(),
+            'last_page' => $resguardo->lastPage(),
+            'total' => $resguardo->total()
+        ]);
+    }
+
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('uuidTipoComprobante',$request->uuidtipocomprobante)->get();
+        return json_encode($detalle);
+    }
     // insert
     public function store(Request $request)
     {

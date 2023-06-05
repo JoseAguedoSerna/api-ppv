@@ -11,11 +11,30 @@ use Throwable;
 
 class ActivosController extends Controller
 {
+    // public function index()
+    // {
+    //     $activo = Activos::all();
+    //     return $activo;
+    // }
+
     public function index()
     {
-        $activo = Activos::all();
-        return $activo;
+        $activo = Activos::paginate(10);
+        return response()->json([
+            'data' => $activo->toArray(),
+            'current_page' => $activo->currentPage(),
+            'last_page' => $activo->lastPage(),
+            'total' => $activo->total()
+        ]);
     }
+
+    //Condición WHERE
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('Cve',$request->cve)->get();
+        return json_encode($detalle);
+    }
+
     // insert
     public function store(Request $request)
     {

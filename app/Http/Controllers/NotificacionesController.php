@@ -11,10 +11,27 @@ use Throwable;
 
 class NotificacionesController extends Controller
 {
+    // public function index()
+    // {
+    //     $notificacion = Notificaciones::all();
+    //     return $notificacion;
+    // }
+
     public function index()
     {
-        $notificacion = Notificaciones::all();
-        return $notificacion;
+        $notificacion = Notificaciones::paginate(10);
+        return response()->json([
+            'data' => $notificacion->toArray(),
+            'current_page' => $notificacion->currentPage(),
+            'last_page' => $notificacion->lastPage(),
+            'total' => $notificacion->total()
+        ]);
+    }
+
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('Encabezado',$request->encabezado)->get();
+        return json_encode($detalle);
     }
     // insert
     public function store(Request $request)

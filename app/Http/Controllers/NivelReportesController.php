@@ -11,10 +11,26 @@ use Throwable;
 
 class NivelReportesController extends Controller
 {
+    // public function index()
+    // {
+    //     $nivelreporte = NivelReportes::all();
+    //     return $nivelreporte;
+    // }
+
     public function index()
     {
-        $nivelreporte = NivelReportes::all();
-        return $nivelreporte;
+        $nivelreporte = Nivelreportes::paginate(10);
+        return response()->json([
+            'data' => $nivelreporte->toArray(),
+            'current_page' => $nivelreporte->currentPage(),
+            'last_page' => $nivelreporte->lastPage(),
+            'total' => $nivelreporte->total()
+        ]);
+    }
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('Cve',$request->cve)->get();
+        return json_encode($detalle);
     }
     // insert
     public function store(Request $request)
