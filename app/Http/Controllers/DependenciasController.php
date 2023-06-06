@@ -41,17 +41,17 @@ class DependenciasController extends Controller
 
 
     }
-    public function show(Request $request)
-    {
-        $detalle = Dependencias::where('uuid',$request->uuid)->get();
-        $dependencia = Dependencias::paginate(10);
-        return response()->json([
-            'data' => $dependencia->toArray(),
-            'current_page' => $dependencia->currentPage(),
-            'last_page' => $dependencia->lastPage(),
-            'total' => $dependencia->total()
-        ]);
-    }
+    //public function show(Request $request)
+    //{
+        //$detalle = Dependencias::where('uuid',$request->uuid)->get();
+        //$dependencia = Dependencias::paginate(10);
+        //return response()->json([
+          //  'data' => $dependencia->toArray(),
+          //  'current_page' => $dependencia->currentPage(),
+          //  'last_page' => $dependencia->lastPage(),
+           // 'total' => $dependencia->total()
+        //]);
+    //}
 
     public function show(Request $request)
     {

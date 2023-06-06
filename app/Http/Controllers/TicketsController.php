@@ -24,6 +24,22 @@ class TicketsController extends Controller
         ->join('StatusTickets', 'Tickets.uuidStatusTicket', '=', 'StatusTickets.uuid')    
         ->whereNull('Tickets.deleted_at')
         ->get();
+        //$tickets = DB::table('Tickets')
+        //->select(['Tickets.*',DB::raw("CONCAT(Empleados.Nombre,' ',Empleados.ApellidoPaterno,' ',Empleados.ApellidoMaterno)  AS Nombre"),'TiposTickets.Nombre as TipoTicket','CategoriasTickets.Nombre as CategoriaTicket','PrioridadTickets.Nombre as PrioridadTicket','StatusTickets.Nombre as StatusTicket'])
+        //->join('TiposTickets', 'Tickets.uuidTipoTicket', '=', 'TiposTickets.uuid')
+        //->join('CategoriasTickets', 'Tickets.uuidCategoriaTicket', '=', 'CategoriasTickets.uuid')
+        //->join('PrioridadTickets', 'Tickets.uuidPrioridadTickets', '=', 'PrioridadTickets.uuid')
+       // ->join('StatusTickets', 'Tickets.uuidStatusTicket', '=', 'StatusTickets.uuid')
+       // ->whereNull('Tickets.deleted_at')
+       // ->get();
+
+        $tickets = Tickets::with('empleado', 'tipoTicket', 'categoriaTicket', 'prioridadTicket', 'statusTicket')
+            ->selectRaw('Tickets.*, CONCAT(Empleados.Nombre, " ", Empleados.ApellidoPaterno, " ", Empleados.ApellidoMaterno) AS Nombre')
+            ->whereNull('Tickets.deleted_at')
+            ->get();
+
+
+        // $tickets::paginate(10);
 
     
         // $tickets::paginate(10);
@@ -39,7 +55,7 @@ class TicketsController extends Controller
     {
         $tickets = Tickets::where('Cve',$request->cve)->get();
         return json_encode($tickets);
-    }        
+    }
     // insert
     public function store(Request $request)
     {
@@ -72,13 +88,13 @@ class TicketsController extends Controller
             $tickets->update([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
-                'Descripcion' => $request->descripcion, 
-                'Asignadoa'=> $request->asignadoa,              
+                'Descripcion' => $request->descripcion,
+                'Asignadoa'=> $request->asignadoa,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
-                ]);        
-                $tickets->uuid;                   
+                ]);
+                $tickets->uuid;
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
@@ -88,7 +104,7 @@ class TicketsController extends Controller
     // Delete
     public function destroy(Request $request)
     {
-        $tickets = Tickets::find($request->uuid); 
+        $tickets = Tickets::find($request->uuid);
         $tickets->Delete();
         return $tickets;
     }
