@@ -11,10 +11,25 @@ use Throwable;
 
 class TiposUsuariosController extends Controller
 {
+    // public function index()
+    // {
+    //     $tusuario = TiposUsuarios::all();
+    //     return $tusuario;
+    // }
     public function index()
     {
-        $tusuario = TiposUsuarios::all();
-        return $tusuario;
+        $tusuario = TiposUsuarios::paginate(10);
+        return response()->json([
+            'data' => $tusuario->toArray(),
+            'current_page' => $tusuario->currentPage(),
+            'last_page' => $tusuario->lastPage(),
+            'total' => $tusuario->total()
+        ]);
+    }
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('Cve',$request->cve)->get();
+        return json_encode($detalle);
     }
     // insert
     public function store(Request $request)

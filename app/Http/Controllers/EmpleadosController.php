@@ -11,10 +11,27 @@ use Throwable;
 
 class EmpleadosController extends Controller
 {
+    // public function index()
+    // {
+    //     $empleado = Empleados::all();
+    //     return $empleado;
+    // }
+
     public function index()
     {
-        $empleado = Empleados::all();
-        return $empleado;
+        $empleado = Empleados::paginate(10);
+        return response()->json([
+            'data' => $empleado->toArray(),
+            'current_page' => $empleado->currentPage(),
+            'last_page' => $empleado->lastPage(),
+            'total' => $empleado->total()
+        ]);
+    }
+
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('Cve',$request->cve)->get();
+        return json_encode($detalle);
     }
     // insert
     public function store(Request $request)

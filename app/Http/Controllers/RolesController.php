@@ -11,10 +11,26 @@ use Throwable;
 
 class RolesController extends Controller
 {
+    // public function index()
+    // {
+    //     $rol = Roles::all();
+    //     return $rol;
+    // }
     public function index()
     {
-        $rol = Roles::all();
-        return $rol;
+        $rol = Roles::paginate(10);
+        return response()->json([
+            'data' => $rol->toArray(),
+            'current_page' => $rol->currentPage(),
+            'last_page' => $rol->lastPage(),
+            'total' => $rol->total()
+        ]);
+    }
+
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('Cve',$request->cve)->get();
+        return json_encode($detalle);
     }
     // insert
     public function store(Request $request)

@@ -11,10 +11,26 @@ use Throwable;
 
 class PuestosController extends Controller
 {
+    // public function index()
+    // {
+    //     $puesto = Puestos::all();
+    //     return $puesto;
+    // }
+
     public function index()
     {
-        $puesto = Puestos::all();
-        return $puesto;
+        $puesto = Puestos::paginate(10);
+        return response()->json([
+            'data' => $puesto->toArray(),
+            'current_page' => $puesto->currentPage(),
+            'last_page' => $puesto->lastPage(),
+            'total' => $puesto->total()
+        ]);
+    }
+    public function show(Request $request)
+    {
+        $detalle = Articulos::where('Cve',$request->cve)->get();
+        return json_encode($detalle);
     }
     // insert
     public function store(Request $request)
