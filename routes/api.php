@@ -40,7 +40,6 @@ use App\Http\Controllers\{
     TiposComprobantesController,
     ActivosController,
     EstatusResguardoController,
-
     DependenciasTiposController,
     MenuPermisosController,
     PerfilRolController,
@@ -49,7 +48,6 @@ use App\Http\Controllers\{
     AreasController,
     LineasController,
     TipoActivoFijoController,
-
     TitularController,
     SecretariaController,
 
@@ -63,9 +61,13 @@ use App\Http\Controllers\{
     TiposTicketsController,
     CategoriasTicketsController,
     PrioridadTicketsController,
-    StatusTicketsController
+    StatusTicketsController,
 
+    #Mensajes
+    MensajesController,
 
+    #administracion
+    ValoresGlobalesController
 };
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -347,4 +349,26 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('eliminastatustickets',[StatusTicketsController::class,'destroy']);
         Route::post('detallestatustickets',[StatusTicketsController::class,'show']); 
     });
+
+    Route::prefix('mensajes')->group(function (){
+        #Mensajes
+        Route::get('obtienemensajes',[MensajesController::class,'index']);
+        Route::post('guardamensajes',[MensajesController::class,'store']);
+        Route::post('actualizamensajes',[MensajesController::class,'update']);
+        Route::post('eliminamensajes',[MensajesController::class,'destroy']);        
+        Route::post('detallemensajes',[MensajesController::class,'show']);
+        Route::post('mensajeleido',[MensajesController::class,'read']);
+        Route::post('mensajesnuevos',[MensajesController::class,'new']);
+
+    });
+
+    Route::prefix('administracion')->group(function (){
+        #Mensajes
+        Route::get('obtienevalores',[ValoresGlobalesController::class,'index']);
+        Route::post('guardavalores',[ValoresGlobalesController::class,'store']);
+        Route::post('actualizavalores',[ValoresGlobalesController::class,'update']);
+        Route::post('eliminavalores',[ValoresGlobalesController::class,'destroy']);        
+        Route::post('detallevalores',[ValoresGlobalesController::class,'show']);
+    });
+
 // });
