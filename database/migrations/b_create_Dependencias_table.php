@@ -28,7 +28,7 @@ return new class extends Migration
                 $table->uuid('uuidTitular');
                 $table->foreign('uuidTitular')->references('uuid')->on('Titular')->onDelete('cascade');
 
-                $table->char('uuidSecretaria', 36)->nullable();
+                $table->uuid('uuidSecretaria');
                 $table->foreign('uuidSecretaria')->references('uuid')->on('Secretaria')->onDelete('cascade');
                 
                 $table->char('CreadoPor', 36)->nullable();
