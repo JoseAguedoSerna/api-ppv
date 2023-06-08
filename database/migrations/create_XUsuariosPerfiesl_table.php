@@ -19,7 +19,8 @@ return new class extends Migration
                 $table->uuid('uuidUsuario');
                 $table->foreign('uuidUsuario')->references('uuid')->on('Usuarios')->onDelete('cascade');
                 $table->uuid('uuidPerfil');
-                $table->foreign('uuidPerfil')->references('uuid')->on('Perfiles')->onDelete('cascade');            
+                $table->foreign('uuidPerfil')->references('uuid')->on('Perfiles')->onDelete('cascade');
+                $table->softDeletes();      
             });
         }
     }
