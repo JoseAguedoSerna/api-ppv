@@ -22,7 +22,7 @@ return new class extends Migration
                 $table->foreign('uuidDependencia')->references('uuid')->on('Dependencias')->onDelete('cascade');
                 $table->string('NombreCorto',10)->unique();
                 $table->uuid('uuidPuesto');
-                $table->foreign('uuidPuesto')->references('uuid')->on('Puesto')->onDelete('cascade');
+                $table->foreign('uuidPuesto')->references('uuid')->on('Puestos')->onDelete('cascade');
 
                 $table->char('CreadoPor', 36)->nullable();
                 $table->char('ModificadoPor', 36)->nullable();
