@@ -16,15 +16,14 @@ class TiposReportesController extends Controller
     //     $treporte = TiposReportes::all();
     //     return $treporte;
     // }
-    public function index()
+    public function index(Request $request)
     {
-        $treporte = TiposReportes::paginate(10);
-        return response()->json([
-            'data' => $treporte->toArray(),
-            'current_page' => $treporte->currentPage(),
-            'last_page' => $treporte->lastPage(),
-            'total' => $treporte->total()
-        ]);
+        if(!$request->perpage){
+            $treporte = TiposReportes::all();
+        } else {
+            $treporte = TiposReportes::paginate($request->perpage);
+        }
+        return response()->json($treporte);
     }
     public function show(Request $request)
     {
@@ -42,7 +41,7 @@ class TiposReportesController extends Controller
                 'Descripcion' => $request->descripcion,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
-                'EliminadoPor' => $request->eliminadopor                
+                'EliminadoPor' => $request->eliminadopor
                 ]);
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
@@ -63,8 +62,8 @@ class TiposReportesController extends Controller
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
-                ]);        
-                $treporte->uuid;                   
+                ]);
+                $treporte->uuid;
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
@@ -72,8 +71,8 @@ class TiposReportesController extends Controller
         return $data;
     }
     public function destroy(Request $request)
-    { 
-        $treporte = TiposReportes::find($request->uuid); 
+    {
+        $treporte = TiposReportes::find($request->uuid);
         $treporte->Delete();
         return $treporte;
     }
