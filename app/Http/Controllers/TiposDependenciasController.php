@@ -18,13 +18,14 @@ class TiposDependenciasController extends Controller
     // }
     public function index(Request $request)
     {
-        if(!$request->perpage){
-            $tdependencia = TiposDependencias::all();
-        }else{
-            $tdependencia = TiposDependencias::paginate($request->perpage);
-        }
-        return response()->json($tdependencia);
+        if(!$request->perpage){ 
+            $tdependencias = TiposDependencias::all(); } 
+            else { 
+                $tdependencias = TiposDependencias::paginate($request->perpage); 
+            } return response()->json($tdependencias);
+
     }
+    
     public function show(Request $request)
     {
         $detalle = Articulos::where('Cve',$request->cve)->get();

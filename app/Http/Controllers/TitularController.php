@@ -14,8 +14,13 @@ class TitularController extends Controller
     // obtiene todos los registros
     public function index(Request $request)
     {
-        $titular = Titular::all();
-        return $titular;
+
+        if(!$request->perpage){ 
+            $titular = Titular::all(); } 
+            else { 
+                $titular = Titular::paginate($request->perpage); 
+            } return response()->json($titular);
+
     }   
     // insert
     public function store(Request $request)
