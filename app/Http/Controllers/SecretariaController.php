@@ -14,8 +14,12 @@ class SecretariaController extends Controller
     // obtiene todos los registros
     public function index(Request $request)
     {
-        $secretaria = Secretaria::all();
-        return $secretaria;
+
+        if(!$request->perpage){ 
+            $secretaria = Secretaria::all(); } 
+            else { 
+                $secretaria = Secretaria::paginate($request->perpage); 
+            } return response()->json($secretaria);
     }   
     // insert
     public function store(Request $request)

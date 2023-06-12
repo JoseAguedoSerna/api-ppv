@@ -17,15 +17,14 @@ class NotificacionesController extends Controller
     //     return $notificacion;
     // }
 
-    public function index()
+    public function index(Request $request)
     {
-        $notificacion = Notificaciones::paginate(10);
-        return response()->json([
-            'data' => $notificacion->toArray(),
-            'current_page' => $notificacion->currentPage(),
-            'last_page' => $notificacion->lastPage(),
-            'total' => $notificacion->total()
-        ]);
+        if(!$request->perpage){ 
+            $notificacion = Notificaciones::all(); } 
+            else { 
+                $notificacion = Notificaciones::paginate($request->perpage); 
+            } return response()->json($notificacion);
+
     }
 
     public function show(Request $request)
