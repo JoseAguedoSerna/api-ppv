@@ -16,15 +16,14 @@ class TiposDependenciasController extends Controller
     //     $tdependencias = TiposDependencias::all();
     //     return $tdependencias;
     // }
-    public function index()
+    public function index(Request $request)
     {
-        $tdependencias = TiposDependencias::paginate(10);
-        return response()->json([
-            'data' => $tdependencias->toArray(),
-            'current_page' => $tdependencias->currentPage(),
-            'last_page' => $tdependencias->lastPage(),
-            'total' => $tdependencias->total()
-        ]);
+        if(!$request->perpage){
+            $tdependencia = TiposDependencias::all();
+        }else{
+            $tdependencia = TiposDependencias::paginate($request->perpage);
+        }
+        return response()->json($tdependencia);
     }
     public function show(Request $request)
     {

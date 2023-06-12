@@ -17,15 +17,14 @@ class EmpleadosController extends Controller
     //     return $empleado;
     // }
 
-    public function index()
+    public function index(Request $request)
     {
-        $empleado = Empleados::paginate(10);
-        return response()->json([
-            'data' => $empleado->toArray(),
-            'current_page' => $empleado->currentPage(),
-            'last_page' => $empleado->lastPage(),
-            'total' => $empleado->total()
-        ]);
+        if(!$request->perpage){
+            $empleado = Empleados::all();
+        }else{
+            $empleado = Empleados::paginate($request->perpage);
+        }
+        return response()->json($empleado);
     }
 
     public function show(Request $request)
@@ -41,14 +40,14 @@ class EmpleadosController extends Controller
             $nuevo_empleado::create([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
-                'ApellidoPaterno' => $request->apellidopaterno,
-                'ApellidoMaterno' => $request->apellidomaterno,
+                'ApellidoPaterno' => $request->ApellidoPaterno,
+                'ApellidoMaterno' => $request->ApellidoMaterno,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor                
                 ]);
         } catch (Throwable $e) {
-            abort(404, $e->getMessage());
+            abort(403, $e->getMessage());
         }
         $firstEmpleado = Empleados::latest('uuid', 'asc')->first();
         $data = json_encode($firstEmpleado);

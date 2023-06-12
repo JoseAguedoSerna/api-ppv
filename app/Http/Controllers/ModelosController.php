@@ -11,21 +11,14 @@ use Throwable;
 
 class ModelosController extends Controller
 {
-    // public function index(Request $request)
-    // {
-    //     $modelo = Modelos::all();
-    //     return $modelo;
-    // }   
-
-    public function index()
+    public function index(Request $request)
     {
-        $modelo = Modelos::paginate(10);
-        return response()->json([
-            'data' => $modelo->toArray(),
-            'current_page' => $modelo->currentPage(),
-            'last_page' => $modelo->lastPage(),
-            'total' => $modelo->total()
-        ]);
+        if(!$request->perpage){
+            $modelo = Modelos::all();
+        }else{
+            $modelo = Modelos::paginate($request->perpage);
+        }
+        return response()->json($modelo);
     }
 
     public function show(Request $request)

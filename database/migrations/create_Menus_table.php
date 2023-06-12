@@ -25,7 +25,7 @@ return new class extends Migration
                 $table->tinyInteger('Nivel')->default(0);
                 $table->tinyInteger('Ordenamiento')->default(0);
 
-                $table->char('MenuPadre',36);
+                $table->char('MenuPadre',36)->nullable();
 
                 $table->char('CreadoPor', 36)->nullable();
                 $table->char('ModificadoPor', 36)->nullable();

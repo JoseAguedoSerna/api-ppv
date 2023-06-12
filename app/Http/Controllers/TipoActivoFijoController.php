@@ -11,10 +11,14 @@ use Throwable;
 
 class TipoActivoFijoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $tipoactivofijo = TipoActivoFijo::all();
-        return $tipoactivofijo;
+        if(!$request->perpage){
+            $tipoactivofijo = TipoActivoFijo::all();
+        }else{
+            $tipoactivofijo = TipoActivoFijo::paginate($request->perpage);
+        }
+        return response()->json($tipoactivofijo);
     }
     public function show(Request $request)
     {

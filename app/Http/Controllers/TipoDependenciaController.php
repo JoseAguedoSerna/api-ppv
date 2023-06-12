@@ -14,8 +14,12 @@ class TiposDependenciasController extends Controller
     // obtiene todos los registros
     public function index(Request $request)
     {
-        $tdependencia = TiposDependencias::all();
-        return $tadquisicion;
+        if(!$request->perpage){
+            $tdependencia = TiposDependencias::all();
+        }else{
+            $tdependencia = TiposDependencias::paginate($request->perpage);
+        }
+        return response()->json($tdependencia);
     }   
     // insert
     public function store(Request $request)

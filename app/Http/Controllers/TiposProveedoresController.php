@@ -11,20 +11,14 @@ use Throwable;
 
 class TiposProveedoresController extends Controller
 {
-    // public function index()
-    // {
-    //     $tproveedor = TiposProveedores::all();
-    //     return $tproveedor;
-    // }
-    public function index()
+    public function index(Request $request)
     {
-        $tproveedor = TiposProveedores::paginate(10);
-        return response()->json([
-            'data' => $tproveedor->toArray(),
-            'current_page' => $tproveedor->currentPage(),
-            'last_page' => $tproveedor->lastPage(),
-            'total' => $tproveedor->total()
-        ]);
+        if(!$request->perpage){
+            $tproveedor = TiposProveedores::all();
+        }else{
+            $tproveedor = TiposProveedores::paginate($request->perpage);
+        }
+        return response()->json($tproveedor);
     }
     public function show(Request $request)
     {

@@ -11,20 +11,14 @@ use Throwable;
 
 class TiposReportesController extends Controller
 {
-    // public function index()
-    // {
-    //     $treporte = TiposReportes::all();
-    //     return $treporte;
-    // }
-    public function index()
+    public function index(Request $request)
     {
-        $treporte = TiposReportes::paginate(10);
-        return response()->json([
-            'data' => $treporte->toArray(),
-            'current_page' => $treporte->currentPage(),
-            'last_page' => $treporte->lastPage(),
-            'total' => $treporte->total()
-        ]);
+        if(!$request->perpage){
+            $treporte = TiposReportes::all();
+        }else{
+            $treporte = TiposReportes::paginate($request->perpage);
+        }
+        return response()->json($treporte);
     }
     public function show(Request $request)
     {

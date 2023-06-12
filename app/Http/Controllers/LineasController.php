@@ -11,10 +11,14 @@ use Throwable;
 
 class LineasController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $linea = Lineas::all();
-        return $linea;
+        if(!$request->perpage){
+            $linea = Lineas::all();
+        }else{
+            $linea = Lineas::paginate($request->perpage);
+        }
+        return response()->json($linea);
     }
     public function show(Request $request)
     {
