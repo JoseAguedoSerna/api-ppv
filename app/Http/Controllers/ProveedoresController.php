@@ -17,16 +17,16 @@ class ProveedoresController extends Controller
     //     return $proveedor;
     // }
 
-    public function index()
+    public function index(Request $request)
     {
-        $proveedor = Proveedores::paginate(10);
-        return response()->json([
-            'data' => $proveedor->toArray(),
-            'current_page' => $proveedor->currentPage(),
-            'last_page' => $proveedor->lastPage(),
-            'total' => $proveedor->total()
-        ]);
+        if(!$request->perpage){ 
+            $proveedor = Proveedores::all(); } 
+            else { 
+                $proveedor = Proveedores::paginate($request->perpage); 
+            } return response()->json($proveedor);
     }
+
+    
     public function show(Request $request)
     {
         $detalle = Articulos::where('Cve',$request->cve)->get();

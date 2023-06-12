@@ -17,16 +17,20 @@ class MunicipiosController extends Controller
     //     return $municipio;
     // }
 
-    public function index()
+    public function index(Request $request)
     {
-        $municipio = Municipios::paginate(10);
-        return response()->json([
-            'data' => $municipio->toArray(),
-            'current_page' => $municipio->currentPage(),
-            'last_page' => $municipio->lastPage(),
-            'total' => $municipio->total()
-        ]);
+
+
+        if(!$request->perpage){ 
+            $municipio = Municipios::all(); } 
+            else { 
+                $municipio = Municipios::paginate($request->perpage); 
+            } return response()->json($municipio);
+
+
     }
+
+
 
     public function show(Request $request)
     {
