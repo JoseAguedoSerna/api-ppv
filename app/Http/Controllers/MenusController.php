@@ -101,14 +101,14 @@ class MenusController extends Controller
     public function generaMenusUsuario(Request $request)
     {
 
-        $usuario = Usuarios::find($request->IdUsuario);
-        $perfiles = $usuario->perfiles;
+        $menus = Usuarios::join('UsuariosPerfiles as up', 'up.uuidUsuario', '=', 'Usuarios.uuid')
+            ->join('PerfilesRoles as pr', 'pr.uuidPerfil', '=', 'up.uuidPerfil')
+            ->join('RolesMenus as rm', 'rm.uuidRol', '=', 'pr.uuidRol')
+            ->join('Menus as m', 'm.uuid', '=', 'rm.uuidMenu')
+            ->where('Usuarios.uuid', $request->uuidUsuario)
+            ->select('m.*')
+            ->get();
 
-        $menus = $usuario->perfiles->flatMap(function($perfil) {
-            return $perfil->roles->flatMap(function($rol) {
-                return $rol->menus;
-            });
-        });
 
         return $menus;
     }

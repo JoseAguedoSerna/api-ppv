@@ -16,15 +16,18 @@ class TransaccionesController extends Controller
     //     $transaccion = Transacciones::all();
     //     return $transaccion;
     // }
-    public function index()
+    public function index(Request $request)
     {
-        $transaccion = Transacciones::paginate(10);
-        return response()->json([
-            'data' => $transaccion->toArray(),
-            'current_page' => $transaccion->currentPage(),
-            'last_page' => $transaccion->lastPage(),
-            'total' => $transaccion->total()
-        ]);
+
+        if (!$request->perpage){
+            $transaccion = Transacciones::all();
+        }
+        else{
+            $transaccion = Transacciones::paginate($request->perpage);
+        }
+
+
+        return response()->json($transaccion);
     }
     public function show(Request $request)
     {
@@ -42,7 +45,7 @@ class TransaccionesController extends Controller
                 'Descripcion' => $request->descripcion,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
-                'EliminadoPor' => $request->eliminadopor                
+                'EliminadoPor' => $request->eliminadopor
                 ]);
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
@@ -63,8 +66,8 @@ class TransaccionesController extends Controller
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
-                ]);        
-                $transaccion->uuid;                   
+                ]);
+                $transaccion->uuid;
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
@@ -73,7 +76,7 @@ class TransaccionesController extends Controller
     }
     public function destroy(Request $request)
     {
-        $transaccion = Transacciones::find($request->uuid); 
+        $transaccion = Transacciones::find($request->uuid);
         $transaccion->Delete();
         return $transaccion;
     }
