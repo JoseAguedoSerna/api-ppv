@@ -11,11 +11,17 @@ use Throwable;
 
 class TiposReportesController extends Controller
 {
+    // public function index()
+    // {
+    //     $treporte = TiposReportes::all();
+    //     return $treporte;
+    // }
     public function index(Request $request)
     {
         if(!$request->perpage){
             $treporte = TiposReportes::all();
         }else{
+        } else {
             $treporte = TiposReportes::paginate($request->perpage);
         }
         return response()->json($treporte);
@@ -36,7 +42,7 @@ class TiposReportesController extends Controller
                 'Descripcion' => $request->descripcion,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
-                'EliminadoPor' => $request->eliminadopor                
+                'EliminadoPor' => $request->eliminadopor
                 ]);
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
@@ -57,8 +63,8 @@ class TiposReportesController extends Controller
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
-                ]);        
-                $treporte->uuid;                   
+                ]);
+                $treporte->uuid;
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
@@ -66,8 +72,8 @@ class TiposReportesController extends Controller
         return $data;
     }
     public function destroy(Request $request)
-    { 
-        $treporte = TiposReportes::find($request->uuid); 
+    {
+        $treporte = TiposReportes::find($request->uuid);
         $treporte->Delete();
         return $treporte;
     }
