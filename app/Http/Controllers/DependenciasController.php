@@ -18,7 +18,7 @@ class DependenciasController extends Controller
     //     return $Dependencia;
     // }
 
-    public function index()
+    public function index(Request $request)
     {
         // $Dependencia = Dependencias::all();
         // return $Dependencia;
@@ -30,6 +30,12 @@ class DependenciasController extends Controller
         ->whereNull('Dependencias.deleted_at')
         ->get();
     
+        if(!$request->perpage){ 
+            $result = $Dependencia;}
+            else { 
+                $result = Dependencia::paginate($request->perpage); 
+            } return response()->json($Dependencia);
+            
         // $tickets::paginate(10);
         // return response()->json([
         //     'data' => $tickets->toArray(),
@@ -37,7 +43,7 @@ class DependenciasController extends Controller
         //     'last_page' => $tickets->lastPage(),
         //     'total' => $tickets->total()
         // ]);
-        return $Dependencia;
+        return $recult;
 
 
     }
