@@ -16,15 +16,13 @@ class TiposBienController extends Controller
     //     $tbien = TiposBien::all();
     //     return $tbien;
     // }
-    public function index()
+    public function index(Request $request)
     {
-        $tbien = TiposBien::paginate(10);
-        return response()->json([
-            'data' => $tbien->toArray(),
-            'current_page' => $tbien->currentPage(),
-            'last_page' => $tbien->lastPage(),
-            'total' => $tbien->total()
-        ]);
+        if(!$request->perpage){
+            $tdependencias = TiposBien::all(); }
+        else {
+            $tdependencias = TiposBien::paginate($request->perpage);
+        } return response()->json($tdependencias);
     }
     public function show(Request $request)
     {
@@ -42,7 +40,7 @@ class TiposBienController extends Controller
                 'Descripcion' => $request->descripcion,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
-                'EliminadoPor' => $request->eliminadopor                
+                'EliminadoPor' => $request->eliminadopor
                 ]);
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
@@ -63,8 +61,8 @@ class TiposBienController extends Controller
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
-                ]);        
-                $tbien->uuid;                   
+                ]);
+                $tbien->uuid;
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
@@ -73,7 +71,7 @@ class TiposBienController extends Controller
     }
     public function destroy(Request $request)
     {
-        $tbien = TiposBien::find($request->uuid); 
+        $tbien = TiposBien::find($request->uuid);
         $tbien->Delete();
         return $tbien;
     }
