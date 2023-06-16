@@ -11,14 +11,19 @@ use Throwable;
 
 class ModelosController extends Controller
 {
+    // public function index(Request $request)
+    // {
+    //     $modelo = Modelos::all();
+    //     return $modelo;
+    // }
+
     public function index(Request $request)
     {
-        if(!$request->perpage){
-            $modelo = Modelos::all();
-        }else{
-            $modelo = Modelos::paginate($request->perpage);
-        }
-        return response()->json($modelo);
+       if(!$request->perpage){
+            $tdependencias = Modelos::all(); }
+        else {
+            $tdependencias = Modelos::paginate($request->perpage);
+        } return response()->json($tdependencias);
     }
 
     public function show(Request $request)
@@ -60,8 +65,8 @@ class ModelosController extends Controller
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
-                ]);        
-                $modelo->uuid;                   
+                ]);
+                $modelo->uuid;
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
@@ -70,7 +75,7 @@ class ModelosController extends Controller
     }
     public function destroy(Request $request)
     {
-        $modelo = Modelos::find($request->uuid); 
+        $modelo = Modelos::find($request->uuid);
         $modelo->Delete();
         return $modelo;
     }

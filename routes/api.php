@@ -433,4 +433,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('detallevalores',[ValoresGlobalesController::class,'show']);
     });
 
+    Route::prefix('gastocorriente')->group(function() {
+        Route::post('obtienegastocorriente',[AltasMueblesController::class,'index']);
+        Route::post('guardagastocorriente',[AltasMueblesController::class, 'store']);
+    });
+
  });
