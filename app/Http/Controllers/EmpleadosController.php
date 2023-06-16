@@ -17,15 +17,13 @@ class EmpleadosController extends Controller
     //     return $empleado;
     // }
 
-    public function index()
+    public function index(Request $request)
     {
-        $empleado = Empleados::paginate(10);
-        return response()->json([
-            'data' => $empleado->toArray(),
-            'current_page' => $empleado->currentPage(),
-            'last_page' => $empleado->lastPage(),
-            'total' => $empleado->total()
-        ]);
+        if(!$request->perpage){
+            $tdependencias = Empleados::all(); }
+        else {
+            $tdependencias = Empleados::paginate($request->perpage);
+        } return response()->json($tdependencias);
     }
 
     public function show(Request $request)
@@ -45,7 +43,7 @@ class EmpleadosController extends Controller
                 'ApellidoMaterno' => $request->apellidomaterno,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
-                'EliminadoPor' => $request->eliminadopor                
+                'EliminadoPor' => $request->eliminadopor
                 ]);
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
@@ -67,8 +65,8 @@ class EmpleadosController extends Controller
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
-                ]);        
-                $empleado->uuid;                   
+                ]);
+                $empleado->uuid;
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
@@ -78,7 +76,7 @@ class EmpleadosController extends Controller
     // delete logico
     public function destroy(Request $request)
     {
-        $empleado = empleados::find($request->uuid); 
+        $empleado = empleados::find($request->uuid);
         $empleado->Delete();
         return $empleado;
     }
