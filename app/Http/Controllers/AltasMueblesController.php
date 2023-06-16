@@ -16,7 +16,7 @@ class AltasMueblesController extends Controller
             ->join('Areas', 'AltasMuebles.uuidArea', '=', 'Areas.uuid')
             ->where('AltasMuebles.uuidTipoAdquisicion', $request->uuidTipoAdquisicion)
             ->select('AltasMuebles.*','TiposAdquisicion.Nombre AS Tipo Adquisicion','Areas.Nombre AS Area Fisica')
-            ->get();
+            ->paginate($request->input('perpage', 10), ['*'], 'page', $request->input('page', $request->page));
         return $altaMuebles;
     }
 
@@ -69,7 +69,6 @@ class AltasMueblesController extends Controller
         }
 
         $jsonData = $nuevoMueble->toJson();
-        return $tadquisicion;
-        //return $jsonData;
+        return $jsonData;
     }
 }
