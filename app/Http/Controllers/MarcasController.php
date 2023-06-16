@@ -11,14 +11,19 @@ use Throwable;
 
 class MarcasController extends Controller
 {
+    // public function index()
+    // {
+    //     $marca = Marcas::all();
+    //     return $marca;
+    // }
+
     public function index(Request $request)
     {
         if(!$request->perpage){
-            $marca = Marcas::all();
-        }else{
-            $marca = Marcas::paginate($request->perpage);
-        }
-        return response()->json($marca);
+            $tdependencias = Marcas::all(); }
+        else {
+            $tdependencias = Marcas::paginate($request->perpage);
+        } return response()->json($tdependencias);
     }
 
     public function show(Request $request)
@@ -37,7 +42,7 @@ class MarcasController extends Controller
                 'Descripcion' => $request->descripcion,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
-                'EliminadoPor' => $request->eliminadopor                
+                'EliminadoPor' => $request->eliminadopor
                 ]);
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
@@ -58,8 +63,8 @@ class MarcasController extends Controller
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
-                ]);        
-                $marca->uuid;                   
+                ]);
+                $marca->uuid;
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
@@ -68,7 +73,7 @@ class MarcasController extends Controller
     }
     public function destroy(Request $request)
     {
-        $marca = Marcas::find($request->uuid); 
+        $marca = Marcas::find($request->uuid);
         $marca->Delete();
         return $marca;
     }
