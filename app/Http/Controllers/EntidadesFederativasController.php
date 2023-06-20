@@ -11,20 +11,13 @@ use Throwable;
 
 class EntidadesFederativasController extends Controller
 {
-    // public function index()
-    // {
-    //     $entfederativas = EntidadesFederativas::all();
-    //     return $entfederativas;
-    // }
-    public function index()
+    public function index(Request $request)
     {
-        $entfederativas = EntidadesFederativas::paginate(10);
-        return response()->json([
-            'data' => $entfederativas->toArray(),
-            'current_page' => $entfederativas->currentPage(),
-            'last_page' => $entfederativas->lastPage(),
-            'total' => $entfederativas->total()
-        ]);
+        if(!$request->perpage){
+            $entfederativas = EntidadesFederativas::all(); }
+        else {
+            $entfederativas = EntidadesFederativas::paginate($request->perpage);
+        } return response()->json($entfederativas);
     }
 
     public function show(Request $request)

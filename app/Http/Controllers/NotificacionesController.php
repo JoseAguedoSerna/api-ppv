@@ -67,7 +67,7 @@ class NotificacionesController extends Controller
                 ]);        
                 $notificacion->uuid;                   
         } catch (Throwable $e) {
-            abort(404, $e->getMessage());
+            abort(403, $e->getMessage());
         }
         $data = json_encode($notificacion);
         return $data;

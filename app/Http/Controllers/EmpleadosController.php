@@ -7,6 +7,7 @@ use App\Http\Requests\ValidaNCampoStoreRequest;
 use App\Models\Empleados;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
 use Illuminate\Validation\Rule;
 use Throwable;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -53,8 +54,8 @@ class EmpleadosController extends Controller
             $nuevo_empleado::create([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
-                'ApellidoPaterno' => $request->ApellidoPaterno,
-                'ApellidoMaterno' => $request->ApellidoMaterno,
+                'ApellidoPaterno' => $request->apellidopaterno,
+                'ApellidoMaterno' => $request->apellidopaterno,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
