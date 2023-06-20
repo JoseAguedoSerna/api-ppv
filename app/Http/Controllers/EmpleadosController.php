@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ValidaNCampoStoreRequest;
 use App\Models\Empleados;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Validation\Rule;
 use Throwable;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class EmpleadosController extends Controller
 {
@@ -34,6 +36,18 @@ class EmpleadosController extends Controller
     // insert
     public function store(Request $request)
     {
+        try {
+            $validatedData = $request->validate([
+                'cve' => 'unique_field:App\Models\Empleados'
+            ]);
+        } catch (Throwable $e) {
+            throw new HttpResponseException(response()->json([
+                'success' => false,
+                'message' => 'Validation errors',
+                'data' => $e->validator->extensions
+            ], 400));
+        }
+
         $nuevo_empleado = new Empleados();
         try {
             $nuevo_empleado::create([
@@ -55,6 +69,22 @@ class EmpleadosController extends Controller
     // update registro
     public function update(Request $request)
     {
+        $id = $request->uuid;
+        try {
+            $validatedData = $request->validate([
+                'cve' => 'unique_field:App\Models\Empleados,uuid,'.$id
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation errors',
+                'data' => $e->validator->errors()
+            ], 400);
+        }
+
+
+
+
         $empleado = Empleados::find($request->uuid);
         try {
             $empleado->update([
