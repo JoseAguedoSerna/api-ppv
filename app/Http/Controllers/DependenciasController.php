@@ -43,9 +43,7 @@ class DependenciasController extends Controller
         //     'last_page' => $tickets->lastPage(),
         //     'total' => $tickets->total()
         // ]);
-        return $recult;
-
-
+        return $Dependencia::paginate($request->perpage);
     }
     //public function show(Request $request)
     //{

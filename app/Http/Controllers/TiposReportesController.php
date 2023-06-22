@@ -21,7 +21,6 @@ class TiposReportesController extends Controller
         if(!$request->perpage){
             $treporte = TiposReportes::all();
         }else{
-        } else {
             $treporte = TiposReportes::paginate($request->perpage);
         }
         return response()->json($treporte);
