@@ -67,7 +67,8 @@ use App\Http\Controllers\{
     MensajesController,
 
     #administracion
-    ValoresGlobalesController
+    ValoresGlobalesController,
+    ValoresSistemaController
 };
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -425,12 +426,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     });
 
     Route::prefix('administracion')->group(function (){
-        #Mensajes
         Route::get('obtienevalores',[ValoresGlobalesController::class,'index']);
         Route::post('guardavalores',[ValoresGlobalesController::class,'store']);
         Route::post('actualizavalores',[ValoresGlobalesController::class,'update']);
         Route::post('eliminavalores',[ValoresGlobalesController::class,'destroy']);
         Route::post('detallevalores',[ValoresGlobalesController::class,'show']);
+
+        Route::get('obtienevalsistema',[ValoresSistemaController::class,'index']);
+        Route::post('actualizavalsistema',[ValoresSistemaController::class,'update']);
+        Route::post('detallevalsistema',[ValoresSistemaController::class,'show']);
     });
 
     Route::prefix('gastocorriente')->group(function() {

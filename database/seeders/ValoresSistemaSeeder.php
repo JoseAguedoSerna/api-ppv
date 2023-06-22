@@ -19,44 +19,70 @@ class ValoresSistemaSeeder extends Seeder
                 'uuid' => Str::uuid()->toString(),
                 'Cve' => 'TIMERMSG',
                 'Descripcion' => 'Timer para revisar si hay nuevos mensajes',
-                'Tipo' => 1,
-                'ParamStr' => null,
-                'ParamInt' => 60000,
-                'CreadoPor' => '',
-                'ModificadoPor' => null,
-                'EliminadoPor' => null,
-            ]);
-        }
-
-        if (!ValoresSistema::where('Cve', 'TIMERMSG2')->exists()) {
-            ValoresSistema::create([
-                'uuid' => Str::uuid()->toString(),
-                'Cve' => 'TIMERMSG2',
-                'Descripcion' => 'Timer para revisar si hay nuevos mensajes',
-                'Tipo' => 1,
-                'ParamStr' => null,
-                'ParamInt' => 90000,
-                'CreadoPor' => '',
-                'ModificadoPor' => null,
-                'EliminadoPor' => null,
-            ]);
-        }
-
-        if (!ValoresSistema::where('Cve', 'TIMERMSG3')->exists()) {
-            ValoresSistema::create([
-                'uuid' => Str::uuid()->toString(),
-                'Cve' => 'TIMERMSG3',
-                'Descripcion' => 'Timer para revisar si hay nuevos mensajes',
                 'Tipo' => 2,
-                'ParamStr' => 'Sistema',
+                'ParamStr' => null,
+                'ParamInt' => 3600000,
+                'CreadoPor' => '',
+                'ModificadoPor' => null,
+                'EliminadoPor' => null,
+            ]);
+        }
+
+        if (!ValoresSistema::where('Cve', 'COLORPRI')->exists()) {
+            ValoresSistema::create([
+                'uuid' => Str::uuid()->toString(),
+                'Cve' => 'COLORPRI',
+                'Descripcion' => 'Color en formato hexadecimal para el color primario de la plataforma',
+                'Tipo' => 1,
+                'ParamStr' => '15212f',
                 'ParamInt' => null,
                 'CreadoPor' => '',
                 'ModificadoPor' => null,
                 'EliminadoPor' => null,
             ]);
-        }        
+        }
 
+        if (!ValoresSistema::where('Cve', 'COLORSEC')->exists()) {
+            ValoresSistema::create([
+                'uuid' => Str::uuid()->toString(),
+                'Cve' => 'COLORSEC',
+                'Descripcion' => 'Color en formato hexadecimal para el color secundario de la plataforma',
+                'Tipo' => 1,
+                'ParamStr' => 'bda889',
+                'ParamInt' => null,
+                'CreadoPor' => '',
+                'ModificadoPor' => null,
+                'EliminadoPor' => null,
+            ]);
+        }   
 
+        if (!ValoresSistema::where('Cve', 'CORREOSALIDA')->exists()) {
+            ValoresSistema::create([
+                'uuid' => Str::uuid()->toString(),
+                'Cve' => 'CORREOSALIDA',
+                'Descripcion' => 'Corre electronico que se utilizara para enviar correo desde la plataforma',
+                'Tipo' => 1,
+                'ParamStr' => 'pabmi@patrimonio.com',
+                'ParamInt' => null,
+                'CreadoPor' => '',
+                'ModificadoPor' => null,
+                'EliminadoPor' => null,
+            ]);
+        }          
+
+        if (!ValoresSistema::where('Cve', 'SHOWMSG')->exists()) {
+            ValoresSistema::create([
+                'uuid' => Str::uuid()->toString(),
+                'Cve' => 'SHOWMSG',
+                'Descripcion' => 'Tiempo que se muestra el mensaje de (Grabado Exitoso, Actualizacion Exitosa, Eliminado Exitosamente) milisegundos',
+                'Tipo' => 2,
+                'ParamStr' => null,
+                'ParamInt' => 4000,
+                'CreadoPor' => '',
+                'ModificadoPor' => null,
+                'EliminadoPor' => null,
+            ]);
+        }          
 
     }
 }

@@ -16,7 +16,7 @@ return new class extends Migration
                 $table->uuid('uuid')->primary(); 
 
                 $table->char('Cve',15);
-                $table->string('Descripcion',100);
+                $table->string('Descripcion',200);
                 $table->integer('Tipo');
                 $table->string('ParamStr')->nullable();
                 $table->integer('ParamInt')->nullable();

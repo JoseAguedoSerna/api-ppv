@@ -29,28 +29,7 @@ class ValoresSistemaController extends Controller
             abort(404, $e->getMessage());
         }     
     }
-    // insert
-    public function store(Request $request)
-    {
-        $nuevo_param = new ValoresSistema();
-        try {
-            $nuevo_param::create([
-                'Modulo' => $request->modulo,
-                'Cve' => $request->cve,
-                'Descripcion' => $request->descripcion,
-                'Tipo' => $request->tipo,
-                'ParamStr' => $request->paramstr,
-                'ParamInt' => $request->paramint,
-                'ParamFloat' => $request->paramfloat,
-                'CreadoPor' => $request->creadopor                
-                ]);
-        } catch (Throwable $e) {
-            abort(403, $e->getMessage());
-        }
-        $firstParam = ValoresSistema::latest('uuid', 'asc')->first();
-        $data = json_encode($firstParam);
-        return $data;
-    }
+    
     // update registro
     public function update(Request $request)
     {
@@ -73,10 +52,4 @@ class ValoresSistemaController extends Controller
         $data = json_encode($param);
         return $data;
     }
-    // public function destroy(Request $request)
-    // {
-    //     $param = ValoresSistema::find($request->uuid); 
-    //     $param->Delete();
-    //     return $param;
-    // }
 }
