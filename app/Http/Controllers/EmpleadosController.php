@@ -41,11 +41,7 @@ class EmpleadosController extends Controller
                 'cve' => 'unique_field:App\Models\Empleados'
             ]);
         } catch (Throwable $e) {
-            throw new HttpResponseException(response()->json([
-                'success' => false,
-                'title' => 'Validation errors',
-                'msg' => $e->getMessage()
-            ], 400));
+            return $this->errorResponse($e->getMessage());
         }
 
         $nuevo_empleado = new Empleados();
@@ -79,7 +75,7 @@ class EmpleadosController extends Controller
                 'success' => false,
                 'title' => 'Validation errors',
                 'msg' => $e->getMessage()
-            ], 400));
+            ], 422));
         }
 
 
