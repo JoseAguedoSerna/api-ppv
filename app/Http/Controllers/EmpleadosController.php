@@ -43,8 +43,8 @@ class EmpleadosController extends Controller
         } catch (Throwable $e) {
             throw new HttpResponseException(response()->json([
                 'success' => false,
-                'message' => 'Validation errors',
-                'data' => $e->validator->extensions
+                'title' => 'Validation errors',
+                'msg' => $e->getMessage()
             ], 400));
         }
 
@@ -74,12 +74,12 @@ class EmpleadosController extends Controller
             $validatedData = $request->validate([
                 'cve' => 'unique_field:App\Models\Empleados,uuid,'.$id
             ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json([
+        } catch (Throwable $e) {
+            throw new HttpResponseException(response()->json([
                 'success' => false,
-                'message' => 'Validation errors',
-                'data' => $e->validator->errors()
-            ], 400);
+                'title' => 'Validation errors',
+                'msg' => $e->getMessage()
+            ], 400));
         }
 
 
