@@ -10,6 +10,7 @@ services:
       DB_DATABASE: "PABMI"
       DB_USERNAME: "root"
       DB_PASSWORD: "Cg98Z6222"
+      JWT_SECRET: "2A95F5CCD11DE255FEE9451BDE568"
     volumes:
       - .:/var/www/html
       - /var/www/html/vendor
