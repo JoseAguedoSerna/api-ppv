@@ -19,7 +19,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Environment
+    | Application EnvironmentF
     |--------------------------------------------------------------------------
     |
     | This value determines the "environment" your application is currently
@@ -194,6 +194,10 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
+
+        App\Providers\ValidacionNCampoProvider::class,
+
 
     ],
 

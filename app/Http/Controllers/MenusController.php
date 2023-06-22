@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Menus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Usuarios;
 
 use Throwable;
 
@@ -16,30 +17,23 @@ class MenusController extends Controller
     // {
     //     $menu = Menus::all();
     //     return $menu;
-    // }   
+    // }
 
     public function index()
     {
         // $menu = Menus::all();
         // return $menu;
         try {
-            $menu = DB::table('Menus as M1')                
+            $menu = DB::table('Menus as M1')
             ->leftJoin('Menus as M2', 'M1.MenuPadre', '=', 'M2.uuid')
             ->select('M1.*','M2.Nombre as NomMP')
             ->whereNull('M1.deleted_at')
-            ->get();            
+            ->get();
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
         return $menu;
-    }   
-        $menu = Menus::paginate(10);
-        return response()->json([
-            'data' => $menu->toArray(),
-            'current_page' => $menu->currentPage(),
-            'last_page' => $menu->lastPage(),
-            'total' => $menu->total()
-        ]);
+
     }
 
     public function show(Request $request)
@@ -63,7 +57,7 @@ class MenusController extends Controller
                 'MenuPadre' => $request->menupadre,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
-                'EliminadoPor' => $request->eliminadopor                
+                'EliminadoPor' => $request->eliminadopor
                 ]);
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
@@ -85,12 +79,11 @@ class MenusController extends Controller
                 'Path' => $request->path,
                 'Nivel' => $request->nivel,
                 'Ordenamiento' => $request->ordenamiento,
-                'MenuPadre' => $request->menupadre,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
-                'EliminadoPor' => $request->eliminadopor   
-                ]);        
-                $menu->uuid;                   
+                'EliminadoPor' => $request->eliminadopor
+                ]);
+
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
@@ -100,8 +93,23 @@ class MenusController extends Controller
     // Delete
     public function destroy(Request $request)
     {
-        $menu = Menus::find($request->uuid); 
+        $menu = Menus::find($request->uuid);
         $menu->Delete();
         return $menu;
+    }
+
+    public function generaMenusUsuario(Request $request)
+    {
+
+        $menus = Usuarios::join('UsuariosPerfiles as up', 'up.uuidUsuario', '=', 'Usuarios.uuid')
+            ->join('PerfilesRoles as pr', 'pr.uuidPerfil', '=', 'up.uuidPerfil')
+            ->join('RolesMenus as rm', 'rm.uuidRol', '=', 'pr.uuidRol')
+            ->join('Menus as m', 'm.uuid', '=', 'rm.uuidMenu')
+            ->where('Usuarios.uuid', $request->uuidUsuario)
+            ->select('m.*')
+            ->get();
+
+
+        return $menus;
     }
 }

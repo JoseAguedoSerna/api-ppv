@@ -17,15 +17,14 @@ class PuestosController extends Controller
     //     return $puesto;
     // }
 
-    public function index()
+    public function index(Request $request)
     {
-        $puesto = Puestos::paginate(10);
-        return response()->json([
-            'data' => $puesto->toArray(),
-            'current_page' => $puesto->currentPage(),
-            'last_page' => $puesto->lastPage(),
-            'total' => $puesto->total()
-        ]);
+        if(!$request->perpage){
+            $puesto = Puestos::all();
+        }else{
+            $puesto = Puestos::paginate($request->perpage);
+        }
+        return response()->json($puesto);
     }
     public function show(Request $request)
     {

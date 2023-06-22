@@ -40,13 +40,14 @@ use App\Http\Controllers\{
     TiposComprobantesController,
     ActivosController,
     EstatusResguardoController,
-
     DependenciasTiposController,
     MenuPermisosController,
     PerfilRolController,
     RolMenusController,
     UsuarioPerfile,
-
+    AreasController,
+    LineasController,
+    TipoActivoFijoController,
     TitularController,
     SecretariaController,
 
@@ -60,9 +61,13 @@ use App\Http\Controllers\{
     TiposTicketsController,
     CategoriasTicketsController,
     PrioridadTicketsController,
-    StatusTicketsController
+    StatusTicketsController,
 
+    #Mensajes
+    MensajesController,
 
+    #administracion
+    ValoresGlobalesController
 };
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -74,6 +79,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // delete envia actualiza estatus
 // TODOS los catalogos
 
+ Route::middleware(JwtSeguridad::class)->group(function () {
     Route::prefix('catalogos')->group(function (){
         #Menus
         Route::get('obtienemenus',[MenusController::class,'index']);
@@ -81,6 +87,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('guardamenus',[MenusController::class,'store']);
         Route::post('actualizamenus',[MenusController::class,'update']);
         Route::post('eliminamenus',[MenusController::class,'destroy']);
+        Route::post('generamenu',[MenusController::class,'generaMenusUsuario']);
         #Dependencias
         Route::get('obtienedependencias',[DependenciasController::class,'index']);
         Route::post('wheredependencias',[DependenciasController::class,'show']);
@@ -267,20 +274,36 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('guardaestatusresguardo',[EstatusResguardoController::class,'store']);
         Route::post('actualizaestatusresguardo',[EstatusResguardoController::class,'update']);
         Route::post('eliminaestatusresguardo',[EstatusResguardoController::class,'destroy']);
-
         #Titular
         Route::get('obtienetitular',[TitularController::class,'index']);
         Route::post('guardatitular',[TitularController::class,'store']);
         Route::post('actualizatitular',[TitularController::class,'update']);
         Route::post('eliminatitular',[TitularController::class,'destroy']);
         Route::post('detalletitular',[TitularController::class,'show']);
+        #Areas
+        Route::get('obtienearea',[AreasController::class,'index']);
+        Route::post('guardaarea',[AreasController::class,'store']);
+        Route::post('actualizaarea',[AreasController::class,'update']);
+        Route::post('eliminaarea',[AreasController::class,'destroy']);
+        Route::post('detallearea',[AreasController::class,'show']);
+        #Linea
+        Route::get('obtienelinea',[LineasController::class,'index']);
+        Route::post('guardalinea',[LineasController::class,'store']);
+        Route::post('actualizalinea',[LineasController::class,'update']);
+        Route::post('eliminalinea',[LineasController::class,'destroy']);
+        Route::post('detallelinea',[LineasController::class,'show']);
+        #TipoActivoFijo
+        Route::get('obtienetipoactivofijo',[TipoActivoFijoController::class,'index']);
+        Route::post('guardatipoactivofijo',[TipoActivoFijoController::class,'store']);
+        Route::post('actualizatipoactivofijo',[TipoActivoFijoController::class,'update']);
+        Route::post('eliminatipoactivofijo',[TipoActivoFijoController::class,'destroy']);
+        Route::post('detalletipoactivofijo',[TipoActivoFijoController::class,'show']);
         #Secretaria
         Route::get('obtienesecretaria',[SecretariaController::class,'index']);
         Route::post('guardasecretaria',[SecretariaController::class,'store']);
         Route::post('actualizasecretaria',[SecretariaController::class,'update']);
         Route::post('eliminasecretaria',[SecretariaController::class,'destroy']);
         Route::post('detallesecretaria',[SecretariaController::class,'show']);
-        
         #DependenciasTiposController
         Route::get('obtienedependenciastipos',[DependenciasTiposController::class,'index']);
         Route::post('guardadependenciastipos',[DependenciasTiposController::class,'store']);
@@ -314,7 +337,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('guardaarticulos',[ArticulosController::class,'store']);
         Route::post('actualizaarticulos',[ArticulosController::class,'update']);
         Route::post('eliminaarticulos',[ArticulosController::class,'destroy']);
-        
+
         Route::post('detallearticulo',[ArticulosController::class,'show']);
 
         #Modelos
@@ -329,7 +352,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('guardamotivosbaja',[MotivosBajaController::class,'store']);
         Route::post('actualizamotivosbaja',[MotivosBajaController::class,'update']);
         Route::post('eliminamotivosbaja',[MotivosBajaController::class,'destroy']);
-    
+
         #Resguardos
         Route::get('obtieneresguardos',[ResguardosController::class,'index']);
         Route::post('whereresguardos',[ResguardosController::class,'show']);
@@ -356,13 +379,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('actualizatiposcomprobante',[TiposComprobanteController::class,'update']);
         Route::post('eliminatiposcomprobante',[TiposComprobanteController::class,'destroy']);
     });
-
     Route::prefix('tickets')->group(function (){
         #Tickets
         Route::get('obtienetickets',[TicketsController::class,'index']);
         Route::post('guardatickets',[TicketsController::class,'store']);
         Route::post('actualizatickets',[TicketsController::class,'update']);
-        Route::post('eliminatickets',[TicketsController::class,'destroy']);        
+        Route::post('eliminatickets',[TicketsController::class,'destroy']);
         Route::post('detalletickets',[TicketsController::class,'show']);
         #TiposTickets
         Route::get('obtienetipostickets',[TiposTicketsController::class,'index']);
@@ -381,14 +403,39 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('guardaprioridadtickets',[PrioridadTicketsController::class,'store']);
         Route::post('actualizaprioridadtickets',[PrioridadTicketsController::class,'update']);
         Route::post('eliminaprioridadtickets',[PrioridadTicketsController::class,'destroy']);
-        Route::post('detalleprioridadtickets',[PrioridadTicketsController::class,'show']);    
+        Route::post('detalleprioridadtickets',[PrioridadTicketsController::class,'show']);
         #StatusTickets
         Route::get('obtienestatustickets',[StatusTicketsController::class,'index']);
         Route::post('guardastatustickets',[StatusTicketsController::class,'store']);
         Route::post('actualizastatustickets',[StatusTicketsController::class,'update']);
         Route::post('eliminastatustickets',[StatusTicketsController::class,'destroy']);
-        Route::post('detallestatustickets',[StatusTicketsController::class,'show']); 
+        Route::post('detallestatustickets',[StatusTicketsController::class,'show']);
     });
-//});
 
+    Route::prefix('mensajes')->group(function (){
+        #Mensajes
+        Route::get('obtienemensajes',[MensajesController::class,'index']);
+        Route::post('guardamensajes',[MensajesController::class,'store']);
+        Route::post('actualizamensajes',[MensajesController::class,'update']);
+        Route::post('eliminamensajes',[MensajesController::class,'destroy']);
+        Route::post('detallemensajes',[MensajesController::class,'show']);
+        Route::post('mensajeleido',[MensajesController::class,'read']);
+        Route::post('mensajesnuevos',[MensajesController::class,'new']);
 
+    });
+
+    Route::prefix('administracion')->group(function (){
+        #Mensajes
+        Route::get('obtienevalores',[ValoresGlobalesController::class,'index']);
+        Route::post('guardavalores',[ValoresGlobalesController::class,'store']);
+        Route::post('actualizavalores',[ValoresGlobalesController::class,'update']);
+        Route::post('eliminavalores',[ValoresGlobalesController::class,'destroy']);
+        Route::post('detallevalores',[ValoresGlobalesController::class,'show']);
+    });
+
+    Route::prefix('gastocorriente')->group(function() {
+        Route::post('obtienegastocorriente',[AltasMueblesController::class,'index']);
+        Route::post('guardagastocorriente',[AltasMueblesController::class, 'store']);
+    });
+
+ });

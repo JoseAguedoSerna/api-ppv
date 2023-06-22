@@ -11,21 +11,14 @@ use Throwable;
 
 class NivelReportesController extends Controller
 {
-    // public function index()
-    // {
-    //     $nivelreporte = NivelReportes::all();
-    //     return $nivelreporte;
-    // }
-
-    public function index()
+    public function index(Request $request)
     {
-        $nivelreporte = Nivelreportes::paginate(10);
-        return response()->json([
-            'data' => $nivelreporte->toArray(),
-            'current_page' => $nivelreporte->currentPage(),
-            'last_page' => $nivelreporte->lastPage(),
-            'total' => $nivelreporte->total()
-        ]);
+        if(!$request->perpage){
+            $nivelreporte = Nivelreportes::all();
+        }else{
+            $nivelreporte = Nivelreportes::paginate($request->perpage);
+        }
+        return response()->json($nivelreporte);
     }
     public function show(Request $request)
     {

@@ -11,21 +11,14 @@ use Throwable;
 
 class ActivosController extends Controller
 {
-    // public function index()
-    // {
-    //     $activo = Activos::all();
-    //     return $activo;
-    // }
-
-    public function index()
+    public function index(Request $request)
     {
-        $activo = Activos::paginate(10);
-        return response()->json([
-            'data' => $activo->toArray(),
-            'current_page' => $activo->currentPage(),
-            'last_page' => $activo->lastPage(),
-            'total' => $activo->total()
-        ]);
+        if(!$request->perpage){
+            $activo = Activos::all();
+        }else{
+            $activo = Activos::paginate($request->perpage);
+        }
+        return response()->json($activo);
     }
 
     //Condición WHERE

@@ -11,21 +11,14 @@ use Throwable;
 
 class ProcesosController extends Controller
 {
-    // public function index()
-    // {
-    //     $proceso = Procesos::all();
-    //     return $proceso;
-    // }
-
-    public function index()
+    public function index(Request $request)
     {
-        $proceso = Procesos::paginate(10);
-        return response()->json([
-            'data' => $proceso->toArray(),
-            'current_page' => $proceso->currentPage(),
-            'last_page' => $proceso->lastPage(),
-            'total' => $proceso->total()
-        ]);
+        if(!$request->perpage){
+            $proceso = Procesos::all();
+        }else{
+            $proceso = Procesos::paginate($request->perpage);
+        }
+        return response()->json($proceso);
     }
     public function show(Request $request)
     {

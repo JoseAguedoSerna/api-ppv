@@ -11,21 +11,14 @@ use Throwable;
 
 class PresentacionesMueblesController extends Controller
 {
-    // public function index()
-    // {
-    //     $pmuebles = PresentacionesMuebles::all();
-    //     return $pmuebles;
-    // }
-
-    public function index()
+    public function index(Request $request)
     {
-        $pmuebles = PresentacionesMuebles::paginate(10);
-        return response()->json([
-            'data' => $pmuebles->toArray(),
-            'current_page' => $pmuebles->currentPage(),
-            'last_page' => $pmuebles->lastPage(),
-            'total' => $pmuebles->total()
-        ]);
+        if(!$request->perpage){
+            $pmuebles = PresentacionesMuebles::all();
+        }else{
+            $pmuebles = PresentacionesMuebles::paginate($request->perpage);
+        }
+        return response()->json($pmuebles);
     }
     public function show(Request $request)
     {

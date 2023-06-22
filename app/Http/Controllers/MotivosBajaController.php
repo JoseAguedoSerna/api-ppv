@@ -11,21 +11,14 @@ use Throwable;
 
 class MotivosBajaController extends Controller
 {
-    // obtiene todos los registros
-    // public function index(Request $request)
-    // {
-    //     $motivobaja = MotivosBaja::all();
-    //     return $motivobaja;
-    // }   
-    public function index()
+    public function index(Request $request)
     {
-        $motivoBaja = MotivosBajas::paginate(10);
-        return response()->json([
-            'data' => $motivoBaja->toArray(),
-            'current_page' => $motivoBaja->currentPage(),
-            'last_page' => $motivoBaja->lastPage(),
-            'total' => $motivoBaja->total()
-        ]);
+        if(!$request->perpage){
+            $motivoBaja = MotivosBaja::all();
+        }else{
+            $motivoBaja = MotivosBaja::paginate($request->perpage);
+        }
+        return response()->json($motivoBaja);
     }
 
     public function show(Request $request)

@@ -20,6 +20,7 @@ return new class extends Migration
                 $table->char('Cve',10)->unique();
                 $table->string('Nombre',256);
                 $table->string('Descripcion',256);
+                $table->uuid('uuidTipoReporte');
 
                 $table->char('CreadoPor', 36)->nullable();
                 $table->char('ModificadoPor', 36)->nullable();

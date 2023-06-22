@@ -19,6 +19,14 @@ class ReportesController extends Controller
 
     public function index()
     {
+        // $reporte = Reportes::all();
+        $reporte = DB::table('Reportes')        
+        ->select(['Reportes.*','TiposReportes.Nombre as NomTipoReporte',])
+        ->join('TiposReportes', 'Reportes.uuidTipoReporte', '=', 'TiposReportes.uuid')
+        ->whereNull('Reportes.deleted_at')
+        ->get();
+
+        return $reporte;
         $reporte = Reportes::paginate(10);
         return response()->json([
             'data' => $reporte->toArray(),
@@ -41,6 +49,7 @@ class ReportesController extends Controller
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
+                'uuidTipoReporte' => $request->uuidtiporeporte,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor                
@@ -61,6 +70,7 @@ class ReportesController extends Controller
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
+                'uuidTipoReporte' => $request->uuidtiporeporte,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor

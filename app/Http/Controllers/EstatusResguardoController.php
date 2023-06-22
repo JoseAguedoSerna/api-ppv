@@ -11,10 +11,14 @@ use Throwable;
 
 class EstatusResguardoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $estatusresguardo = EstatusResguardo::all();
-        return $estatusresguardo;
+        if(!$request->perpage){
+            $estatusresguardo = EstatusResguardo::all();
+        }else{
+            $estatusresguardo = EstatusResguardo::paginate($request->perpage);
+        }
+        return response()->json($estatusresguardo);
     }
     // insert
     public function store(Request $request)

@@ -17,15 +17,13 @@ class MarcasController extends Controller
     //     return $marca;
     // }
 
-    public function index()
+    public function index(Request $request)
     {
-        $marca = Marcas::paginate(10);
-        return response()->json([
-            'data' => $marca->toArray(),
-            'current_page' => $marca->currentPage(),
-            'last_page' => $marca->lastPage(),
-            'total' => $marca->total()
-        ]);
+        if(!$request->perpage){
+            $tdependencias = Marcas::all(); }
+        else {
+            $tdependencias = Marcas::paginate($request->perpage);
+        } return response()->json($tdependencias);
     }
 
     public function show(Request $request)
@@ -44,7 +42,7 @@ class MarcasController extends Controller
                 'Descripcion' => $request->descripcion,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
-                'EliminadoPor' => $request->eliminadopor                
+                'EliminadoPor' => $request->eliminadopor
                 ]);
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
@@ -65,8 +63,8 @@ class MarcasController extends Controller
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
-                ]);        
-                $marca->uuid;                   
+                ]);
+                $marca->uuid;
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
@@ -75,7 +73,7 @@ class MarcasController extends Controller
     }
     public function destroy(Request $request)
     {
-        $marca = Marcas::find($request->uuid); 
+        $marca = Marcas::find($request->uuid);
         $marca->Delete();
         return $marca;
     }

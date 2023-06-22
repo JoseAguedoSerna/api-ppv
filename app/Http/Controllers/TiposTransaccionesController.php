@@ -11,20 +11,14 @@ use Throwable;
 
 class TiposTransaccionesController extends Controller
 {
-    // public function index()
-    // {
-    //     $ttransaccion = TiposTransacciones::all();
-    //     return $ttransaccion;
-    // }
-    public function index()
+    public function index(Request $request)
     {
-        $ttransaccion = TiposTransacciones::paginate(10);
-        return response()->json([
-            'data' => $ttransaccion->toArray(),
-            'current_page' => $ttransaccion->currentPage(),
-            'last_page' => $ttransaccion->lastPage(),
-            'total' => $ttransaccion->total()
-        ]);
+        if(!$request->perpage){
+            $ttransaccion = TiposTransacciones::all();
+        }else{
+            $ttransaccion = TiposTransacciones::paginate($request->perpage);
+        }
+        return response()->json($ttransaccion);
     }
     public function show(Request $request)
     {

@@ -15,17 +15,15 @@ class ModelosController extends Controller
     // {
     //     $modelo = Modelos::all();
     //     return $modelo;
-    // }   
+    // }
 
-    public function index()
+    public function index(Request $request)
     {
-        $modelo = Modelos::paginate(10);
-        return response()->json([
-            'data' => $modelo->toArray(),
-            'current_page' => $modelo->currentPage(),
-            'last_page' => $modelo->lastPage(),
-            'total' => $modelo->total()
-        ]);
+       if(!$request->perpage){
+            $tdependencias = Modelos::all(); }
+        else {
+            $tdependencias = Modelos::paginate($request->perpage);
+        } return response()->json($tdependencias);
     }
 
     public function show(Request $request)
@@ -67,8 +65,8 @@ class ModelosController extends Controller
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
-                ]);        
-                $modelo->uuid;                   
+                ]);
+                $modelo->uuid;
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
@@ -77,7 +75,7 @@ class ModelosController extends Controller
     }
     public function destroy(Request $request)
     {
-        $modelo = Modelos::find($request->uuid); 
+        $modelo = Modelos::find($request->uuid);
         $modelo->Delete();
         return $modelo;
     }
