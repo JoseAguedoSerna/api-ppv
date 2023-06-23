@@ -54,7 +54,7 @@ class ValoresSistemaSeeder extends Seeder
                 'ModificadoPor' => null,
                 'EliminadoPor' => null,
             ]);
-        }   
+        }
 
         if (!ValoresSistema::where('Cve', 'CORREOSALIDA')->exists()) {
             ValoresSistema::create([
@@ -68,7 +68,7 @@ class ValoresSistemaSeeder extends Seeder
                 'ModificadoPor' => null,
                 'EliminadoPor' => null,
             ]);
-        }          
+        }
 
         if (!ValoresSistema::where('Cve', 'SHOWMSG')->exists()) {
             ValoresSistema::create([
@@ -82,7 +82,20 @@ class ValoresSistemaSeeder extends Seeder
                 'ModificadoPor' => null,
                 'EliminadoPor' => null,
             ]);
-        }          
+        }
 
+        if (!ValoresSistema::where('Cve', 'PAGINACION')->exists()) {
+            ValoresSistema::create([
+                'uuid' => Str::uuid()->toString(),
+                'Cve' => 'PAGINACION',
+                'Descripcion' => 'Número de registros para paginación',
+                'Tipo' => 2,
+                'ParamStr' => null,
+                'ParamInt' => 100,
+                'CreadoPor' => '',
+                'ModificadoPor' => null,
+                'EliminadoPor' => null,
+            ]);
+        }
     }
 }
