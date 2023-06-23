@@ -14,9 +14,10 @@ class AltasMueblesController extends Controller
     {
         $altaMuebles = AltasMuebles::join('TiposAdquisicion', 'AltasMuebles.uuidTipoAdquisicion', '=', 'TiposAdquisicion.uuid')
             ->join('Areas', 'AltasMuebles.uuidArea', '=', 'Areas.uuid')
+            ->join('TipoActivoFijo', 'AltasMuebles.uuidTipoActivoFijo', '=', 'TipoActivoFijo.uuid')
             ->where('AltasMuebles.uuidTipoAdquisicion', $request->uuidTipoAdquisicion)
-            ->select('AltasMuebles.*','TiposAdquisicion.Nombre AS Tipo Adquisicion','Areas.Nombre AS Area Fisica')
-            ->paginate($request->input('perpage', 10), ['*'], 'page', $request->input('page', $request->page));
+            ->select('AltasMuebles.*','TipoActivoFijo.Nombre as TipoActivoFijoNombre','TiposAdquisicion.Nombre AS TipoAdquisicion','Areas.Nombre AS AreaFisica')
+            ->get();
         return $altaMuebles;
     }
 
@@ -71,4 +72,49 @@ class AltasMueblesController extends Controller
         $jsonData = $nuevoMueble->toJson();
         return $jsonData;
     }
+    public function search(Request $request)
+    {
+        /*
+            $altaMuebles = AltasMuebles::join('TiposAdquisicion', 'AltasMuebles.uuidTipoAdquisicion', '=', 'TiposAdquisicion.uuid')
+            ->join('Areas', 'AltasMuebles.uuidArea', '=', 'Areas.uuid')
+            ->join('TipoActivoFijo', 'AltasMuebles.uuidTipoActivoFijo', '=', 'TipoActivoFijo.uuid')
+            ->where('AltasMuebles.uuidTipoAdquisicion', $request->uuidTipoAdquisicion)
+            ->select('AltasMuebles.*','TipoActivoFijo.Nombre as TipoActivoFijoNombre','TiposAdquisicion.Nombre AS TipoAdquisicion','Areas.Nombre AS AreaFisica')
+            ->get();
+        return $altaMuebles;*/
+        if($request->input('parametroBusqueda')){
+            $altaMuebles = AltasMuebles::join('TiposAdquisicion', 'AltasMuebles.uuidTipoAdquisicion', '=', 'TiposAdquisicion.uuid')
+            ->join('TipoActivoFijo', 'AltasMuebles.uuidTipoActivoFijo', '=', 'TipoActivoFijo.uuid')
+            ->join('Areas', 'AltasMuebles.uuidArea', '=', 'Areas.uuid')
+            ->where('AltasMuebles.NoActivo', 'like', '%'.$request->parametroBusqueda.'%')
+            ->orwhere('TiposAdquisicion.Nombre', 'like', '%'.$request->parametroBusqueda.'%')
+            ->orwhere('AltasMuebles.Descripcion', 'like', '%'.$request->parametroBusqueda.'%')
+            ->orwhere('TipoActivoFijo.Nombre', 'like', '%'.$request->parametroBusqueda.'%')
+            ->orwhere('Areas.Nombre', 'like', '%'.$request->parametroBusqueda.'%')
+            ->select('AltasMuebles.*','TipoActivoFijo.Nombre as TipoActivoFijoNombre','TiposAdquisicion.Nombre AS TipoAdquisicion','Areas.Nombre AS AreaFisica')
+            ->get();
+            return $altaMuebles; 
+        }else if($request->input('fechaDesde') && $request->input('fechaHasta') ){
+            $altaMuebles = AltasMuebles::join('TiposAdquisicion', 'AltasMuebles.uuidTipoAdquisicion', '=', 'TiposAdquisicion.uuid')
+            ->join('TipoActivoFijo', 'AltasMuebles.uuidTipoActivoFijo', '=', 'TipoActivoFijo.uuid')
+            ->join('Areas', 'AltasMuebles.uuidArea', '=', 'Areas.uuid')
+            ->whereBetween('AltasMuebles.created_at', [$request->input('fechaDesde'), $request->input('fechaHasta') ])
+            ->select('AltasMuebles.*','TipoActivoFijo.Nombre as TipoActivoFijoNombre','TiposAdquisicion.Nombre AS TipoAdquisicion','Areas.Nombre AS AreaFisica')
+            ->get();
+            return $altaMuebles; 
+        }
+    }
 }
+
+/*
+$noticia = Noticia::where('noticiero_turno','LIKE',"%$ntc_turno%")
+                    ->orWhere('noticiero_programa','LIKE',"%$ntc_turno%")
+                    ->orWhere('noticiero_fecha','LIKE',"%$ntc_turno%")
+                    ->paginate(2);
+
+                    Descripcion
+                    No Activo
+                    Tipo Adquición
+                    Descripcion
+                    Tipo Activo Fijo
+                    Area Fisica*/
