@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AltasMueblesRequest;
 use Illuminate\Http\Request;
 use App\Models\AltasMuebles;
 use Illuminate\Support\Str;
@@ -21,67 +22,36 @@ class AltasMueblesController extends Controller
         return $altaMuebles;
     }
 
-    public function store(Request $request)
+    public function store(AltasMueblesRequest $request)
     {
         $adquisicionId = $request->input('uuidTipoAdquisicion');
-        $tadquisicion = TiposAdquisicion::findOrFail($adquisicionId);
+
         try {
-            $data = $request->only([
-                'uuidTipoAdquisicion',
-                'uuidTipoBien',
-                'uuidPersonalResguardo',
-                'uuidMarca',
-                'uuidModelo',
-                'uuidArea',
-                'uuidConductor',
-                'uuidTipoActivoFijo',
-                'NoInventario',
-                'NoActivo',
-                'Cantidad',
-                'Descripcion',
-                'CostoSinIva',
-                'CostoConIva',
-                'DepreciacionAcumulada',
-                'FechaEntrada',
-                'FechaUltimaActualizacion',
-                'Placas',
-                'Series',
-                'Anio',
-                'VidaUtil',
-                'CvePersonal',
-                'CveLinea',
-                'DescripcionLinea',
-                'CodigoContable',
-                'FechaDeUso',
-                'ClaveInterior',
-                'DescripcionDetalle',
-                'DescripcionTipoActivoFijo'
-            ]);
+            $tadquisicion = TiposAdquisicion::findOrFail($adquisicionId);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return $this->errorResponse('El tipo de adquisición no existe.', 404);
+        }
+
+        try {
+            $data = $request->validated();
+
 
             $data['uuid'] = Str::uuid(); // Agregar UUID único
 
-            $nuevoMueble = AltasMuebles::create($data);
+            $nuevoMueble = new AltasMuebles($data);
+            $nuevoMueble->uuid = Str::uuid();
             $nuevoMueble->tipoAdquisicion()->associate($tadquisicion);
             $nuevoMueble->save();
 
-        }   catch (\Illuminate\Database\QueryException $ex){
-            return response('Error en base de datos: '.$ex->getMessage(), 400)
-                ->header('Content-Type', 'text/plain');
+        }catch (\Illuminate\Database\QueryException $e){
+            return $this->errorResponse($e->getMessage());
         }
 
-        $jsonData = $nuevoMueble->toJson();
-        return $jsonData;
+        return response()->json($nuevoMueble, 201);
+
     }
     public function search(Request $request)
     {
-        /*
-            $altaMuebles = AltasMuebles::join('TiposAdquisicion', 'AltasMuebles.uuidTipoAdquisicion', '=', 'TiposAdquisicion.uuid')
-            ->join('Areas', 'AltasMuebles.uuidArea', '=', 'Areas.uuid')
-            ->join('TipoActivoFijo', 'AltasMuebles.uuidTipoActivoFijo', '=', 'TipoActivoFijo.uuid')
-            ->where('AltasMuebles.uuidTipoAdquisicion', $request->uuidTipoAdquisicion)
-            ->select('AltasMuebles.*','TipoActivoFijo.Nombre as TipoActivoFijoNombre','TiposAdquisicion.Nombre AS TipoAdquisicion','Areas.Nombre AS AreaFisica')
-            ->get();
-        return $altaMuebles;*/
         if($request->input('parametroBusqueda')){
             $altaMuebles = AltasMuebles::join('TiposAdquisicion', 'AltasMuebles.uuidTipoAdquisicion', '=', 'TiposAdquisicion.uuid')
             ->join('TipoActivoFijo', 'AltasMuebles.uuidTipoActivoFijo', '=', 'TipoActivoFijo.uuid')
@@ -93,7 +63,7 @@ class AltasMueblesController extends Controller
             ->orwhere('Areas.Nombre', 'like', '%'.$request->parametroBusqueda.'%')
             ->select('AltasMuebles.*','TipoActivoFijo.Nombre as TipoActivoFijoNombre','TiposAdquisicion.Nombre AS TipoAdquisicion','Areas.Nombre AS AreaFisica')
             ->get();
-            return $altaMuebles; 
+            return $altaMuebles;
         }else if($request->input('fechaDesde') && $request->input('fechaHasta') ){
             $altaMuebles = AltasMuebles::join('TiposAdquisicion', 'AltasMuebles.uuidTipoAdquisicion', '=', 'TiposAdquisicion.uuid')
             ->join('TipoActivoFijo', 'AltasMuebles.uuidTipoActivoFijo', '=', 'TipoActivoFijo.uuid')
@@ -101,20 +71,7 @@ class AltasMueblesController extends Controller
             ->whereBetween('AltasMuebles.created_at', [$request->input('fechaDesde'), $request->input('fechaHasta') ])
             ->select('AltasMuebles.*','TipoActivoFijo.Nombre as TipoActivoFijoNombre','TiposAdquisicion.Nombre AS TipoAdquisicion','Areas.Nombre AS AreaFisica')
             ->get();
-            return $altaMuebles; 
+            return $altaMuebles;
         }
     }
 }
-
-/*
-$noticia = Noticia::where('noticiero_turno','LIKE',"%$ntc_turno%")
-                    ->orWhere('noticiero_programa','LIKE',"%$ntc_turno%")
-                    ->orWhere('noticiero_fecha','LIKE',"%$ntc_turno%")
-                    ->paginate(2);
-
-                    Descripcion
-                    No Activo
-                    Tipo Adquición
-                    Descripcion
-                    Tipo Activo Fijo
-                    Area Fisica*/

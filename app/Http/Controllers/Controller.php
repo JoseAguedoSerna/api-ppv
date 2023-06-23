@@ -22,4 +22,14 @@ class Controller extends BaseController
             'msg' => $message
         ], $statusCode);
     }
+
+    protected function errorResponseCRUD($message)
+    {
+        $statusCode = Response::HTTP_UNPROCESSABLE_ENTITY;
+        return response()->json([
+            'success' => false,
+            'title' => 'SQL errors',
+            'msg' => $message
+        ], $statusCode);
+    }
 }
