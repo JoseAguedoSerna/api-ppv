@@ -41,25 +41,24 @@ class EmpleadosController extends Controller
                 'cve' => 'unique_field:App\Models\Empleados'
             ]);
         } catch (Throwable $e) {
-            return $this->errorResponse($e->getMessage());
+            return $this->errorResponse('Cve Duplicado',$e->getMessage(),422);
         }
 
-        $nuevo_empleado = new Empleados();
+
         try {
-            $nuevo_empleado::create([
+            $nuevo_empleado = Empleados::create([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
-                'ApellidoPaterno' => $request->ApellidoPaterno,
-                'ApellidoMaterno' => $request->ApellidoMaterno,
+                'ApellidoPaterno' => $request->apellidopaterno,
+                'ApellidoMaterno' => $request->apellidomaterno,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
                 ]);
         } catch (Throwable $e) {
-            abort(403, $e->getMessage());
+            return $this->errorResponse('Error SQL Store',$e->getMessage(),422);
         }
-        $firstEmpleado = Empleados::latest('uuid', 'asc')->first();
-        $data = json_encode($firstEmpleado);
+        $data = $nuevo_empleado->fresh()->toJson();
         return $data;
     }
     // update registro
@@ -71,11 +70,7 @@ class EmpleadosController extends Controller
                 'cve' => 'unique_field:App\Models\Empleados,uuid,'.$id
             ]);
         } catch (Throwable $e) {
-            throw new HttpResponseException(response()->json([
-                'success' => false,
-                'title' => 'Validation errors',
-                'msg' => $e->getMessage()
-            ], 422));
+            return $this->errorResponse('Cve Duplicado',$e->getMessage(),422);
         }
 
 
