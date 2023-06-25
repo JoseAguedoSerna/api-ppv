@@ -59,7 +59,7 @@ class EmpleadosController extends Controller
             return $this->errorResponse('Error SQL Store',$e->getMessage(),422);
         }
         $data = $nuevo_empleado->fresh()->toJson();
-        return $data;
+        return response()->json($data, 201);
     }
     // update registro
     public function update(Request $request)
@@ -91,8 +91,7 @@ class EmpleadosController extends Controller
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $data = json_encode($empleado);
-        return $data;
+        return response()->json($empleado, 200);
     }
     // delete logico
     public function destroy(Request $request)
