@@ -29,7 +29,7 @@ class AltasMueblesController extends Controller
         try {
             $tadquisicion = TiposAdquisicion::findOrFail($adquisicionId);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return $this->errorResponse('El tipo de adquisición no existe.', 404);
+            return $this->errorResponse('El tipo de adquisición no existe.',$e->getMessage(), 404);
         }
 
         try {
@@ -44,7 +44,7 @@ class AltasMueblesController extends Controller
             $nuevoMueble->save();
 
         }catch (\Illuminate\Database\QueryException $e){
-            return $this->errorResponse($e->getMessage());
+            return $this->errorResponse('Error SQL Store',$e->getMessage(),422);
         }
 
         return response()->json($nuevoMueble, 201);
