@@ -41,7 +41,7 @@ class EmpleadosController extends Controller
                 'cve' => 'unique_field:App\Models\Empleados'
             ]);
         } catch (Throwable $e) {
-            return $this->errorResponse('Cve Duplicado',$e->getMessage(),422);
+            return $this->errorResponse($e->getMessage(),'cve duplicado',422);
         }
 
 
