@@ -11,33 +11,23 @@ use Throwable;
 
 class ReportesController extends Controller
 {
-    // public function index()
-    // {
-    //     $reporte = Reportes::all();
-    //     return $reporte;
-    // }
-
-    public function index()
+    public function index(Request $request)
     {
-        // $reporte = Reportes::all();
         $reporte = DB::table('Reportes')        
         ->select(['Reportes.*','TiposReportes.Nombre as NomTipoReporte',])
         ->join('TiposReportes', 'Reportes.uuidTipoReporte', '=', 'TiposReportes.uuid')
         ->whereNull('Reportes.deleted_at')
         ->get();
-
-        return $reporte;
-        $reporte = Reportes::paginate(10);
-        return response()->json([
-            'data' => $reporte->toArray(),
-            'current_page' => $reporte->currentPage(),
-            'last_page' => $reporte->lastPage(),
-            'total' => $reporte->total()
-        ]);
+        if(!$request->perpage){ 
+            $result = $reporte;
+        }else{ 
+                $result = Reportes::paginate($request->perpage); 
+        } 
+        return response()->json($result);      
     }
     public function show(Request $request)
     {
-        $detalle = Articulos::where('Cve',$request->cve)->get();
+        $detalle = Reportes::where('Cve',$request->cve)->get();
         return json_encode($detalle);
     }
     // insert

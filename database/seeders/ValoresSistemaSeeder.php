@@ -97,5 +97,34 @@ class ValoresSistemaSeeder extends Seeder
                 'EliminadoPor' => null,
             ]);
         }
+
+        if (!ValoresSistema::where('Cve', 'PATHFACTURA')->exists()) {
+            ValoresSistema::create([
+                'uuid' => Str::uuid()->toString(),
+                'Cve' => 'PATHFACTURA',
+                'Descripcion' => 'Ruta o FTP donde se almacenarian las facturas importados',
+                'Tipo' => 1,
+                'ParamStr' => '',
+                'ParamInt' => null,
+                'CreadoPor' => '',
+                'ModificadoPor' => null,
+                'EliminadoPor' => null,
+            ]);
+        }   
+        
+        if (!ValoresSistema::where('Cve', 'PATHDOCUMENTOS')->exists()) {
+            ValoresSistema::create([
+                'uuid' => Str::uuid()->toString(),
+                'Cve' => 'PATHDOCUMENTOS',
+                'Descripcion' => 'Ruta o FTP donde se almacenarian los documentos importados',
+                'Tipo' => 1,
+                'ParamStr' => '',
+                'ParamInt' => null,
+                'CreadoPor' => '',
+                'ModificadoPor' => null,
+                'EliminadoPor' => null,
+            ]);
+        }           
+
     }
 }

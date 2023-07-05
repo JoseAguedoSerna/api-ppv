@@ -11,11 +11,6 @@ use Throwable;
 
 class TiposClasificacionController extends Controller
 {
-    // public function index()
-    // {
-    //     $tclasificacion = TiposClasificacion::all();
-    //     return $tclasificacion;
-    // }
     public function index(Request $request)
     {
 
@@ -31,7 +26,7 @@ class TiposClasificacionController extends Controller
     }
     public function show(Request $request)
     {
-        $detalle = Articulos::where('Cve',$request->cve)->get();
+        $detalle = TiposClasificacion::where('Cve',$request->cve)->get();
         return json_encode($detalle);
     }
     // insert

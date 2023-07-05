@@ -12,7 +12,7 @@ use App\Models\Roles;
 class PerfilRol extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
-    protected $table = 'PerfieslRoles';
+    protected $table = 'PerfilesRoles';
     protected $primaryKey = 'uuid';
     public $incrementing = false;
     protected $fillable = ['uuidPerfil','uuidRol'];

@@ -22,7 +22,7 @@ class TiposProveedoresController extends Controller
     }
     public function show(Request $request)
     {
-        $detalle = Articulos::where('Cve',$request->cve)->get();
+        $detalle = TiposProveedores::where('Cve',$request->cve)->get();
         return json_encode($detalle);
     }
     // insert

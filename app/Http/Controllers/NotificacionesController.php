@@ -11,12 +11,6 @@ use Throwable;
 
 class NotificacionesController extends Controller
 {
-    // public function index()
-    // {
-    //     $notificacion = Notificaciones::all();
-    //     return $notificacion;
-    // }
-
     public function index(Request $request)
     {
         if(!$request->perpage){ 
@@ -29,9 +23,10 @@ class NotificacionesController extends Controller
 
     public function show(Request $request)
     {
-        $detalle = Articulos::where('Encabezado',$request->encabezado)->get();
+        $detalle = Notificaciones::where('Encabezado',$request->encabezado)->get();
         return json_encode($detalle);
     }
+
     // insert
     public function store(Request $request)
     {

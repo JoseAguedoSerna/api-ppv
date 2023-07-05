@@ -13,12 +13,6 @@ class ModelosController extends Controller
 {
     public function index(Request $request)
     {
-    //    if(!$request->perpage){
-    //         $tdependencias = Modelos::all(); }
-    //     else {
-    //         $tdependencias = Modelos::paginate($request->perpage);
-    //     } return response()->json($tdependencias);
-        
         $modelos = DB::table('Modelos')        
         ->select(['Modelos.*','Marcas.Nombre as Marca'])
         ->join('Marcas', 'Modelos.uuidMarca', '=', 'Marcas.uuid')
@@ -34,7 +28,7 @@ class ModelosController extends Controller
 
     public function show(Request $request)
     {
-        $detalle = Articulos::where('Cve',$request->cve)->get();
+        $detalle = Modelos::where('Cve',$request->cve)->get();
         return json_encode($detalle);
     }
     // insert

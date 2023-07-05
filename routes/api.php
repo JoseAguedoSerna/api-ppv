@@ -41,7 +41,8 @@ use App\Http\Controllers\{
     ActivosController,
     EstatusResguardoController,
     DependenciasTiposController,
-    MenuPermisosController,
+    
+    MenuPermisoController,
     PerfilRolController,
     RolMenusController,
     UsuarioPerfile,
@@ -128,7 +129,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('eliminanivelreportes',[NivelReportesController::class,'destroy']);
         #Notificaciones
         Route::get('obtienenotificaciones',[NotificacionesController::class,'index']);
-        Route::get('wherenotificaciones',[NotificacionesController::class,'show']);
+        Route::post('wherenotificaciones',[NotificacionesController::class,'show']);
         Route::post('guardanotificaciones',[NotificacionesController::class,'store']);
         Route::post('actualizanotificaciones',[NotificacionesController::class,'update']);
         Route::post('eliminanotificaciones',[NotificacionesController::class,'destroy']);
@@ -275,6 +276,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('guardaestatusresguardo',[EstatusResguardoController::class,'store']);
         Route::post('actualizaestatusresguardo',[EstatusResguardoController::class,'update']);
         Route::post('eliminaestatusresguardo',[EstatusResguardoController::class,'destroy']);
+        Route::post('whereestatusresguardo',[EstatusResguardoController::class,'show']);
         #Titular
         Route::get('obtienetitular',[TitularController::class,'index']);
         Route::post('guardatitular',[TitularController::class,'store']);
@@ -315,6 +317,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('guardamenupermiso',[MenuPermisoController::class,'store']);
         Route::post('actualizamenupermiso',[MenuPermisoController::class,'update']);
         Route::post('eliminamenupermiso',[MenuPermisoController::class,'destroy']);
+        Route::post('detallemenupermiso',[MenuPermisoController::class,'show']);
         #PerfilRolController
         Route::get('obtieneperfilrol',[PerfilRolController::class,'index']);
         Route::post('guardaperfilrol',[PerfilRolController::class,'store']);

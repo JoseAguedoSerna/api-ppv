@@ -12,13 +12,6 @@ use Throwable;
 
 class MenusController extends Controller
 {
-    // obtiene todos los registros
-    // public function index(Request $request)
-    // {
-    //     $menu = Menus::all();
-    //     return $menu;
-    // }
-
     public function index()
     {
         // $menu = Menus::all();
@@ -38,7 +31,7 @@ class MenusController extends Controller
 
     public function show(Request $request)
     {
-        $detalle = Articulos::where('Cve',$request->cve)->get();
+        $detalle = Menus::where('Cve',$request->cve)->get();
         return json_encode($detalle);
     }
     // insert

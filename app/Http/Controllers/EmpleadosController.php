@@ -14,12 +14,6 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class EmpleadosController extends Controller
 {
-    // public function index()
-    // {
-    //     $empleado = Empleados::all();
-    //     return $empleado;
-    // }
-
     public function index(Request $request)
     {
         if(!$request->perpage){
@@ -31,7 +25,7 @@ class EmpleadosController extends Controller
 
     public function show(Request $request)
     {
-        $detalle = Articulos::where('Cve',$request->cve)->get();
+        $detalle = Empleados::where('Cve',$request->cve)->get();
         return json_encode($detalle);
     }
     // insert
