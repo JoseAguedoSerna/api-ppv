@@ -438,4 +438,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('guardagastocorriente',[AltasMueblesController::class, 'store']);
     });
 
+    Route::prefix('rolesmenu')->group(function() {
+        Route::get('obtiene',[RolesMenuController::class,'index']);
+        Route::post('getbyrol',[RolesMenuController::class,'byrol']);
+        Route::post('actualiza',[RolesMenuController::class,'update']);
+        Route::post('elimina',[RolesMenuController::class,'delete']);
+    });
+
  });

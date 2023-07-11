@@ -19,20 +19,16 @@ class MenusController extends Controller
     //     return $menu;
     // }
 
-    public function index()
+    public function index(Request $request)
     {
         // $menu = Menus::all();
         // return $menu;
-        try {
-            $menu = DB::table('Menus as M1')
-            ->leftJoin('Menus as M2', 'M1.MenuPadre', '=', 'M2.uuid')
-            ->select('M1.*','M2.Nombre as NomMP')
-            ->whereNull('M1.deleted_at')
-            ->get();
-        } catch (Throwable $e) {
-            abort(404, $e->getMessage());
+        if(!$request->perpage){
+            $menu = Menus::all();
+        }else{
+            $menu = Menus::paginate($request->perpage);
         }
-        return $menu;
+        return response()->json($menu);
 
     }
 
