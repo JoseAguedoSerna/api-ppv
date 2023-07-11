@@ -14,10 +14,10 @@ class MarcasController extends Controller
     public function index(Request $request)
     {
         if(!$request->perpage){
-            $tdependencias = Marcas::all(); }
+            $marca = Marcas::all(); }
         else {
-            $tdependencias = Marcas::paginate($request->perpage);
-        } return response()->json($tdependencias);
+            $marca = Marcas::paginate($request->perpage);
+        } return response()->json($marca);
     }
 
     public function show(Request $request)

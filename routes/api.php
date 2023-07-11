@@ -40,8 +40,7 @@ use App\Http\Controllers\{
     TiposComprobantesController,
     ActivosController,
     EstatusResguardoController,
-    DependenciasTiposController,
-    
+    DependenciasTiposController,    
     MenuPermisoController,
     PerfilRolController,
     RolMenusController,
@@ -51,11 +50,15 @@ use App\Http\Controllers\{
     TipoActivoFijoController,
     TitularController,
     SecretariaController,
+    RangosController,
+    ProcesoStepsController,
+    ProcesoRangoController,
 
     #Muebles
     ArticulosController,
     ResguardosDetController,
     ResguardosController,
+    CitasController,
 
     #Tickets
     TicketsController,
@@ -333,6 +336,26 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('guardausuarioperfil',[UsuarioPerfilController::class,'store']);
         Route::post('actualizausuarioperfil',[UsuarioPerfilController::class,'update']);
         Route::post('eliminausuarioperfil',[UsuarioPerfilController::class,'destroy']);
+        #Rangos
+        Route::get('obtienerango',[RangosController::class,'index']);
+        Route::post('guardarango',[RangosController::class,'store']);
+        Route::post('actualizarango',[RangosController::class,'update']);
+        Route::post('eliminarango',[RangosController::class,'destroy']);
+        Route::post('detallerango',[RangosController::class,'show']);
+        #Procesosteps
+        Route::get('obtieneprocesosteps',[ProcesoStepsController::class,'index']);
+        Route::post('guardaprocesosteps',[ProcesoStepsController::class,'store']);
+        Route::post('actualizaprocesosteps',[ProcesoStepsController::class,'update']);
+        Route::post('eliminaprocesosteps',[ProcesoStepsController::class,'destroy']);
+        Route::post('detalleprocesosteps',[ProcesoStepsController::class,'show']);        
+        #ProcesoRango
+        Route::get('obtieneprocesorango',[ProcesoRangoController::class,'index']);
+        Route::post('guardaprocesorango',[ProcesoRangoController::class,'store']);
+        Route::post('actualizaprocesorango',[ProcesoRangoController::class,'update']);
+        Route::post('eliminaprocesorango',[ProcesoRangoController::class,'destroy']);
+        Route::post('detalleprocesorango',[ProcesoRangoController::class,'show']); 
+
+
     });
     Route::prefix('muebles')->group(function (){
         #Articulos
@@ -375,13 +398,21 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('guardatiposadquisicion',[TiposAdquisicionController::class,'store']);
         Route::post('actualizatiposadquisicion',[TiposAdquisicionController::class,'update']);
         Route::post('eliminatiposadquisicion',[TiposAdquisicionController::class,'destroy']);
-
         #TiposComprobante
         Route::get('obtienetiposcomprobante',[TiposComprobanteController::class,'index']);
         Route::post('wheretiposcomprobante',[TiposComprobanteController::class,'show']);
         Route::post('guardatiposcomprobante',[TiposComprobanteController::class,'store']);
         Route::post('actualizatiposcomprobante',[TiposComprobanteController::class,'update']);
         Route::post('eliminatiposcomprobante',[TiposComprobanteController::class,'destroy']);
+        #Citas
+        Route::get('obtienecitas',[CitasController::class,'index']);
+        Route::post('wherecitas',[CitasController::class,'show']);
+        Route::post('guardacitas',[CitasController::class,'store']);
+        Route::post('actualizacitas',[CitasController::class,'update']);
+        Route::post('eliminacitas',[CitasController::class,'destroy']);
+
+
+
     });
     Route::prefix('tickets')->group(function (){
         #Tickets
