@@ -44,6 +44,8 @@ class AltasMuebles extends Model
         'FechaDeUso',
         'ClaveInterior',
         'DescripcionDetalle',
+        'RutaFactura',
+        'ConfirmacionCoordinacionBM',
         'DescripcionTipoActivoFijo'
     ];
 

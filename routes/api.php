@@ -437,6 +437,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('obtienegastocorriente',[AltasMueblesController::class,'index']);
         Route::post('guardagastocorriente',[AltasMueblesController::class, 'store']);
         Route::post('buscadorMuebles',[AltasMueblesController::class, 'search']);
+        Route::post('confirmaFactura',[AltasMueblesController::class, 'confirmafactura']);
+        Route::post('uploadfactura',[AltasMueblesController::class, 'uploadfactura']);
     });
 
  });
