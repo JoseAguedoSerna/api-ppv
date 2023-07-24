@@ -67,7 +67,7 @@ class ProcesoStepsController extends Controller
                 'Ordenamiento' => $request->ordenamiento,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
-                'EliminadoPor' => $request->eliminadopor                
+                'EliminadoPor' => $request->eliminadopor                 
                 ]);        
                 $proceso->uuid;                   
         } catch (Throwable $e) {

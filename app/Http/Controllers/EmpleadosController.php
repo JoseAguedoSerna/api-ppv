@@ -38,7 +38,7 @@ class EmpleadosController extends Controller
         } catch (Throwable $e) {
             throw new HttpResponseException(response()->json([
                 'success' => false,
-                'message' => 'Validation errors',
+                'message' => 'Registro duplicado',
                 'data' => $e->validator->extensions
             ], 400));
         }
