@@ -20,10 +20,12 @@ class TiposDependenciasController extends Controller
             $tdependencia = TiposDependencias::paginate($request->perpage);
         }
         return response()->json($tdependencia);
-    }   
+    }
     // insert
     public function store(Request $request)
     {
+
+
         $nuevo_tdependencia = new TiposDependencias();
         try {
             $nuevo_tdependencia::create([
@@ -32,7 +34,7 @@ class TiposDependenciasController extends Controller
                 'Descripcion' => $request->descripcion,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
-                'EliminadoPor' => $request->eliminadopor                
+                'EliminadoPor' => $request->eliminadopor
                 ]);
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
@@ -49,12 +51,12 @@ class TiposDependenciasController extends Controller
             $tdependencia->update([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
-                'Descripcion' => $request->descripcion,               
+                'Descripcion' => $request->descripcion,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
-                ]);        
-                $tdependencia->uuid;                   
+                ]);
+                $tdependencia->uuid;
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
@@ -64,7 +66,7 @@ class TiposDependenciasController extends Controller
     // Delete
     public function destroy(Request $request)
     {
-        $tdependencia = TiposDependencias::find($request->uuid); 
+        $tdependencia = TiposDependencias::find($request->uuid);
         $tdependencia->Delete();
         return $tdependencia;
     }
