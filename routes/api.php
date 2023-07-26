@@ -474,6 +474,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::prefix('gastocorriente')->group(function() {
         Route::post('obtienegastocorriente',[AltasMueblesController::class,'index']);
         Route::post('guardagastocorriente',[AltasMueblesController::class, 'store']);
+        Route::post('buscadorMuebles',[AltasMueblesController::class, 'search']);
     });
 
  });
