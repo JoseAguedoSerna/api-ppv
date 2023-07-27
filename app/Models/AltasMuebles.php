@@ -45,6 +45,9 @@ class AltasMuebles extends Model
         'ClaveInterior',
         'DescripcionDetalle',
             'DescripcionTipoActivoFijo'
+        'RutaFactura',
+        'ConfirmacionCoordinacionBM',
+        'DescripcionTipoActivoFijo'
     ];
 
     public function tipoAdquisicion()
