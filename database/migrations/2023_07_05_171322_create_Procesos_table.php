@@ -17,9 +17,12 @@ return new class extends Migration
             Schema::create('Procesos', function (Blueprint $table) {
                 $table->uuid('uuid')->primary();
                 
-                $table->char('Cve',10)->unique();
+                $table->char('Cve',20)->unique();
                 $table->string('Nombre',256);
                 $table->string('Descripcion',256);
+
+                $table->uuid('uuidRango');
+                $table->foreign('uuidRango')->references('uuid')->on('Rangos')->onDelete('cascade');
 
                 $table->char('CreadoPor', 36)->nullable();
                 $table->char('ModificadoPor', 36)->nullable();

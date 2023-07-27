@@ -6,65 +6,51 @@ use App\Http\Controllers\Controller;
 use App\Models\Dependencias;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Validation\Rule;
 use Throwable;
+use Illuminate\Http\Exceptions\HttpResponseException;
+
 
 class DependenciasController extends Controller
 {
-    // obtiene todos los dependencias
-    // public function index()
-    // {
-    //     $Dependencia = Dependencias::all();
-    //     return $Dependencia;
-    // }
-
     public function index(Request $request)
     {
-        // $Dependencia = Dependencias::all();
-        // return $Dependencia;
         $Dependencia = DB::table('Dependencias')        
         ->select(['Dependencias.*','TiposDependencias.Nombre as TiposDependencias','Titular.Nombre as Titular','Secretarias.Nombre as Secretarias'])
         ->join('TiposDependencias', 'Dependencias.uuidTipoDependencia', '=', 'TiposDependencias.uuid')
         ->join('Titular', 'Dependencias.uuidTitular', '=', 'Titular.uuid')
         ->join('Secretarias', 'Dependencias.uuidSecretaria', '=', 'Secretarias.uuid')
         ->whereNull('Dependencias.deleted_at')
-        ->get();
-    
+        ->get();    
         if(!$request->perpage){ 
-            $result = $Dependencia;}
-            else { 
+            $result = $Dependencia;
+        }else{ 
                 $result = Dependencia::paginate($request->perpage); 
-            } return response()->json($Dependencia);
-            
-        // $tickets::paginate(10);
-        // return response()->json([
-        //     'data' => $tickets->toArray(),
-        //     'current_page' => $tickets->currentPage(),
-        //     'last_page' => $tickets->lastPage(),
-        //     'total' => $tickets->total()
-        // ]);
-        return $Dependencia::paginate($request->perpage);
+        } 
+        return response()->json($result);
     }
-    //public function show(Request $request)
-    //{
-        //$detalle = Dependencias::where('uuid',$request->uuid)->get();
-        //$dependencia = Dependencias::paginate(10);
-        //return response()->json([
-          //  'data' => $dependencia->toArray(),
-          //  'current_page' => $dependencia->currentPage(),
-          //  'last_page' => $dependencia->lastPage(),
-           // 'total' => $dependencia->total()
-        //]);
-    //}
 
     public function show(Request $request)
     {
-        $detalle = Articulos::where('Cve',$request->cve)->get();
+        $detalle = Dependencias::where('Cve',$request->cve)->get();
         return json_encode($detalle);
     }
+
     // insert
     public function store(Request $request)
     {
+        try {
+            $validatedData = $request->validate([
+                'cve' => 'unique_field:App\Models\Dependencias'
+            ]);
+        } catch (Throwable $e) {
+            throw new HttpResponseException(response()->json([
+                'success' => false,
+                'message' => 'Registro duplicado',
+                'data' => $e->validator->extensions
+            ], 400));
+        }
+
         $nuevo_dependencia = new Dependencias();
         try {
             $nuevo_dependencia::create([
@@ -91,6 +77,19 @@ class DependenciasController extends Controller
     // update registro
     public function update(Request $request)
     {
+        $id = $request->uuid;
+        try {
+            $validatedData = $request->validate([
+                'cve' => 'unique_field:App\Models\Dependencias,uuid,'.$id
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation errors',
+                'data' => $e->validator->errors()
+            ], 400);
+        }	
+
         $dependencia = Dependencias::find($request->uuid);
         try {
             $dependencia->update([

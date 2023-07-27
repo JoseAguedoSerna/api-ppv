@@ -7,18 +7,13 @@ use App\Http\Requests\ValidaNCampoStoreRequest;
 use App\Models\Empleados;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
 use Illuminate\Validation\Rule;
 use Throwable;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 class EmpleadosController extends Controller
 {
-    // public function index()
-    // {
-    //     $empleado = Empleados::all();
-    //     return $empleado;
-    // }
-
     public function index(Request $request)
     {
         if(!$request->perpage){
@@ -30,7 +25,7 @@ class EmpleadosController extends Controller
 
     public function show(Request $request)
     {
-        $detalle = Articulos::where('Cve',$request->cve)->get();
+        $detalle = Empleados::where('Cve',$request->cve)->get();
         return json_encode($detalle);
     }
     // insert
@@ -41,6 +36,11 @@ class EmpleadosController extends Controller
                 'cve' => 'unique_field:App\Models\Empleados'
             ]);
         } catch (Throwable $e) {
+            throw new HttpResponseException(response()->json([
+                'success' => false,
+                'message' => 'Registro duplicado',
+                'data' => $e->validator->extensions
+            ], 400));
             return $this->errorResponse($e->getMessage());
         }
 
@@ -49,8 +49,8 @@ class EmpleadosController extends Controller
             $nuevo_empleado::create([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
-                'ApellidoPaterno' => $request->ApellidoPaterno,
-                'ApellidoMaterno' => $request->ApellidoMaterno,
+                'ApellidoPaterno' => $request->apellidopaterno,
+                'ApellidoMaterno' => $request->apellidopaterno,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor

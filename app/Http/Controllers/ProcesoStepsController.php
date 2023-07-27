@@ -3,43 +3,46 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Reportes;
+use App\Models\ProcesoSteps;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Throwable;
 
-class ReportesController extends Controller
+class ProcesoStepsController extends Controller
 {
     public function index(Request $request)
     {
-        $reporte = DB::table('Reportes')        
-        ->select(['Reportes.*','TiposReportes.Nombre as NomTipoReporte',])
-        ->join('TiposReportes', 'Reportes.uuidTipoReporte', '=', 'TiposReportes.uuid')
-        ->whereNull('Reportes.deleted_at')
+        $proceso = DB::table('ProcesoSteps')        
+        ->select(['ProcesoSteps.*','Procesos.Cve AS CveProceso','Procesos.Nombre AS NomProceso',])
+        ->join('Procesos', 'ProcesoSteps.uuidProceso', '=', 'Procesos.uuid')
+        ->whereNull('ProcesoSteps.deleted_at')
+        ->orderBy('CveProceso','asc')
+        ->orderBy('ProcesoSteps.Ordenamiento','asc')
         ->get();
         if(!$request->perpage){ 
-            $result = $reporte;
+            $result = $proceso;
         }else{ 
-                $result = Reportes::paginate($request->perpage); 
+                $result = ProcesoSteps::paginate($request->perpage); 
         } 
         return response()->json($result);      
     }
     public function show(Request $request)
     {
-        $detalle = Reportes::where('Cve',$request->cve)->get();
+        $detalle = ProcesoSteps::where('Cve',$request->cve)->get();
         return json_encode($detalle);
     }
     // insert
     public function store(Request $request)
     {
-        $nuevo_reporte = new Reportes();
+        $nuevo_proceso = new ProcesoSteps();
         try {
-            $nuevo_reporte::create([
+            $nuevo_proceso::create([
+                'uuidProceso' => $request->uuidproceso,
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
-                'uuidTipoReporte' => $request->uuidtiporeporte,
+                'Ordenamiento' => $request->ordenamiento,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor                
@@ -47,35 +50,36 @@ class ReportesController extends Controller
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $firstReporte = Reportes::latest('uuid', 'asc')->first();
-        $data = json_encode($firstReporte);
+        $firstProceso = ProcesoSteps::latest('uuid', 'asc')->first();
+        $data = json_encode($firstProceso);
         return $data;
     }
     // update registro
     public function update(Request $request)
     {
-        $reporte = Reportes::find($request->uuid);
+        $proceso = ProcesoSteps::find($request->uuid);
         try {
-            $reporte->update([
+            $proceso->update([
+                'uuidProceso' => $request->uuidproceso,
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
-                'uuidTipoReporte' => $request->uuidtiporeporte,
+                'Ordenamiento' => $request->ordenamiento,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
-                'EliminadoPor' => $request->eliminadopor
+                'EliminadoPor' => $request->eliminadopor                 
                 ]);        
-                $reporte->uuid;                   
+                $proceso->uuid;                   
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
-        $data = json_encode($reporte);
+        $data = json_encode($proceso);
         return $data;
     }
     public function destroy(Request $request)
     {
-        $reporte = Reportes::find($request->uuid); 
-        $reporte->Delete();
-        return $reporte;
+        $proceso = ProcesoSteps::find($request->uuid); 
+        $proceso->Delete();
+        return $proceso;
     }
 }

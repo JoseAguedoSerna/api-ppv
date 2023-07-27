@@ -11,11 +11,6 @@ use Throwable;
 
 class TiposBienController extends Controller
 {
-    // public function index()
-    // {
-    //     $tbien = TiposBien::all();
-    //     return $tbien;
-    // }
     public function index(Request $request)
     {
         if(!$request->perpage){
@@ -24,11 +19,13 @@ class TiposBienController extends Controller
             $tdependencias = TiposBien::paginate($request->perpage);
         } return response()->json($tdependencias);
     }
+
     public function show(Request $request)
     {
-        $detalle = Articulos::where('Cve',$request->cve)->get();
+        $detalle = TiposBien::where('Cve',$request->cve)->get();
         return json_encode($detalle);
     }
+    
     // insert
     public function store(Request $request)
     {

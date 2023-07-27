@@ -11,17 +11,14 @@ use Throwable;
 
 class CategoriasTicketsController extends Controller
 {
-    // obtiene todos los registros
     public function index(Request $request)
     {
-        $ctickets = CategoriasTickets::paginate(10);
-        return response()->json([
-            'data' => $ctickets->toArray(),
-            'current_page' => $ctickets->currentPage(),
-            'last_page' => $ctickets->lastPage(),
-            'total' => $ctickets->total()
-        ]);
-        //return $articulo;
+        if(!$request->perpage){
+            $ctickets = CategoriasTickets::all();
+        }else{
+            $ctickets = CategoriasTickets::paginate($request->perpage);
+        }
+        return response()->json($ctickets);
     }
     public function show(Request $request)
     {

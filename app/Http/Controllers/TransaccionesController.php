@@ -11,11 +11,6 @@ use Throwable;
 
 class TransaccionesController extends Controller
 {
-    // public function index()
-    // {
-    //     $transaccion = Transacciones::all();
-    //     return $transaccion;
-    // }
     public function index(Request $request)
     {
 
@@ -31,7 +26,7 @@ class TransaccionesController extends Controller
     }
     public function show(Request $request)
     {
-        $detalle = Articulos::where('Cve',$request->cve)->get();
+        $detalle = Transacciones::where('Cve',$request->cve)->get();
         return json_encode($detalle);
     }
     // insert

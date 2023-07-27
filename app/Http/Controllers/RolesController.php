@@ -16,15 +16,14 @@ class RolesController extends Controller
     //     $rol = Roles::all();
     //     return $rol;
     // }
-    public function index()
+    public function index(Request $request)
     {
-        $rol = Roles::paginate(10);
-        return response()->json([
-            'data' => $rol->toArray(),
-            'current_page' => $rol->currentPage(),
-            'last_page' => $rol->lastPage(),
-            'total' => $rol->total()
-        ]);
+        if(!$request->perpage){
+            $rol = Roles::all();
+        }else{
+            $rol = Roles::paginate($request->perpage);
+        }
+        return response()->json($rol);
     }
 
     public function show(Request $request)

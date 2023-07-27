@@ -22,7 +22,7 @@ class NivelReportesController extends Controller
     }
     public function show(Request $request)
     {
-        $detalle = Articulos::where('Cve',$request->cve)->get();
+        $detalle = Nivelreportes::where('Cve',$request->cve)->get();
         return json_encode($detalle);
     }
     // insert

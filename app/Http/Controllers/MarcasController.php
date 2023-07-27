@@ -11,24 +11,18 @@ use Throwable;
 
 class MarcasController extends Controller
 {
-    // public function index()
-    // {
-    //     $marca = Marcas::all();
-    //     return $marca;
-    // }
-
     public function index(Request $request)
     {
         if(!$request->perpage){
-            $tdependencias = Marcas::all(); }
+            $marca = Marcas::all(); }
         else {
-            $tdependencias = Marcas::paginate($request->perpage);
-        } return response()->json($tdependencias);
+            $marca = Marcas::paginate($request->perpage);
+        } return response()->json($marca);
     }
 
     public function show(Request $request)
     {
-        $detalle = Articulos::where('Cve',$request->cve)->get();
+        $detalle = Marcas::where('Cve',$request->cve)->get();
         return json_encode($detalle);
     }
     // insert
