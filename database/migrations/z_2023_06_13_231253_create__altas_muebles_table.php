@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (!Schema::hasTable('AltasMuebles')) {
         Schema::create('AltasMuebles', function (Blueprint $table) {
             $table->uuid('uuid')->primary();
             $table->uuid('uuidTipoBien');
@@ -61,6 +62,7 @@ return new class extends Migration
             $table->foreign('uuidTipoActivoFijo')->references('uuid')->on('TipoActivoFijo')->onDelete('cascade');
             $table->foreign('uuidTipoAdquisicion')->references('uuid')->on('TiposAdquisicion')->onDelete('cascade');
         });
+      }
     }
 
     /**
@@ -68,6 +70,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('GastoCorriente');
+        Schema::dropIfExists('AltasMuebles');
     }
 };

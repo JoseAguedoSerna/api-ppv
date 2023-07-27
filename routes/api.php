@@ -485,5 +485,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('actualiza',[RolesMenuController::class,'update']);
         Route::post('elimina',[RolesMenuController::class,'delete']);
     });
+    Route::prefix('asignacionresguardo')->group(function() {
+        Route::post('guardaresguardo',[AsignacionResguardoController::class, 'store']);
+        Route::post('listadomueblespararesguardo',[AsignacionResguardoController::class, 'index']);
+    });
+    Route::prefix('generaciondocumentos')->group(function() {
+        Route::get('generarPDFAlta',[GeneracionDocumentosPDFController::class, 'pdfaltamobiliario']);
+    });
 
  });
