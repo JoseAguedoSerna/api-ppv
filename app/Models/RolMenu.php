@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use App\Models\Menus;
 
 class RolMenu extends Model
 {
@@ -17,5 +17,11 @@ class RolMenu extends Model
     public $incrementing = false;  #Quitamos que sea autoincremental
     public $timestamps = false; #deshabilitar campos de create_by, modify_by etc
     protected $fillable = ['uuidRol','uuidMenu']; #Se agregan los campos de la tabla que serán visibles en las consultas
+    protected $appends = ['MenuInfo'];
+
+    public function getMenuInfoAttribute()
+    {
+        return Menus::select('uuid','Nombre','MenuPadre')->find($this->uuidMenu);
+    }
    
 }
