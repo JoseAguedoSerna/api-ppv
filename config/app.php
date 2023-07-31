@@ -198,7 +198,7 @@ return [
 
         App\Providers\ValidacionNCampoProvider::class,
 
-
+        Barryvdh\DomPDF\ServiceProvider::class,
     ],
 
     /*

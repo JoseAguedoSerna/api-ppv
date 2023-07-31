@@ -14,18 +14,16 @@ class StatusTicketsController extends Controller
     // obtiene todos los registros
     public function index(Request $request)
     {
-        $stickets = StatusTickets::paginate(10);
-        return response()->json([
-            'data' => $stickets->toArray(),
-            'current_page' => $stickets->currentPage(),
-            'last_page' => $stickets->lastPage(),
-            'total' => $stickets->total()
-        ]);
-        //return $articulo;
+        if(!$request->perpage){
+            $stickets = StatusTickets::all();
+        }else{
+            $stickets = StatusTickets::paginate($request->perpage);
+        }
+        return response()->json($stickets);
     }
     public function show(Request $request)
     {
-        $stickets = StatusTickets::where('nombre',$request->nombre)->get();
+        $stickets = StatusTickets::where('Nombre',$request->nombre)->get();
         return json_encode($stickets);
     }        
     // insert

@@ -11,12 +11,6 @@ use Throwable;
 
 class ProveedoresController extends Controller
 {
-    // public function index()
-    // {
-    //     $proveedor = Proveedores::all();
-    //     return $proveedor;
-    // }
-
     public function index(Request $request)
     {
         if(!$request->perpage){ 
@@ -25,11 +19,10 @@ class ProveedoresController extends Controller
                 $proveedor = Proveedores::paginate($request->perpage); 
             } return response()->json($proveedor);
     }
-
     
     public function show(Request $request)
     {
-        $detalle = Articulos::where('Cve',$request->cve)->get();
+        $detalle = Proveedores::where('Cve',$request->cve)->get();
         return json_encode($detalle);
     }
     // insert

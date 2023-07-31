@@ -22,6 +22,12 @@ class TitularController extends Controller
             } return response()->json($titular);
 
     }   
+    public function show(Request $request)
+    {
+        $detalle = Titular::where('Cve',$request->cve)->get();
+        return json_encode($detalle);
+    }
+
     // insert
     public function store(Request $request)
     {

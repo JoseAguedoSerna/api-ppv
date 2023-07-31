@@ -40,8 +40,8 @@ use App\Http\Controllers\{
     TiposComprobantesController,
     ActivosController,
     EstatusResguardoController,
-    DependenciasTiposController,
-    MenuPermisosController,
+    DependenciasTiposController,    
+    MenuPermisoController,
     PerfilRolController,
     RolMenusController,
     UsuarioPerfile,
@@ -50,11 +50,15 @@ use App\Http\Controllers\{
     TipoActivoFijoController,
     TitularController,
     SecretariaController,
+    RangosController,
+    ProcesoStepsController,
+    ProcesoRangoController,
 
     #Muebles
     ArticulosController,
     ResguardosDetController,
     ResguardosController,
+    CitasController,
 
     #Tickets
     TicketsController,
@@ -67,7 +71,8 @@ use App\Http\Controllers\{
     MensajesController,
 
     #administracion
-    ValoresGlobalesController
+    ValoresGlobalesController,
+    ValoresSistemaController
 };
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -127,7 +132,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('eliminanivelreportes',[NivelReportesController::class,'destroy']);
         #Notificaciones
         Route::get('obtienenotificaciones',[NotificacionesController::class,'index']);
-        Route::get('wherenotificaciones',[NotificacionesController::class,'show']);
+        Route::post('wherenotificaciones',[NotificacionesController::class,'show']);
         Route::post('guardanotificaciones',[NotificacionesController::class,'store']);
         Route::post('actualizanotificaciones',[NotificacionesController::class,'update']);
         Route::post('eliminanotificaciones',[NotificacionesController::class,'destroy']);
@@ -274,6 +279,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('guardaestatusresguardo',[EstatusResguardoController::class,'store']);
         Route::post('actualizaestatusresguardo',[EstatusResguardoController::class,'update']);
         Route::post('eliminaestatusresguardo',[EstatusResguardoController::class,'destroy']);
+        Route::post('whereestatusresguardo',[EstatusResguardoController::class,'show']);
         #Titular
         Route::get('obtienetitular',[TitularController::class,'index']);
         Route::post('guardatitular',[TitularController::class,'store']);
@@ -314,6 +320,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('guardamenupermiso',[MenuPermisoController::class,'store']);
         Route::post('actualizamenupermiso',[MenuPermisoController::class,'update']);
         Route::post('eliminamenupermiso',[MenuPermisoController::class,'destroy']);
+        Route::post('detallemenupermiso',[MenuPermisoController::class,'show']);
         #PerfilRolController
         Route::get('obtieneperfilrol',[PerfilRolController::class,'index']);
         Route::post('guardaperfilrol',[PerfilRolController::class,'store']);
@@ -329,6 +336,26 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('guardausuarioperfil',[UsuarioPerfilController::class,'store']);
         Route::post('actualizausuarioperfil',[UsuarioPerfilController::class,'update']);
         Route::post('eliminausuarioperfil',[UsuarioPerfilController::class,'destroy']);
+        #Rangos
+        Route::get('obtienerango',[RangosController::class,'index']);
+        Route::post('guardarango',[RangosController::class,'store']);
+        Route::post('actualizarango',[RangosController::class,'update']);
+        Route::post('eliminarango',[RangosController::class,'destroy']);
+        Route::post('detallerango',[RangosController::class,'show']);
+        #Procesosteps
+        Route::get('obtieneprocesosteps',[ProcesoStepsController::class,'index']);
+        Route::post('guardaprocesosteps',[ProcesoStepsController::class,'store']);
+        Route::post('actualizaprocesosteps',[ProcesoStepsController::class,'update']);
+        Route::post('eliminaprocesosteps',[ProcesoStepsController::class,'destroy']);
+        Route::post('detalleprocesosteps',[ProcesoStepsController::class,'show']);        
+        #ProcesoRango
+        Route::get('obtieneprocesorango',[ProcesoRangoController::class,'index']);
+        Route::post('guardaprocesorango',[ProcesoRangoController::class,'store']);
+        Route::post('actualizaprocesorango',[ProcesoRangoController::class,'update']);
+        Route::post('eliminaprocesorango',[ProcesoRangoController::class,'destroy']);
+        Route::post('detalleprocesorango',[ProcesoRangoController::class,'show']); 
+
+
     });
     Route::prefix('muebles')->group(function (){
         #Articulos
@@ -371,13 +398,21 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('guardatiposadquisicion',[TiposAdquisicionController::class,'store']);
         Route::post('actualizatiposadquisicion',[TiposAdquisicionController::class,'update']);
         Route::post('eliminatiposadquisicion',[TiposAdquisicionController::class,'destroy']);
-
         #TiposComprobante
         Route::get('obtienetiposcomprobante',[TiposComprobanteController::class,'index']);
         Route::post('wheretiposcomprobante',[TiposComprobanteController::class,'show']);
         Route::post('guardatiposcomprobante',[TiposComprobanteController::class,'store']);
         Route::post('actualizatiposcomprobante',[TiposComprobanteController::class,'update']);
         Route::post('eliminatiposcomprobante',[TiposComprobanteController::class,'destroy']);
+        #Citas
+        Route::get('obtienecitas',[CitasController::class,'index']);
+        Route::post('wherecitas',[CitasController::class,'show']);
+        Route::post('guardacitas',[CitasController::class,'store']);
+        Route::post('actualizacitas',[CitasController::class,'update']);
+        Route::post('eliminacitas',[CitasController::class,'destroy']);
+
+
+
     });
     Route::prefix('tickets')->group(function (){
         #Tickets
@@ -425,18 +460,37 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     });
 
     Route::prefix('administracion')->group(function (){
-        #Mensajes
         Route::get('obtienevalores',[ValoresGlobalesController::class,'index']);
         Route::post('guardavalores',[ValoresGlobalesController::class,'store']);
         Route::post('actualizavalores',[ValoresGlobalesController::class,'update']);
         Route::post('eliminavalores',[ValoresGlobalesController::class,'destroy']);
         Route::post('detallevalores',[ValoresGlobalesController::class,'show']);
+
+        Route::get('obtienevalsistema',[ValoresSistemaController::class,'index']);
+        Route::post('actualizavalsistema',[ValoresSistemaController::class,'update']);
+        Route::post('detallevalsistema',[ValoresSistemaController::class,'show']);
     });
 
     Route::prefix('gastocorriente')->group(function() {
         Route::post('obtienegastocorriente',[AltasMueblesController::class,'index']);
         Route::post('guardagastocorriente',[AltasMueblesController::class, 'store']);
         Route::post('buscadorMuebles',[AltasMueblesController::class, 'search']);
+        Route::post('confirmaFactura',[AltasMueblesController::class, 'confirmafactura']);
+        Route::post('uploadfactura',[AltasMueblesController::class, 'uploadfactura']);
+    });
+
+    Route::prefix('rolesmenu')->group(function() {
+        Route::get('obtiene',[RolesMenuController::class,'index']);
+        Route::post('getbyrol',[RolesMenuController::class,'byrol']);
+        Route::post('actualiza',[RolesMenuController::class,'update']);
+        Route::post('elimina',[RolesMenuController::class,'delete']);
+    });
+    Route::prefix('asignacionresguardo')->group(function() {
+        Route::post('guardaresguardo',[AsignacionResguardoController::class, 'store']);
+        Route::post('listadomueblespararesguardo',[AsignacionResguardoController::class, 'index']);
+    });
+    Route::prefix('generaciondocumentos')->group(function() {
+        Route::get('generarPDFAlta',[GeneracionDocumentosPDFController::class, 'pdfaltamobiliario']);
     });
 
  });

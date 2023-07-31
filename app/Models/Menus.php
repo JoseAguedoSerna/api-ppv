@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use App\Models\Menus;
 
 class Menus extends Model
 {
@@ -16,11 +17,17 @@ class Menus extends Model
     public $incrementing = false;  #Quitamos que sea autoincremental
     protected $fillable = ['Cve','Nombre','Descripcion','Icono','Path','Nivel','Ordenamiento','MenuPadre',
                             'CreadoPor','ModificadoPor','EliminadoPor',
-                            'created_at','updated_at','deleted_at']; #Se agregan los campos de la tabla que serán visibles en las consultas
+                            'created_at','updated_at','deleted_at']; 
+    protected $appends = ['Padre'];
 
     public function roles()
     {
         return $this->hasMany('App\Models\RolMenu', 'uuidMenu', 'uuid');
+    }
+
+    public function getPadreAttribute()
+    {
+        return Menus::select('uuid','Nombre','MenuPadre')->find($this->MenuPadre);
     }
 
 

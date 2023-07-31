@@ -14,18 +14,16 @@ class TiposTicketsController extends Controller
     // obtiene todos los registros
     public function index(Request $request)
     {
-        $ttickets = TiposTickets::paginate(10);
-        return response()->json([
-            'data' => $ttickets->toArray(),
-            'current_page' => $ttickets->currentPage(),
-            'last_page' => $ttickets->lastPage(),
-            'total' => $ttickets->total()
-        ]);
-        //return $articulo;
+        if(!$request->perpage){
+            $ttickets = TiposTickets::all();
+        }else{
+            $ttickets = TiposTickets::paginate($request->perpage);
+        }
+        return response()->json($ttickets);
     }
     public function show(Request $request)
     {
-        $ttickets = TiposTickets::where('nombre',$request->nombre)->get();
+        $ttickets = TiposTickets::where('Nombre',$request->nombre)->get();
         return json_encode($ttickets);
     }        
     // insert

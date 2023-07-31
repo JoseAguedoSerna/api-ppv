@@ -37,13 +37,16 @@ class AltasMuebles extends Model
         'Series',
         'Anio',
         'VidaUtil',
-        'CvePersonal',
-        'CveLinea',
+            'CvePersonal',
+            'CveLinea',
         'DescripcionLinea',
         'CodigoContable',
         'FechaDeUso',
         'ClaveInterior',
         'DescripcionDetalle',
+            'DescripcionTipoActivoFijo',
+        'RutaFactura',
+        'ConfirmacionCoordinacionBM',
         'DescripcionTipoActivoFijo'
     ];
 

@@ -11,11 +11,19 @@ use Throwable;
 
 class MenuPermisoController extends Controller
 {
-    // obtiene todos los MenuPermiso
-    public function index()
+    public function index(Request $request)
     {
-        $menupermiso = MenuPermiso::all();
-        return $menupermiso;
+        if(!$request->perpage){
+            $tdependencias = MenuPermiso::all(); }
+        else {
+            $tdependencias = MenuPermiso::paginate($request->perpage);
+        } return response()->json($tdependencias);
+    }
+
+    public function show(Request $request)
+    {
+        $detalle = MenuPermiso::where('uuid',$request->uuid)->get();
+        return json_encode($detalle);
     }
     // insert
     public function store(Request $request)

@@ -11,12 +11,6 @@ use Throwable;
 
 class PuestosController extends Controller
 {
-    // public function index()
-    // {
-    //     $puesto = Puestos::all();
-    //     return $puesto;
-    // }
-
     public function index(Request $request)
     {
         if(!$request->perpage){
@@ -28,7 +22,7 @@ class PuestosController extends Controller
     }
     public function show(Request $request)
     {
-        $detalle = Articulos::where('Cve',$request->cve)->get();
+        $detalle = Puestos::where('Cve',$request->cve)->get();
         return json_encode($detalle);
     }
     // insert

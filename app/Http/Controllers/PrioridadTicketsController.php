@@ -14,14 +14,12 @@ class PrioridadTicketsController extends Controller
     // obtiene todos los registros
     public function index(Request $request)
     {
-        $ptickets = PrioridadTickets::paginate(10);
-        return response()->json([
-            'data' => $ptickets->toArray(),
-            'current_page' => $ptickets->currentPage(),
-            'last_page' => $ptickets->lastPage(),
-            'total' => $ptickets->total()
-        ]);
-        //return $articulo;
+        if(!$request->perpage){
+            $ptickets = PrioridadTickets::all();
+        }else{
+            $ptickets = PrioridadTickets::paginate($request->perpage);
+        }
+        return response()->json($ptickets);
     }
     public function show(Request $request)
     {

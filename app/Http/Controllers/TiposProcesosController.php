@@ -22,7 +22,7 @@ class TiposProcesosController extends Controller
     }
     public function show(Request $request)
     {
-        $detalle = Articulos::where('Cve',$request->cve)->get();
+        $detalle = TiposProcesos::where('Cve',$request->cve)->get();
         return json_encode($detalle);
     }
     // insert

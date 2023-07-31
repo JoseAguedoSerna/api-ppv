@@ -11,11 +11,6 @@ use Throwable;
 
 class TiposDependenciasController extends Controller
 {
-    // public function index()
-    // {
-    //     $tdependencias = TiposDependencias::all();
-    //     return $tdependencias;
-    // }
     public function index(Request $request)
     {
         if(!$request->perpage){
@@ -28,7 +23,7 @@ class TiposDependenciasController extends Controller
 
     public function show(Request $request)
     {
-        $detalle = Articulos::where('Cve',$request->cve)->get();
+        $detalle = TiposDependencias::where('Cve',$request->cve)->get();
         return json_encode($detalle);
     }
     // insert

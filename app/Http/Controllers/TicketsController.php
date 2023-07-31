@@ -24,32 +24,29 @@ class TicketsController extends Controller
         ->join('StatusTickets', 'Tickets.uuidStatusTicket', '=', 'StatusTickets.uuid')    
         ->whereNull('Tickets.deleted_at')
         ->get();
-        //$tickets = DB::table('Tickets')
-        //->select(['Tickets.*',DB::raw("CONCAT(Empleados.Nombre,' ',Empleados.ApellidoPaterno,' ',Empleados.ApellidoMaterno)  AS Nombre"),'TiposTickets.Nombre as TipoTicket','CategoriasTickets.Nombre as CategoriaTicket','PrioridadTickets.Nombre as PrioridadTicket','StatusTickets.Nombre as StatusTicket'])
-        //->join('TiposTickets', 'Tickets.uuidTipoTicket', '=', 'TiposTickets.uuid')
-        //->join('CategoriasTickets', 'Tickets.uuidCategoriaTicket', '=', 'CategoriasTickets.uuid')
-        //->join('PrioridadTickets', 'Tickets.uuidPrioridadTickets', '=', 'PrioridadTickets.uuid')
-       // ->join('StatusTickets', 'Tickets.uuidStatusTicket', '=', 'StatusTickets.uuid')
-       // ->whereNull('Tickets.deleted_at')
-       // ->get();
+        // $tickets = Tickets::with('empleado', 'tipoTicket', 'categoriaTicket', 'prioridadTicket', 'statusTicket')
+        //     ->selectRaw('Tickets.*, CONCAT(Empleados.Nombre, " ", Empleados.ApellidoPaterno, " ", Empleados.ApellidoMaterno) AS Nombre')
+        //     ->whereNull('Tickets.deleted_at')
+        //     ->get();
 
-        $tickets = Tickets::with('empleado', 'tipoTicket', 'categoriaTicket', 'prioridadTicket', 'statusTicket')
-            ->selectRaw('Tickets.*, CONCAT(Empleados.Nombre, " ", Empleados.ApellidoPaterno, " ", Empleados.ApellidoMaterno) AS Nombre')
-            ->whereNull('Tickets.deleted_at')
-            ->get();
+        // return $tickets;
 
+        // $tickets = DB::table('Tickets')        
+        // ->select(['Tickets.*','Procesos.Cve AS CveProceso','Procesos.Nombre AS NomProceso',])
+        // ->join('Empleados', 'Tickets.Asignadoa', '=', 'Empleados.uuid')
+        // ->join('TiposTickets', 'Tickets.uuidTipoTicket', '=', 'TiposTickets.uuid')
+        // ->join('CategoriasTickets', 'Tickets.uuidCategoriaTicket', '=', 'CategoriasTickets.uuid')
+        // ->join('PrioridadTickets', 'Tickets.uuidPrioridadTickets', '=', 'PrioridadTickets.uuid')
+        // ->join('StatusTickets', 'Tickets.uuidStatusTicket', '=', 'StatusTickets.uuid')    
+        // ->whereNull('Tickets.deleted_at')
+        // ->get();
+        // if(!$request->perpage){ 
+        //     $result = $tickets;
+        // }else{ 
+        //         $result = Tickets::paginate($request->perpage); 
+        // } 
+        return response()->json($tickets);  
 
-        // $tickets::paginate(10);
-
-    
-        // $tickets::paginate(10);
-        // return response()->json([
-        //     'data' => $tickets->toArray(),
-        //     'current_page' => $tickets->currentPage(),
-        //     'last_page' => $tickets->lastPage(),
-        //     'total' => $tickets->total()
-        // ]);
-        return $tickets;
     }
     public function show(Request $request)
     {
