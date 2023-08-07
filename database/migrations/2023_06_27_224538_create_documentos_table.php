@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('documentos', function (Blueprint $table) {
-            $table->id();
+        Schema::create('Documentos', function (Blueprint $table) {
+            $table->uuid('documentable_id');
+            $table->string('Nombre');
+            $table->string('RutaFolder');
+            $table->string('Documentable_type');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -22,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('documentos');
+        Schema::dropIfExists('Documentos');
     }
 };

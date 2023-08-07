@@ -41,12 +41,13 @@ class AltasMueblesRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'ArchivoFactura' => 'required|file',
             'uuidTipoBien' => 'required|uuid',
-            'uuidPersonalResguardo' => 'required|uuid',
+            //'uuidPersonalResguardo' => 'required|uuid',
             'uuidMarca' => 'required|uuid',
             'uuidModelo' => 'required|uuid',
             'uuidArea' => 'required|uuid',
-            'uuidConductor' => 'required|uuid',
+            //'uuidConductor' => 'required|uuid',
             'uuidTipoActivoFijo' => 'required|uuid',
             'uuidTipoAdquisicion' => 'required|uuid',
             'NoInventario' => 'required|integer|unique_field:App\Models\AltasMuebles',
@@ -58,18 +59,19 @@ class AltasMueblesRequest extends FormRequest
             'DepreciacionAcumulada' => 'required|numeric',
             'FechaEntrada' => 'required|date',
             'FechaUltimaActualizacion' => 'required|date',
-            'Placas' => 'required|string|max:256',
+            //'Placas' => 'required|string|max:256',
             'Series' => 'required|string|max:256',
-            'Anio' => 'required|numeric',
+            //'Anio' => 'required|numeric',
             'VidaUtil' => 'required|numeric',
-            'CvePersonal' => 'required|string|max:256',
+            //'CvePersonal' => 'required|string|max:256',
             'CveLinea' => 'required|string|max:256',
             'DescripcionLinea' => 'required|string|max:256',
             'CodigoContable' => 'required|integer',
             'FechaDeUso' => 'required|date',
             'ClaveInterior' => 'required|integer',
-            'DescripcionDetalle' => 'required|string|max:256',
+            //'DescripcionDetalle' => 'required|string|max:256',
             'DescripcionTipoActivoFijo' => 'required|string|max:256',
+            'uuidProveedor' => 'required|string|max:256',
         ];
     }
 }

@@ -18,7 +18,7 @@ class AltasMuebles extends Model
     protected $fillable = [
         'uuidTipoAdquisicion',
         'uuidTipoBien',
-        'uuidPersonalResguardo',
+       // 'uuidPersonalResguardo',
         'uuidMarca',
         'uuidModelo',
         'uuidArea',
@@ -43,12 +43,18 @@ class AltasMuebles extends Model
         'CodigoContable',
         'FechaDeUso',
         'ClaveInterior',
-        'DescripcionDetalle',
+        //'DescripcionDetalle',
             'DescripcionTipoActivoFijo',
         'RutaFactura',
         'ConfirmacionCoordinacionBM',
-        'DescripcionTipoActivoFijo'
+        'DescripcionTipoActivoFijo',
+        'uuidProveedor'
     ];
+
+    public function documentos()
+    {
+        return $this->morphMany(Documentos::class, 'documentable');
+    }
 
     public function tipoAdquisicion()
     {
