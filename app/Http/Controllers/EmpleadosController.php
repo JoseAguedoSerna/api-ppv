@@ -36,8 +36,12 @@ class EmpleadosController extends Controller
                 'cve' => 'unique_field:App\Models\Empleados'
             ]);
         } catch (Throwable $e) {
-            return $this->errorResponse($e->getMessage(),'cve duplicado',422);
-        }
+            throw new HttpResponseException(response()->json([
+                'success' => false,
+                'message' => 'El registro ya esta registrado',
+                'data' => $e->validator->extensions
+            ], 400));
+        }   
 
 
         try {

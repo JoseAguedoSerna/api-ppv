@@ -29,12 +29,40 @@ class ProcesoStepsController extends Controller
     }
     public function show(Request $request)
     {
-        $detalle = ProcesoSteps::where('Cve',$request->cve)->get();
-        return json_encode($detalle);
+        // $detalle = ProcesoSteps::where('Cve',$request->cve)->get();
+        // return json_encode($detalle);
+        $proceso = DB::table('ProcesoSteps')        
+        ->select(['ProcesoSteps.*','Procesos.Cve AS CveProceso','Procesos.Nombre AS NomProceso',])
+        ->join('Procesos', 'ProcesoSteps.uuidProceso', '=', 'Procesos.uuid')
+        ->where('uuidProceso',$request->uuidproceso)
+        ->whereNull('ProcesoSteps.deleted_at')
+        ->orderBy('CveProceso','asc')
+        ->orderBy('ProcesoSteps.Ordenamiento','asc')
+        ->get();
+        if(!$request->perpage){ 
+            $result = $proceso;
+        }else{ 
+                $result = ProcesoSteps::paginate($request->perpage); 
+        } 
+        return response()->json($result); 
+
+
+
     }
     // insert
     public function store(Request $request)
     {
+        try {
+            $validatedData = $request->validate([
+                'cve' => 'unique_field:App\Models\ProcesosSteps'
+            ]);
+        } catch (Throwable $e) {
+            throw new HttpResponseException(response()->json([
+                'success' => false,
+                'message' => 'El registro ya esta registrado',
+                'data' => $e->validator->extensions
+            ], 400));
+        }           
         $nuevo_proceso = new ProcesoSteps();
         try {
             $nuevo_proceso::create([

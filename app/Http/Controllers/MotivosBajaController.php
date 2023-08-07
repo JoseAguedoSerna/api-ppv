@@ -29,6 +29,17 @@ class MotivosBajaController extends Controller
     // insert
     public function store(Request $request)
     {
+        try {
+            $validatedData = $request->validate([
+                'cve' => 'unique_field:App\Models\MotivosBaja'
+            ]);
+        } catch (Throwable $e) {
+            throw new HttpResponseException(response()->json([
+                'success' => false,
+                'message' => 'El registro ya esta registrado',
+                'data' => $e->validator->extensions
+            ], 400));
+        }           
         $nuevo_motivobaja = new MotivosBaja();
         try {
             $nuevo_motivobaja::create([

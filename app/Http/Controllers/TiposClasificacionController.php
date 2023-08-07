@@ -32,6 +32,17 @@ class TiposClasificacionController extends Controller
     // insert
     public function store(Request $request)
     {
+        try {
+            $validatedData = $request->validate([
+                'cve' => 'unique_field:App\Models\TiposClasificacion'
+            ]);
+        } catch (Throwable $e) {
+            throw new HttpResponseException(response()->json([
+                'success' => false,
+                'message' => 'El registro ya esta registrado',
+                'data' => $e->validator->extensions
+            ], 400));
+        }           
         $nuevo_tclasificacion = new TiposClasificacion();
         try {
             $nuevo_tclasificacion::create([

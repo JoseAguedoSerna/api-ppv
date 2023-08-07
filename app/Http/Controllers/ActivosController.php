@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Activos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Validation\Rule;
 use Throwable;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ActivosController extends Controller
 {
@@ -31,6 +32,17 @@ class ActivosController extends Controller
     // insert
     public function store(Request $request)
     {
+        try {
+            $validatedData = $request->validate([
+                'cve' => 'unique_field:App\Models\Activos'
+            ]);
+        } catch (Throwable $e) {
+            throw new HttpResponseException(response()->json([
+                'success' => false,
+                'message' => 'El registro ya esta registrado',
+                'data' => $e->validator->extensions
+            ], 400));
+        }
         $nuevo_activo = new Activos();
         try {
             $nuevo_activo::create([

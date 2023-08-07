@@ -11,17 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('documentos', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('TiposAdquisicion', function (Blueprint $table) {
+            $table->uuid('Proceso')->nullable()->after('CreadoPor');
         });
     }
-
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('documentos');
+        Schema::table('TiposAdquisicion', function (Blueprint $table) {
+            $table->dropColumn('Proceso');
+        });
     }
 };
+
+
+// 2023_08_02_093245_alter_TipoAdquisicion_table

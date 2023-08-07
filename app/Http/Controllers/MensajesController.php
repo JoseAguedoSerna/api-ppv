@@ -45,6 +45,7 @@ class MensajesController extends Controller
     // insert
     public function store(Request $request)
     {
+        
         $nuevo_mensaje = new Mensajes();
         try {
             $nuevo_mensaje::create([

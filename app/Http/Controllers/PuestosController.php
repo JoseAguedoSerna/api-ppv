@@ -28,6 +28,17 @@ class PuestosController extends Controller
     // insert
     public function store(Request $request)
     {
+        try {
+            $validatedData = $request->validate([
+                'cve' => 'unique_field:App\Models\Puestos'
+            ]);
+        } catch (Throwable $e) {
+            throw new HttpResponseException(response()->json([
+                'success' => false,
+                'message' => 'El registro ya esta registrado',
+                'data' => $e->validator->extensions
+            ], 400));
+        }           
         $nuevo_puesto = new Puestos();
         try {
             $nuevo_puesto::create([

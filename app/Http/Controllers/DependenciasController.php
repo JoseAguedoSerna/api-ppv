@@ -46,7 +46,7 @@ class DependenciasController extends Controller
         } catch (Throwable $e) {
             throw new HttpResponseException(response()->json([
                 'success' => false,
-                'message' => 'Registro duplicado',
+                'message' => 'El registro ya esta registrado',
                 'data' => $e->validator->extensions
             ], 400));
         }

@@ -28,6 +28,17 @@ class TiposReportesController extends Controller
     // insert
     public function store(Request $request)
     {
+        try {
+            $validatedData = $request->validate([
+                'cve' => 'unique_field:App\Models\TiposReportes'
+            ]);
+        } catch (Throwable $e) {
+            throw new HttpResponseException(response()->json([
+                'success' => false,
+                'message' => 'El registro ya esta registrado',
+                'data' => $e->validator->extensions
+            ], 400));
+        }           
         $nuevo_treporte = new TiposReportes();
         try {
             $nuevo_treporte::create([

@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\CategoriasTickets;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Validation\Rule;
 use Throwable;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class CategoriasTicketsController extends Controller
 {
@@ -28,6 +29,17 @@ class CategoriasTicketsController extends Controller
     // insert
     public function store(Request $request)
     {
+        try {
+            $validatedData = $request->validate([
+                'cve' => 'unique_field:App\Models\CategoriasTickets'
+            ]);
+        } catch (Throwable $e) {
+            throw new HttpResponseException(response()->json([
+                'success' => false,
+                'message' => 'El registro ya esta registrado',
+                'data' => $e->validator->extensions
+            ], 400));
+        }        
         $nuevo_ctickets = new CategoriasTickets();
         try {
             $nuevo_ctickets::create([

@@ -28,7 +28,18 @@ class ProveedoresController extends Controller
     // insert
     public function store(Request $request)
     {
-        $nuevo_proveedor = new Proveedores();
+        $nuevo_pr
+        try {
+            $validatedData = $request->validate([
+                'cve' => 'unique_field:App\Models\Proveedores'
+            ]);
+        } catch (Throwable $e) {
+            throw new HttpResponseException(response()->json([
+                'success' => false,
+                'message' => 'El registro ya esta registrado',
+                'data' => $e->validator->extensions
+            ], 400));
+        }           oveedor = new Proveedores();
         try {
             $nuevo_proveedor::create([
                 'Cve' => $request->cve,

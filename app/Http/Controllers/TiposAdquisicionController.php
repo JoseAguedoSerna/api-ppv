@@ -13,28 +13,45 @@ class TiposAdquisicionController extends Controller
 {
     public function index(Request $request)
     {
-        if(!$request->perpage){
-            $tadquisicion = TiposAdquisicion::all();
-        }else{
-            $tadquisicion = TiposAdquisicion::paginate($request->perpage);
-        }
-        return response()->json($tadquisicion);
+        $tadquisicion = DB::table('TiposAdquisicion')        
+        ->select(['TiposAdquisicion.*','Procesos.uuid AS uuidProceso','Procesos.Nombre AS NomProceso',])
+        ->leftjoin('Procesos', 'TiposAdquisicion.Proceso', '=', 'Procesos.uuid')
+        ->whereNull('TiposAdquisicion.deleted_at')
+        ->get();
+        if(!$request->perpage){ 
+            $result = $tadquisicion;
+        }else{ 
+                $result = TiposAdquisicion::paginate($request->perpage); 
+        } 
+        return response()->json($result);  
     }
     public function show(Request $request)
     {
-        $tadquisicion = TiposAdquisicion::where('Cve',$request->cve)->get();
+        $tadquisicion = TiposAdquisicion::where('uuid',$request->uuid)->get();
         return json_encode($tadquisicion);
     }
 
     // insert
     public function store(Request $request)
     {
+        try {
+            $validatedData = $request->validate([
+                'cve' => 'unique_field:App\Models\TiposAdquisicion'
+            ]);
+        } catch (Throwable $e) {
+            throw new HttpResponseException(response()->json([
+                'success' => false,
+                'message' => 'El registro ya esta registrado',
+                'data' => $e->validator->extensions
+            ], 400));
+        }           
         $nuevo_tadquisicion = new TiposAdquisicion();
         try {
             $nuevo_tadquisicion::create([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'Descripcion' => $request->descripcion,
+                'Proceso' => $request->proceso,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor                
@@ -54,7 +71,8 @@ class TiposAdquisicionController extends Controller
             $tadquisicion->update([
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
-                'Descripcion' => $request->descripcion,               
+                'Descripcion' => $request->descripcion,
+                'Proceso' => $request->proceso,               
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
