@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Throwable;
 use Illuminate\Http\Exceptions\HttpResponseException;
+
+// NTR- hay que revisar si se esta utilizando realmente este
+
+
 class TiposDependenciasController extends Controller
 {
     // obtiene todos los registros
@@ -34,8 +38,7 @@ class TiposDependenciasController extends Controller
                 'message' => 'El registro ya esta registrado',
                 'data' => $e->validator->extensions
             ], 400));
-        }   
-
+        }
         $nuevo_tdependencia = new TiposDependencias();
         try {
             $nuevo_tdependencia::create([

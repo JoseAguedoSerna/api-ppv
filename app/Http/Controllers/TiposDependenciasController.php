@@ -34,7 +34,11 @@ class TiposDependenciasController extends Controller
                 'cve' => 'unique_field:App\Models\TiposDependencias'
             ]);
         } catch (Throwable $e) {
-            return $this->errorResponse($e->getMessage(),'cve duplicado',422);
+            throw new HttpResponseException(response()->json([
+                'success' => false,
+                'message' => 'El registro ya esta registrado',
+                'data' => $e->validator->extensions
+            ], 400));
         }
 
         $nuevo_tdependencias = new TiposDependencias();

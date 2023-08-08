@@ -31,7 +31,7 @@ class NivelReportesController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'cve' => 'unique_field:App\Models\NiveleReportes'
+                'cve' => 'unique_field:App\Models\NivelReportes'
             ]);
         } catch (Throwable $e) {
             throw new HttpResponseException(response()->json([

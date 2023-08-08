@@ -28,7 +28,7 @@ class ProveedoresController extends Controller
     // insert
     public function store(Request $request)
     {
-        $nuevo_pr
+        
         try {
             $validatedData = $request->validate([
                 'cve' => 'unique_field:App\Models\Proveedores'
@@ -39,7 +39,8 @@ class ProveedoresController extends Controller
                 'message' => 'El registro ya esta registrado',
                 'data' => $e->validator->extensions
             ], 400));
-        }           oveedor = new Proveedores();
+        }           
+        $nuevo_proveedor = new Proveedores();
         try {
             $nuevo_proveedor::create([
                 'Cve' => $request->cve,

@@ -54,7 +54,7 @@ class ProcesoStepsController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'cve' => 'unique_field:App\Models\ProcesosSteps'
+                'cve' => 'unique_field:App\Models\ProcesoSteps'
             ]);
         } catch (Throwable $e) {
             throw new HttpResponseException(response()->json([
