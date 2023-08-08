@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\TiposTickets;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Validation\Rule;
 use Throwable;
-
+use Illuminate\Http\Exceptions\HttpResponseException;
 class TiposTicketsController extends Controller
 {
     // obtiene todos los registros

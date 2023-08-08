@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Articulos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Validation\Rule;
 use Throwable;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ArticulosController extends Controller
 {

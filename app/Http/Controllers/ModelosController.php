@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Modelos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Validation\Rule;
 use Throwable;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ModelosController extends Controller
 {

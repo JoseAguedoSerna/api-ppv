@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Roles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Validation\Rule;
 use Throwable;
-
+use Illuminate\Http\Exceptions\HttpResponseException;
 class RolesController extends Controller
 {
     // public function index()

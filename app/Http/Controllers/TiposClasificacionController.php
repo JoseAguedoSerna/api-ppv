@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\TiposClasificacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Validation\Rule;
 use Throwable;
-
+use Illuminate\Http\Exceptions\HttpResponseException;
 class TiposClasificacionController extends Controller
 {
     public function index(Request $request)
