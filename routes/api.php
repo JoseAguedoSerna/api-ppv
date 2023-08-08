@@ -127,6 +127,31 @@ Route::get('/test-document', function () {
     ];
 });
 
+Route::get('/test-obtiene', function () {
+    $mueble = AltasMuebles::where('uuid', '99d79442-9aad-4044-8fc3-78ebbf76e364')->first();
+
+    // Obtener el documento relacionado con el mueble
+    $documento = $mueble->documentos()->first();
+
+    $apiURL = env('API_DOCUMENTOS').'/GetByName';
+
+    $client = new \GuzzleHttp\Client();
+    $response = $client->request('POST', $apiURL, [
+        'form_params' => [
+            'ruta' => '/JAGUEDO/',
+            'nombre' => '20230808162404Diagramas de flujo - Ejemplo.pdf',
+        ],
+    ]);
+
+    // Devolver la respuesta del API como respuesta de la solicitud actual
+    //return $response;
+
+    return $documento->Nombre;
+});
+
+
+
+
 Route::post('/test-api', function () {
     $apiURL = 'http://10.200.4.180:8083/api/ApiDoc/SaveFile';
 
