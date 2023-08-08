@@ -7,11 +7,15 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use GuzzleHttp\Exception\RequestException; // Importa la clase RequestException de Guzzle
 use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Client;
+use Carbon\Carbon;
 
 class DocumentosStorageService
 {
     public function guardaDocumento(\Illuminate\Http\UploadedFile $factura,$nombre, $ruta, $modelType, $modelId)
     {
+        $prexi = Carbon::now()->format('YmdHis');
+        $nombre = $prexi.$factura->getClientOriginalName();
+
         $model = app()->make($modelType)->where('uuid', $modelId)->first();
 
         $document = new Documentos([
@@ -25,11 +29,12 @@ class DocumentosStorageService
             return "archivo invalido";
         }
 
-        $this->apiFTP($factura);
+        $this->apiFTP($factura, $nombre);
     }
 
-    public function apiFTP(\Illuminate\Http\UploadedFile $Factura)
+    public function apiFTP(\Illuminate\Http\UploadedFile $Factura, $Nombre)
     {
+        $prexi = Carbon::now()->format('YmdHis');
 
 
         // Ruta del API al que enviarás el archivo
@@ -46,7 +51,7 @@ class DocumentosStorageService
                     [
                         'name' => 'FILE',
                         'contents' => fopen($Factura->getPathname(), 'r'),
-                        'filename' => $Factura->getClientOriginalName(),
+                        'filename' => $Nombre,
                     ],
                      //Puedes agregar más campos Multipart si es necesario
                      [
