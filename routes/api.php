@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AltasMuebles;
+use App\Models\Documentos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\JwtSeguridad;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use GuzzleHttp\Client;
+
 
 use App\Http\Controllers\{
     #catalogos
@@ -40,7 +46,7 @@ use App\Http\Controllers\{
     TiposComprobantesController,
     ActivosController,
     EstatusResguardoController,
-    DependenciasTiposController,    
+    DependenciasTiposController,
     MenuPermisoController,
     PerfilRolController,
     RolMenusController,
@@ -347,13 +353,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('guardaprocesosteps',[ProcesoStepsController::class,'store']);
         Route::post('actualizaprocesosteps',[ProcesoStepsController::class,'update']);
         Route::post('eliminaprocesosteps',[ProcesoStepsController::class,'destroy']);
-        Route::post('detalleprocesosteps',[ProcesoStepsController::class,'show']);        
+        Route::post('detalleprocesosteps',[ProcesoStepsController::class,'show']);
         #ProcesoRango
         Route::get('obtieneprocesorango',[ProcesoRangoController::class,'index']);
         Route::post('guardaprocesorango',[ProcesoRangoController::class,'store']);
         Route::post('actualizaprocesorango',[ProcesoRangoController::class,'update']);
         Route::post('eliminaprocesorango',[ProcesoRangoController::class,'destroy']);
-        Route::post('detalleprocesorango',[ProcesoRangoController::class,'show']); 
+        Route::post('detalleprocesorango',[ProcesoRangoController::class,'show']);
 
 
     });
@@ -476,7 +482,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('guardagastocorriente',[AltasMueblesController::class, 'store']);
         Route::post('buscadorMuebles',[AltasMueblesController::class, 'search']);
         Route::post('confirmaFactura',[AltasMueblesController::class, 'confirmafactura']);
-        Route::post('uploadfactura',[AltasMueblesController::class, 'uploadfactura']);
+        //Route::post('uploadfactura',[AltasMueblesController::class, 'uploadfactura']);
+        Route::post('descargafactura',[AltasMueblesController::class,'descargaFactura']);
     });
 
     Route::prefix('rolesmenu')->group(function() {

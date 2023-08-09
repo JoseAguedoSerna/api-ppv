@@ -12,6 +12,7 @@ RUN sed -i '/App\\Providers\\RouteServiceProvider::class,/a \
 
 # Publica los archivos de configuración y vistas de Dompdf.
 RUN php artisan vendor:publish --provider="Barryvdh\DomPDF\ServiceProvider"
+RUN composer require laravel/telescope
 RUN cp .env.example .env
 RUN php artisan key:generate
 RUN chown -R 775 public

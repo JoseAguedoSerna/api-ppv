@@ -16,39 +16,46 @@ class AltasMuebles extends Model
     protected $foreignKey = 'uuidTipoAdquisicion';
     public $incrementing = false;
     protected $fillable = [
+        'uuidLinea',
         'uuidTipoAdquisicion',
         'uuidTipoBien',
-        'uuidPersonalResguardo',
-        'uuidMarca',
-        'uuidModelo',
+       // 'uuidPersonalResguardo',
+        //'uuidMarca',
+        //'uuidModelo',
         'uuidArea',
         'uuidConductor',
         'uuidTipoActivoFijo',
-        'NoInventario',
+        //'NoInventario',
         'NoActivo',
         'Cantidad',
-        'Descripcion',
+        //'Descripcion',
         'CostoSinIva',
         'CostoConIva',
         'DepreciacionAcumulada',
         'FechaEntrada',
         'FechaUltimaActualizacion',
         'Placas',
-        'Series',
+        //'Series',
         'Anio',
         'VidaUtil',
             'CvePersonal',
-            'CveLinea',
-        'DescripcionLinea',
+            //'CveLinea',
+        //'DescripcionLinea',
         'CodigoContable',
         'FechaDeUso',
         'ClaveInterior',
-        'DescripcionDetalle',
+        //'DescripcionDetalle',
             'DescripcionTipoActivoFijo',
         'RutaFactura',
         'ConfirmacionCoordinacionBM',
-        'DescripcionTipoActivoFijo'
+        'DescripcionTipoActivoFijo',
+        'uuidProveedor'
     ];
+
+    public function documentos()
+    {
+        return $this->morphMany(Documentos::class, 'documentable');
+    }
 
     public function tipoAdquisicion()
     {

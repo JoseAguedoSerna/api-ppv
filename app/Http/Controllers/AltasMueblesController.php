@@ -10,6 +10,8 @@ use Throwable;
 use App\Models\TiposAdquisicion;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use App\Services\DocumentosStorageService;
+use Illuminate\Support\Facades\Validator;
 
 class AltasMueblesController extends Controller
 {
@@ -25,25 +27,8 @@ class AltasMueblesController extends Controller
 
     public function store(AltasMueblesRequest $request)
     {
-        if (isset($request->ArchivoFactura)) {
-            setlocale(LC_TIME, 'es_ES.UTF-8');
-            try {
-                $base64File = $request->ArchivoFactura;
-                $data = str_replace('data:application/pdf;base64,', '', $base64File);
-                $fileData = base64_decode($data);
-                $filename = date('Y').'/'.date('m').'/'.uniqid() . '.pdf'; 
-                Storage::disk('documentos_base64')->put($filename, $fileData);
-                // return response()->json(['link' => url('storage/documentos_base64/'.$filename)], 200);
-                
-                $RutaFactura = url('storage/documentos_base64/'.$filename);
-      
-            } catch (\Throwable $th) {
-                return $th;
-                return response()->json(['error' => 'Error guardado'], 400);
-            }
-            // storage/documentos_base64/64a4a7a8181a2.pdf
-            //$filename
-        }
+
+        $archivoFactura = $request->file('ArchivoFactura');
 
 
         $adquisicionId = $request->input('uuidTipoAdquisicion');
@@ -59,8 +44,8 @@ class AltasMueblesController extends Controller
 
 
             $data['uuid'] = Str::uuid(); // Agregar UUID único
-            $data['RutaFactura'] =  $RutaFactura;
-            
+            $data['RutaFactura'] = 'RutaFactura';
+
             $nuevoMueble = AltasMuebles::create($data);
             $nuevoMueble->tipoAdquisicion()->associate($tadquisicion);
             $nuevoMueble->save();
@@ -69,9 +54,54 @@ class AltasMueblesController extends Controller
             return $this->errorResponse('Error SQL Store',$e->getMessage(),422);
         }
 
-        return response()->json($nuevoMueble, 201);
+        $idMueble = $nuevoMueble->uuid;
+
+        $this->guardaFacturaV2($archivoFactura, $idMueble);
+
+        //return response()->json($nuevoMueble, 201);
+        return $nuevoMueble->uuid;
 
     }
+
+    public function guardaFacturaV2(\Illuminate\Http\UploadedFile $Factura, $Id)
+    {
+        $Ruta = env('RUTA_FOLDER_FTP');
+        //$Nombre = 'hola.pdf';
+        $Nombre = $Factura->getClientOriginalName();
+
+
+        $documentService = new DocumentosStorageService();
+
+        try {
+
+            $documentService->guardaDocumento($Factura,$Nombre, $Ruta, 'App\Models\AltasMuebles', $Id);
+
+        } catch (\InvalidArgumentException $e) {
+            // Capturar la excepción si el modelo relacionado no existe
+            return $this->errorResponse('El tipo de adquisición no existe.',$e->getMessage(), 404);
+        } catch (\Exception $e) {
+            // Capturar cualquier otra excepción
+            return $this->errorResponse('El tipo de adquisición no existe.',$e->getMessage(), 404);
+        }
+
+    }
+
+    public function descargaFactura(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'IdAltaMueble' => 'required|uuid',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->errorResponse('Campo requerido.',$validator->errors(), 422);
+        }
+
+        $IdModel = $request->IdAltaMueble;
+        $documentService = new  DocumentosStorageService();
+        $modelType = 'App\Models\AltasMuebles';
+        return $documentService->descargaDocumento($modelType, $IdModel);
+    }
+
     public function search(Request $request)
     {
         if($request->input('parametroBusqueda')){
@@ -112,30 +142,4 @@ class AltasMueblesController extends Controller
             return $data;
     }
 
-
-    public function uploadfactura(Request $request)
-    {
-
-        // return $request->file;
-        if (isset($request->ArchivoFactura)) {
-            setlocale(LC_TIME, 'es_ES.UTF-8');
-            try {
-                $base64File = $request->ArchivoFactura;
-                $data = str_replace('data:application/pdf;base64,', '', $base64File);
-                $fileData = base64_decode($data);
-                $filename = date('Y').'/'.date('m').'/'.uniqid() . '.pdf'; 
-                Storage::disk('documentos_base64')->put($filename, $fileData);
-                return response()->json(['link' => url('storage/documentos_base64/'.$filename)], 200);
-                // guardar la ruta en la tabla relacionada de la base de datos
-                // guardar el registro en la tabl de altasgastocorriente
-            } catch (\Throwable $th) {
-                return $th;
-                return response()->json(['error' => 'Error guardado'], 400);
-            }
-            // storage/documentos_base64/64a4a7a8181a2.pdf
-            //$filename
-        }
-
-        return response()->json(['error' => 'No file found'], 400);
-    }
 }
