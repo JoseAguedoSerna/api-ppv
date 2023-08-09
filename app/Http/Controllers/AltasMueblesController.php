@@ -11,6 +11,7 @@ use App\Models\TiposAdquisicion;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use App\Services\DocumentosStorageService;
+use Illuminate\Support\Facades\Validator;
 
 class AltasMueblesController extends Controller
 {
@@ -57,7 +58,8 @@ class AltasMueblesController extends Controller
 
         $this->guardaFacturaV2($archivoFactura, $idMueble);
 
-        return response()->json($nuevoMueble, 201);
+        //return response()->json($nuevoMueble, 201);
+        return $nuevoMueble->uuid;
 
     }
 
@@ -82,6 +84,22 @@ class AltasMueblesController extends Controller
             return $this->errorResponse('El tipo de adquisición no existe.',$e->getMessage(), 404);
         }
 
+    }
+
+    public function descargaFactura(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'IdAltaMueble' => 'required|uuid',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->errorResponse('Campo requerido.',$validator->errors(), 422);
+        }
+
+        $IdModel = $request->IdAltaMueble;
+        $documentService = new  DocumentosStorageService();
+        $modelType = 'App\Models\AltasMuebles';
+        return $documentService->descargaDocumento($modelType, $IdModel);
     }
 
     public function search(Request $request)

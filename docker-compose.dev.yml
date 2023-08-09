@@ -12,6 +12,8 @@ services:
       DB_PASSWORD: "xQRA0xBC87Gs"
       JWT_SECRET: "2A95F5CCD11DE255FEE9451BDE433"
       JWT_TTL: "60"
+      API_DOCUMENTOS: "http://10.200.4.105:8086/api/ApiDoc"
+      RUTA_FOLDER_FTP: "/JAGUEDO/"
     volumes:
       - .:/var/www/html
       - /var/www/html/vendor

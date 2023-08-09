@@ -8,6 +8,7 @@ use GuzzleHttp\Exception\RequestException; // Importa la clase RequestException 
 use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Client;
 use Carbon\Carbon;
+use App\Models\AltasMuebles;
 
 class DocumentosStorageService
 {
@@ -29,10 +30,10 @@ class DocumentosStorageService
             return "archivo invalido";
         }
 
-        $this->apiFTP($factura, $nombre);
+        $this->apiFTP($factura, $nombre, $ruta);
     }
 
-    public function apiFTP(\Illuminate\Http\UploadedFile $Factura, $Nombre)
+    public function apiFTP(\Illuminate\Http\UploadedFile $Factura, $Nombre, $Ruta)
     {
         $prexi = Carbon::now()->format('YmdHis');
 
@@ -56,7 +57,7 @@ class DocumentosStorageService
                      //Puedes agregar más campos Multipart si es necesario
                      [
                          'name' => 'ROUTE',
-                         'contents' => '/JAGUEDO/',
+                         'contents' => $Ruta,
                      ],
                 ],
             ]);
@@ -77,6 +78,27 @@ class DocumentosStorageService
             // $e->getMessage() contiene el mensaje de error
             return response()->json(['error' => 'Error en la solicitud al API'], 500);
         }
+    }
+
+    public function descargaDocumento($modelType, $IdModel)
+    {
+        $mueble = app()->make($modelType)->where('uuid', $IdModel)->first();
+
+        // Obtener el documento relacionado con el mueble
+        $documento = $mueble->documentos()->first();
+
+        $apiURL = env('API_DOCUMENTOS').'/GetByName';
+
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('POST', $apiURL, [
+            'form_params' => [
+                'ruta' => $documento->RutaFolder,
+                'nombre' => $documento->Nombre,
+            ],
+        ]);
+
+        // Devolver la respuesta del API como respuesta de la solicitud actual
+        return $response;
     }
 
 

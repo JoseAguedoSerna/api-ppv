@@ -90,118 +90,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // delete envia actualiza estatus
 // TODOS los catalogos
 
-Route::get('/test-document', function () {
-
-    $mueble = AltasMuebles::where('uuid','9979779f-2f1f-4659-8633-ef0a96afc3ec')->first();
-    $document = new Documentos([
-        'Nombre' => 'Documento de prueba',
-        'RutaFolder' => '/ruta/al/documento.pdf',
-    ]);
-    $mueble->documentos()->save($document);
-
-    // Obtener el documento relacionado con el usuario
-    $userDocument = $mueble->documentos()->first();
-
-    // Verificar si la relación polimórfica está funcionando
-    //if ($userDocument) {
-    //    return response()->json([
-    //        'NUMCODE' => 0,
-   //         'STRMESSAGE' => 'Relación polimórfica funcionando correctamente.',
-   //         'DOCUMENT' => $userDocument,
-    //        'SUCCESS' => true
-    //    ]);
-    //} else {
-    //    return response()->json([
-    //        'NUMCODE' => 1,
-    //        'STRMESSAGE' => 'Error al establecer la relación polimórfica.',
-    //        'SUCCESS' => false
-     //   ]);
-    //}
-
-    //TestApi
-    $apiURL = 'http://10.200.4.180:8083/api/ApiDoc/SaveFile';
-
-    $postInput = [
-        'ROUTE' => '008',
-        'FILE'=>'Código para Autorización de Descarga'
-    ];
-});
-
-Route::get('/test-obtiene', function () {
-    $mueble = AltasMuebles::where('uuid', '99d79442-9aad-4044-8fc3-78ebbf76e364')->first();
-
-    // Obtener el documento relacionado con el mueble
-    $documento = $mueble->documentos()->first();
-
-    $apiURL = env('API_DOCUMENTOS').'/GetByName';
-
-    $client = new \GuzzleHttp\Client();
-    $response = $client->request('POST', $apiURL, [
-        'form_params' => [
-            'ruta' => '/JAGUEDO/',
-            'nombre' => '20230808162404Diagramas de flujo - Ejemplo.pdf',
-        ],
-    ]);
-
-    // Devolver la respuesta del API como respuesta de la solicitud actual
-    //return $response;
-
-    return $documento->Nombre;
-});
-
-
-
-
-Route::post('/test-api', function () {
-    $apiURL = 'http://10.200.4.180:8083/api/ApiDoc/SaveFile';
-
-    $filePath = public_path('robots.txt');
-
-    if (!file_exists($filePath)) {
-        return "el archivo no existe";
-    }
-
-    if (!is_file($filePath) || !is_readable($filePath)) {
-        return "el archivo no es valido";
-    }
-
-    $client = new Client();
-
-    try {
-        $response = $client->request('POST', $apiURL, [
-            'multipart' => [
-                [
-                    'name' => 'ROUTE',
-                    'contents' => '/JAGUEDO/'
-                ],
-                [
-                    'name' => 'FILE',
-                    'contents' => fopen($filePath, 'r')
-                ]
-            ]
-        ]);
-
-        return $data = json_decode($response->getBody(), true);
-
-        // Procesar la respuesta del API si es necesario
-        // $data contiene la respuesta del API en formato de array
-
-        // ...
-    } catch (\GuzzleHttp\Exception\ClientException $e) {
-        // Manejar el error en caso de que el API devuelva un código de estado no válido
-        // $e->getCode() contiene el código de estado HTTP devuelto por el API
-        // $e->getMessage() contiene el mensaje de error devuelto por el API
-    } catch (\Exception $e) {
-        // Manejar otros errores que puedan ocurrir durante la llamada a la API
-        // $e->getMessage() contiene el mensaje de error
-    }
-
-    Log::info('Respuesta del API: ' . $response->body());
-
-    //return response($response->body()); // Devuelve la respuesta en el navegador
-});
-
-
  Route::middleware(JwtSeguridad::class)->group(function () {
     Route::prefix('catalogos')->group(function (){
         #Menus
@@ -594,7 +482,8 @@ Route::post('/test-api', function () {
         Route::post('guardagastocorriente',[AltasMueblesController::class, 'store']);
         Route::post('buscadorMuebles',[AltasMueblesController::class, 'search']);
         Route::post('confirmaFactura',[AltasMueblesController::class, 'confirmafactura']);
-        Route::post('uploadfactura',[AltasMueblesController::class, 'uploadfactura']);
+        //Route::post('uploadfactura',[AltasMueblesController::class, 'uploadfactura']);
+        Route::post('descargafactura',[AltasMueblesController::class,'descargaFactura']);
     });
 
     Route::prefix('rolesmenu')->group(function() {
