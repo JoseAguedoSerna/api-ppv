@@ -58,8 +58,8 @@ class AltasMueblesController extends Controller
 
         $this->guardaFacturaV2($archivoFactura, $idMueble);
 
-        //return response()->json($nuevoMueble, 201);
-        return $nuevoMueble->uuid;
+        return response()->json($nuevoMueble, 201);
+        //return $nuevoMueble->uuid;
 
     }
 
