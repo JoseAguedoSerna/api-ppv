@@ -4,6 +4,8 @@ COPY *.json ./
 COPY artisan ./
 COPY . .
 RUN composer install
+RUN composer require symfony/psr-http-message-bridge
+RUN composer require nyholm/psr7
 RUN composer req firebase/php-jwt:6.4.0
 RUN composer require barryvdh/laravel-dompdf
 # Agrega el proveedor de servicios en config/app.php
