@@ -58,7 +58,7 @@ return new class extends Migration
             $table->foreign('uuidMarca')->references('uuid')->on('Marcas')->onDelete('cascade');
             $table->foreign('uuidModelo')->references('uuid')->on('Modelos')->onDelete('cascade');
             $table->foreign('uuidArea')->references('uuid')->on('Areas')->onDelete('cascade');
-            $table->foreign('uuidConductor')->references('uuid')->on('Empleados')->onDelete('cascade');
+
             $table->foreign('uuidTipoActivoFijo')->references('uuid')->on('TipoActivoFijo')->onDelete('cascade');
             $table->foreign('uuidTipoAdquisicion')->references('uuid')->on('TiposAdquisicion')->onDelete('cascade');
         });

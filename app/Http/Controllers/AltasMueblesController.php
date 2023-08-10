@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use App\Services\DocumentosStorageService;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class AltasMueblesController extends Controller
 {
@@ -44,11 +45,59 @@ class AltasMueblesController extends Controller
 
 
             $data['uuid'] = Str::uuid(); // Agregar UUID único
-            $data['RutaFactura'] = 'RutaFactura';
+            
 
             $nuevoMueble = AltasMuebles::create($data);
+            $data = $request->only([
+                'uuidTipoAdquisicion',
+                'Cantidad',
+                'NoActivo',
+                'uuidTipoActivoFijo',
+                'uuidTipoBien',
+                'uuidArea',
+                'CostoSinIva',
+                'CostoConIva',
+                'DepreciacionAcumulada',
+                'FechaEntrada',
+                'FechaUltimaActualizacion',
+                'VidaUtil',
+                //PorcentajeDepreciacion esta en el form , y no esta en la base de datos
+                'Folio',
+                'uuidLinea',
+                'uuidProveedor',
+                'CodigoContable',
+                'FechaDeUso',
+                'ClaveInterior',
+                'NumFactura',
+                // Cog, esta en el form pero no esta en la base de datos
+                // CveArea esta en el form y ya no deberia de estar  por que ya esta un id de area 
+                //'DescripcionDetalle', se quito del form y la tabla por que ya hay un campo de descripcion
+                'DescripcionTipoActivoFijo', // no esta en el form y  este ya no deberia de estar ya esta un id de tipo activo fijo
+            ]);
+            $data['uuid']        = Str::uuid(); // Agregar UUID único
+            
+            $nuevoMueble         = AltasMuebles::create($data);
             $nuevoMueble->tipoAdquisicion()->associate($tadquisicion);
             $nuevoMueble->save();
+            
+
+            $dataLineasDetalles = $request->only([
+                'NoInventario',
+                'uuidMarca',
+                'uuidModelo',
+                'Serie',
+                'ValorFactura',
+                'Descripcion',
+                'Condicion',
+                'NoInventario' // Pendientes investigar para cambiar el tipo de dato a char y hacer muchas pruebas
+            ]);
+
+            // Obtener los campos para la tabla LineasDetallesAlta
+            $dataLineasDetalles['uuid']           = Str::uuid();
+            $dataLineasDetalles['uuidAltaMueble'] = $data['uuid'];
+
+            DB::table('LineasDetallesAlta')->insert($dataLineasDetalles);
+
 
         }catch (\Illuminate\Database\QueryException $e){
             return $this->errorResponse('Error SQL Store',$e->getMessage(),422);

@@ -78,7 +78,8 @@ use App\Http\Controllers\{
 
     #administracion
     ValoresGlobalesController,
-    ValoresSistemaController
+    ValoresSistemaController,
+    DepartamentosController
 };
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -359,8 +360,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('guardaprocesorango',[ProcesoRangoController::class,'store']);
         Route::post('actualizaprocesorango',[ProcesoRangoController::class,'update']);
         Route::post('eliminaprocesorango',[ProcesoRangoController::class,'destroy']);
-        Route::post('detalleprocesorango',[ProcesoRangoController::class,'show']);
-
+        Route::post('detalleprocesorango',[ProcesoRangoController::class,'show']); 
+        #Departamentos
+        Route::get('obtienedepartamentos',[DepartamentosController::class,'index']);
+        Route::post('wheredepartamentos',[DepartamentosController::class,'show']);
+        Route::post('guardadepartamentos',[DepartamentosController::class,'store']);
+        Route::post('actualizadepartamentos',[DepartamentosController::class,'update']);
+        Route::post('eliminadepartamentos',[DepartamentosController::class,'destroy']);
 
     });
     Route::prefix('muebles')->group(function (){
@@ -478,7 +484,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     });
 
     Route::prefix('gastocorriente')->group(function() {
-        Route::post('obtienegastocorriente',[AltasMueblesController::class,'index']);
+        Route::get('obtienegastocorriente',[AltasMueblesController::class,'index']);
         Route::post('guardagastocorriente',[AltasMueblesController::class, 'store']);
         Route::post('buscadorMuebles',[AltasMueblesController::class, 'search']);
         Route::post('confirmaFactura',[AltasMueblesController::class, 'confirmafactura']);
@@ -494,10 +500,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     });
     Route::prefix('asignacionresguardo')->group(function() {
         Route::post('guardaresguardo',[AsignacionResguardoController::class, 'store']);
-        Route::post('listadomueblespararesguardo',[AsignacionResguardoController::class, 'index']);
+        Route::get('listadomueblespararesguardo',[AsignacionResguardoController::class, 'index']);
     });
     Route::prefix('generaciondocumentos')->group(function() {
-        Route::get('generarPDFAlta',[GeneracionDocumentosPDFController::class, 'pdfaltamobiliario']);
+        Route::post('generarPDFAlta',[GeneracionDocumentosPDFController::class, 'store']);
     });
 
  });
