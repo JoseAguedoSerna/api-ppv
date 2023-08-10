@@ -25,11 +25,22 @@ class EstatusResguardoController extends Controller
     {
         $detalle = EstatusResguardo::where('Cve',$request->cve)->get();
         return json_encode($detalle);
-    }    
+    }
 
     // insert
     public function store(Request $request)
     {
+        try {
+            $validatedData = $request->validate([
+                'cve' => 'unique_field:App\Models\EstatusResguardo'
+            ]);
+        } catch (Throwable $e) {
+            throw new HttpResponseException(response()->json([
+                'success' => false,
+                'message' => 'El registro ya esta registrado',
+                'data' => $e->validator->extensions
+            ], 400));
+        }
         $nuevo_estatusresguardo = new EstatusResguardo();
         try {
             $nuevo_estatusresguardo::create([
@@ -38,7 +49,7 @@ class EstatusResguardoController extends Controller
                 'Descripcion' => $request->descripcion,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
-                'EliminadoPor' => $request->eliminadopor                
+                'EliminadoPor' => $request->eliminadopor
                 ]);
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
@@ -59,8 +70,8 @@ class EstatusResguardoController extends Controller
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
-                ]);        
-                $estatusresguardo->uuid;                   
+                ]);
+                $estatusresguardo->uuid;
         } catch (Throwable $e) {
             abort(404, $e->getMessage());
         }
@@ -69,7 +80,7 @@ class EstatusResguardoController extends Controller
     }
     public function destroy(Request $request)
     {
-        $estatusresguardo = EstatusResguardo::find($request->uuid); 
+        $estatusresguardo = EstatusResguardo::find($request->uuid);
         $estatusresguardo->Delete();
         return $estatusresguardo;
     }
