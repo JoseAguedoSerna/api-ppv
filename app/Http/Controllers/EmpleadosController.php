@@ -49,7 +49,8 @@ class EmpleadosController extends Controller
                 'Cve' => $request->cve,
                 'Nombre' => $request->nombre,
                 'ApellidoPaterno' => $request->apellidopaterno,
-                'ApellidoMaterno' => $request->apellidomaterno,
+                'ApellidoMaterno' => $request->apellidopaterno,
+                'RFC' => $request->RFC,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor
@@ -82,6 +83,7 @@ class EmpleadosController extends Controller
                 'Nombre' => $request->nombre,
                 'ApellidoPaterno' => $request->apellidopaterno,
                 'ApellidoMaterno' => $request->apellidomaterno,
+                'RFC' => $request->RFC,
                 'CreadoPor' => $request->creadopor,
                 'ModificadoPor' => $request->modificadopor,
                 'EliminadoPor' => $request->eliminadopor

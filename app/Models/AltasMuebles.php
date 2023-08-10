@@ -18,38 +18,29 @@ class AltasMuebles extends Model
     protected $fillable = [
         'uuidLinea',
         'uuidTipoAdquisicion',
-        'uuidTipoBien',
-       // 'uuidPersonalResguardo',
-        //'uuidMarca',
-        //'uuidModelo',
-        'uuidArea',
-        'uuidConductor',
-        'uuidTipoActivoFijo',
-        //'NoInventario',
-        'NoActivo',
         'Cantidad',
-        //'Descripcion',
+        'NoActivo',
+        'uuidTipoActivoFijo',
+        'uuidTipoBien',
+        'uuidArea',
         'CostoSinIva',
         'CostoConIva',
         'DepreciacionAcumulada',
         'FechaEntrada',
         'FechaUltimaActualizacion',
-        'Placas',
-        //'Series',
-        'Anio',
         'VidaUtil',
-            'CvePersonal',
-            //'CveLinea',
-        //'DescripcionLinea',
+        'uuidLinea',
+        'uuidProveedor',
         'CodigoContable',
         'FechaDeUso',
         'ClaveInterior',
-        //'DescripcionDetalle',
-            'DescripcionTipoActivoFijo',
+        'DescripcionTipoActivoFijo', // no debería de estar
         'RutaFactura',
+        'NumFactura',
         'ConfirmacionCoordinacionBM',
         'DescripcionTipoActivoFijo',
-        'uuidProveedor'
+        'uuidProveedor',
+        'Folio'
     ];
 
     public function documentos()
@@ -62,3 +53,9 @@ class AltasMuebles extends Model
         return $this->belongsTo(TiposAdquisicion::class, 'uuidTipoAdquisicion');
     }
 }
+
+
+
+
+
+
