@@ -29,11 +29,13 @@ class ValidacionNCampoProvider extends ServiceProvider
                 ->when($ignoreColumn, function ($query) use ($ignoreColumn, $model, $attribute, $value, $ignoreId) {
                     return $query->where($ignoreColumn, '!=', $ignoreId);
                 })
+                ->withTrashed() // Agregar la llamada a withTrashed()
                 ->exists();
         });
 
-        //Validator::replacer('unique_field', function ($message, $attribute, $rule, $parameters) {
-            //return false;
-        //});
+        // Validator::replacer('unique_field', function ($message, $attribute, $rule, $parameters) {
+        //     return false;
+        // });
     }
+
 }
