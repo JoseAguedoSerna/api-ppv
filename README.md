@@ -6,10 +6,10 @@
 
 Listado de servicios y estándares
 
-*[ DocumentosStorageService](https://)
+*[ DocumentosStorageService](https://github.com/JoseAguedoSerna/api-pabmi/blob/jaguedo/DocumentosStorageService.md)
 Este servicio proporciona métodos para gestionar documentos y archivos a través de una API externa
 
-*[Estándares de Mensajes de error para el Front](https://)
+*[Estándares de Mensajes de error para el Front](https://github.com/JoseAguedoSerna/api-pabmi/blob/jaguedo/DocErroresResponse.md)
 Con fines de tener responses con mensajes estandarizados se extiende el base controller.. 
 
 
