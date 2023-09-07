@@ -12,5 +12,8 @@ Este servicio proporciona métodos para gestionar documentos y archivos a travé
 *[Estándares de Mensajes de error para el Front](https://github.com/JoseAguedoSerna/api-pabmi/blob/jaguedo/DocErroresResponse.md)
 Con fines de tener responses con mensajes estandarizados se extiende el base controller.. 
 
+*[ Migraciones](https://github.com/JoseAguedoSerna/api-pabmi/blob/jaguedo/migraciones.md)
+Como crear, correr y realizar rollbacks de migraciones
+
 
 
